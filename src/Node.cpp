@@ -2,17 +2,42 @@
 
 using aspire::Node;
 
-void Node::accept(Visitor& x)
+auto Node::accept(Visitor& x) -> void
 {
 	x.visit(*this);
 }
 
-void Node::setName(std::string_view x)
+auto Node::ascend(Visitor& x) -> void
+{
+	auto parent = this->getParent();
+}
+
+auto Node::descend(Visitor& x) -> void
+{
+}
+
+auto Node::setName(std::string_view x) -> void
 {
 	this->name = x;
 }
 
-std::string_view Node::getName() const noexcept
+auto Node::getName() const noexcept -> std::string_view
 {
 	return this->name;
+}
+
+auto Node::getParent() const noexcept -> Node*
+{
+	return this->parent;
+}
+
+auto Node::addChild(std::unique_ptr<Node> x) -> void
+{
+	x->parent = this;
+	this->children.emplace_back(std::move(x));
+}
+
+auto Node::getChildren() const -> const std::vector<std::unique_ptr<Node>>&
+{
+	return this->children;
 }

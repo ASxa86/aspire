@@ -5,10 +5,12 @@ add_library(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE
 	${PROJECT_INCLUDE_DIR}/aspire/Node.h
 	${PROJECT_INCLUDE_DIR}/aspire/Visitor.h
+	${PROJECT_INCLUDE_DIR}/aspire/VisitorCollect.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
 	Node.cpp
+	Visitor.cpp
 )
 
 find_package(glfw3 CONFIG REQUIRED)
