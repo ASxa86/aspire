@@ -1,0 +1,13 @@
+{
+  "name": "aspire",
+  "version-string": "2022.10.18",
+  "port-version": 1,
+  "description": "Modern OpenGL 4.5+ Scene Graph and Render Engine",
+  "homepage": "https://github.com/asxa86/asx/",
+  "dependencies": [
+    "glfw3",
+    "glad",
+    "glm",
+    "gtest"
+  ]
+}
