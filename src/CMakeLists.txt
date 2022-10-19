@@ -3,12 +3,16 @@ project(aspire)
 add_library(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
+	${PROJECT_INCLUDE_DIR}/aspire/Camera.h
+	${PROJECT_INCLUDE_DIR}/aspire/Geometry.h
 	${PROJECT_INCLUDE_DIR}/aspire/Node.h
 	${PROJECT_INCLUDE_DIR}/aspire/Visitor.h
 	${PROJECT_INCLUDE_DIR}/aspire/VisitorCollect.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
+	Camera.cpp
+	Geometry.cpp
 	Node.cpp
 	Visitor.cpp
 )

@@ -2,18 +2,13 @@
 
 using aspire::Node;
 
+Node::Node(std::string_view x) : name{x}
+{
+}
+
 auto Node::accept(Visitor& x) -> void
 {
 	x.visit(*this);
-}
-
-auto Node::ascend(Visitor& x) -> void
-{
-	auto parent = this->getParent();
-}
-
-auto Node::descend(Visitor& x) -> void
-{
 }
 
 auto Node::setName(std::string_view x) -> void

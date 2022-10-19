@@ -12,7 +12,7 @@ namespace aspire
 	class ASPIRE_EXPORT Node
 	{
 	public:
-		Node() = default;
+		Node(std::string_view = {});
 		virtual ~Node() = default;
 
 		/// @brief Delete copy constructor to prevent object slicing. Use clone instead.
@@ -38,16 +38,6 @@ namespace aspire
 		/// @return void
 		virtual auto accept(Visitor& x) -> void;
 
-		/// @brief Override to define the ascending traversal behavior of a node.
-		/// @param x The visitor to ascend with.
-		/// @return void
-		virtual auto ascend(Visitor& x) -> void;
-
-		/// @brief Override to define the descending traversal behavior of a node.
-		/// @param x The visitor to descend with.
-		/// @return void
-		virtual auto descend(Visitor& x) -> void;
-
 		/// @brief Defines an arbitrary name for this node.
 		/// Useful for debugging, logging, and serialization among other things.
 		/// @param x The name to apply to this node.
@@ -65,6 +55,15 @@ namespace aspire
 		/// @param x The node to be added as a child to this node.
 		/// @return void
 		auto addChild(std::unique_ptr<Node> x) -> void;
+
+		template <typename T>
+		auto addChild(std::string_view x = {})
+		{
+			auto child = std::make_unique<T>(x);
+			auto c = child.get();
+			this->addChild(std::move(child));
+			return c;
+		}
 
 		/// @brief Get the collection of child nodes for this node.
 		/// @return const std::vector<std::unique_ptr<Node>>&
