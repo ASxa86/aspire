@@ -1,6 +1,5 @@
 #pragma once
 
-#include <aspire/Visitor.h>
 #include <aspire/export.hxx>
 #include <memory>
 #include <string>
@@ -33,11 +32,6 @@ namespace aspire
 		/// @return Node&
 		auto operator=(Node&&) noexcept -> Node& = delete;
 
-		/// @brief Accepts a visitor to process this node.
-		/// @param x The visitor to operate on this node.
-		/// @return void
-		virtual auto accept(Visitor& x) -> void;
-
 		/// @brief Defines an arbitrary name for this node.
 		/// Useful for debugging, logging, and serialization among other things.
 		/// @param x The name to apply to this node.
@@ -68,6 +62,24 @@ namespace aspire
 		/// @brief Get the collection of child nodes for this node.
 		/// @return const std::vector<std::unique_ptr<Node>>&
 		auto getChildren() const -> const std::vector<std::unique_ptr<Node>>&;
+
+		template <typename T>
+		auto getChildren() const -> std::vector<T*>
+		{
+			std::vector<T*> v;
+
+			for(auto&& child : this->children)
+			{
+				const auto typeChild = dynamic_cast<T*>(child.get());
+
+				if(typeChild != nullptr)
+				{
+					v.emplace_back(typeChild);
+				}
+			}
+
+			return v;
+		}
 
 	private:
 		std::vector<std::unique_ptr<Node>> children;

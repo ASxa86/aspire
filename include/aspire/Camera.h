@@ -8,8 +8,5 @@ namespace aspire
 	{
 	public:
 		using Node::Node;
-
-		auto accept(Visitor& x) -> void override;
-
 	};
 }

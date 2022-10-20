@@ -6,11 +6,6 @@ Node::Node(std::string_view x) : name{x}
 {
 }
 
-auto Node::accept(Visitor& x) -> void
-{
-	x.visit(*this);
-}
-
 auto Node::setName(std::string_view x) -> void
 {
 	this->name = x;
