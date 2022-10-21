@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aspire/Event.h>
 #include <aspire/export.hxx>
 #include <memory>
 #include <string>
@@ -80,6 +81,21 @@ namespace aspire
 
 			return v;
 		}
+
+		/// @brief Redirects the given event to the correct event handling function.
+		/// @param x The event to redirect.
+		/// @return void
+		virtual auto event(Event& x) -> void;
+
+		/// @brief 
+		/// @param x 
+		/// @return 
+		virtual auto eventMouse(EventMouse& x) -> void;
+		virtual auto eventKeyboard(EventKeyboard& x) -> void;
+
+	protected:
+		virtual auto onEventMouse(EventMouse& x) -> void;
+		virtual auto onEventKeyboard(EventKeyboard& x) -> void;
 
 	private:
 		std::vector<std::unique_ptr<Node>> children;

@@ -8,12 +8,14 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${PROJECT_INCLUDE_DIR}/aspire/Event.h
 	${PROJECT_INCLUDE_DIR}/aspire/Geometry.h
 	${PROJECT_INCLUDE_DIR}/aspire/Node.h
+	${PROJECT_INCLUDE_DIR}/aspire/Window.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
 	Camera.cpp
 	Geometry.cpp
 	Node.cpp
+	Window.cpp
 )
 
 find_package(glfw3 CONFIG REQUIRED)

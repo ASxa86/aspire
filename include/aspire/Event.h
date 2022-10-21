@@ -7,13 +7,18 @@
 
 namespace aspire
 {
-	struct Event
+	/// @brief This class defines a collection of common data shared between event types.
+	struct EventBase
 	{
-		std::chrono::system_clock::time_point timestamp{std::chrono::system_clock::now()};
+		/// @brief Defines the point in time that this event occured.
+		std::chrono::steady_clock::time_point timestamp{std::chrono::steady_clock::now()};
+
+		/// @brief Defines whether this event has been previous handled by a Node.
 		bool handled{false};
 	};
 
-	struct EventKeyboard : Event
+	/// @brief This class defines a collection of keyboard state that represents an event at a given point in time.
+	struct EventKeyboard : EventBase
 	{
 		enum class Type : int
 		{
@@ -214,10 +219,18 @@ namespace aspire
 
 		enum class Modifier : uint8_t
 		{
-			Shift = 0b00000001,
-			Control = 0b00000010,
-			Alt = 0b00000100,
-			Super = 0b00001000
+			ShiftL = 0b00000001,
+			ShiftR = 0b00000010,
+			ControlL = 0b00000100,
+			ControlR = 0b00001000,
+			AltL = 0b00010000,
+			AltR = 0b000100000,
+			SuperL = 0b001000000,
+			SuperR = 0b010000000,
+			Shift = ShiftL | ShiftR,
+			Control = ControlL | ControlR,
+			Alt = AltL | AltR,
+			Super = SuperL | SuperR
 		};
 
 		Type type{Type::Unknown};
@@ -225,7 +238,8 @@ namespace aspire
 		Bitmask<Modifier> modifier{};
 	};
 
-	struct EventMouse : Event
+	/// @brief This class defines a collection of mouse state that represents an event at a given point in time.
+	struct EventMouse : EventBase
 	{
 		enum class Type : int
 		{
@@ -233,7 +247,8 @@ namespace aspire
 			Moved,
 			Scrolled,
 			Pressed,
-			Released
+			Released,
+			Entered
 		};
 
 		enum class Button : int
@@ -244,7 +259,42 @@ namespace aspire
 			Middle
 		};
 
+		enum class Modifier : uint8_t
+		{
+			ShiftL = 0b00000001,
+			ShiftR = 0b00000010,
+			ControlL = 0b00000100,
+			ControlR = 0b00001000,
+			AltL = 0b00010000,
+			AltR = 0b000100000,
+			SuperL = 0b001000000,
+			SuperR = 0b010000000,
+			Shift = ShiftL | ShiftR,
+			Control = ControlL | ControlR,
+			Alt = AltL | AltR,
+			Super = SuperL | SuperR
+		};
+
+		float x{};
+		float y{};
+		float scrollX{};
+		float scrollY{};
 		Type type{Type::Unknown};
 		Button button{Button::Unkown};
+		Bitmask<Modifier> modifier{};
 	};
+
+	/// @brief Helper type for handling arbitrary number of types packed into a variant.
+	/// @tparam ...Ts The types packed within a variant.
+	template <class... Ts>
+	struct overloaded : Ts...
+	{
+		using Ts::operator()...;
+	};
+
+	/// @brief Explicit deduction guide for variant types.
+	template <class... Ts>
+	overloaded(Ts...) -> overloaded<Ts...>;
+
+	using Event = std::variant<EventKeyboard, EventMouse>;
 }
