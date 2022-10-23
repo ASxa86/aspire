@@ -9,21 +9,21 @@ class GLFWwindow;
 
 namespace aspire
 {
+	struct Traits
+	{
+		static constexpr auto DefaultWidth{1280};
+		static constexpr auto DefaultHeight{720};
+
+		std::string title;
+		int width{DefaultWidth};
+		int height{DefaultHeight};
+		bool windowDecoration{true};
+	};
+
 	class ASPIRE_EXPORT Window
 	{
 	public:
-		struct Traits
-		{
-			static constexpr auto DefaultWidth{1280};
-			static constexpr auto DefaultHeight{720};
-
-			std::string title;
-			int width{DefaultWidth};
-			int height{DefaultHeight};
-			bool windowDecoration{true};
-		};
-
-		Window(Traits x = Traits{});
+		Window(Traits x = {});
 		~Window();
 
 		auto open() const -> bool;
