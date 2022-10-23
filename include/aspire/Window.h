@@ -23,7 +23,7 @@ namespace aspire
 			bool windowDecoration{true};
 		};
 
-		Window(Traits x = {});
+		Window(Traits x = Traits{});
 		~Window();
 
 		auto open() const -> bool;

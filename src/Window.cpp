@@ -196,9 +196,9 @@ auto Window::frameEvent() -> void
 {
 	glfwPollEvents();
 
-	for(auto&& event : this->events)
-	{
-	}
+	// for(auto&& event : this->events)
+	//{
+	// }
 
 	this->events.clear();
 }
