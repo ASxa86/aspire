@@ -3,7 +3,7 @@
 
 TEST(Graphics_Window, test)
 {
-	aspire::Window::Traits traits;
+	aspire::Traits traits;
 	traits.title = "Window.test.cpp";
 	aspire::Window window{traits};
 
