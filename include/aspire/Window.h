@@ -17,7 +17,7 @@ namespace aspire
 			static constexpr auto DefaultWidth{1280};
 			static constexpr auto DefaultHeight{720};
 
-			std::string title{};
+			std::string title;
 			int width{DefaultWidth};
 			int height{DefaultHeight};
 			bool windowDecoration{true};
