@@ -3,6 +3,7 @@
 #include <aspire/Event.h>
 #include <aspire/export.hxx>
 #include <string>
+#include <vector>
 
 class GLFWwindow;
 
