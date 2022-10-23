@@ -23,7 +23,7 @@ namespace aspire
 	class ASPIRE_EXPORT Window
 	{
 	public:
-		Window(Traits x = {});
+		Window(aspire::Traits x = {});
 		~Window();
 
 		auto open() const -> bool;
@@ -33,7 +33,7 @@ namespace aspire
 		auto frameEvent() -> void;
 
 	private:
-		Traits traits{};
+		aspire::Traits traits{};
 		std::vector<Event> events;
 		std::chrono::steady_clock::duration elapsed{};
 		GLFWwindow* window{nullptr};

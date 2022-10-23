@@ -134,7 +134,7 @@ namespace
 	}
 }
 
-Window::Window(Traits x) : traits{x}
+Window::Window(aspire::Traits x) : traits{x}
 {
 	this->glfwInitialized = glfwInit() == GLFW_TRUE;
 
