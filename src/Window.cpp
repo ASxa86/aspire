@@ -142,6 +142,8 @@ Window::Window(aspire::Traits x) : traits{x}
 	if(this->glfwInitialized == true)
 	{
 		this->window = glfwCreateWindow(this->traits.width, this->traits.height, this->traits.title.c_str(), nullptr, nullptr);
+		this->makeCurrent();
+
 		this->gladInitialized = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == GL_TRUE;
 
 		glfwSetWindowUserPointer(this->window, &this->events);
@@ -160,6 +162,27 @@ Window::~Window()
 		glfwDestroyWindow(this->window);
 		glfwTerminate();
 	}
+}
+
+auto Window::makeCurrent() -> void
+{
+	glfwMakeContextCurrent(this->window);
+}
+
+auto Window::makeRelease() -> void
+{
+	glfwMakeContextCurrent(nullptr);
+}
+
+auto Window::clear() -> void
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(this->clearColor.r, this->clearColor.g, this->clearColor.b, this->clearColor.a);
+}
+
+auto Window::swapBuffers() -> void
+{
+	glfwSwapBuffers(this->window);
 }
 
 auto Window::open() const -> bool
@@ -188,9 +211,16 @@ auto Window::frame(std::chrono::steady_clock::duration x) -> void
 	this->frameEvent();
 	this->frameUpdate();
 	// frameCull();
+	//
+	this->makeCurrent();
+	this->clear();
+
 	// framePreRender();
 	this->frameDraw();
 	// framePostRender();
+
+	this->swapBuffers();
+	this->makeRelease();
 }
 
 auto Window::frameEvent() -> void

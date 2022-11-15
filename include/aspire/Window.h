@@ -1,7 +1,9 @@
 #pragma once
 
 #include <aspire/Event.h>
+#include <aspire/Node.h>
 #include <aspire/export.hxx>
+#include <glm/vec4.hpp>
 #include <string>
 #include <vector>
 
@@ -28,6 +30,11 @@ namespace aspire
 	public:
 		Window(aspire::Traits x = {});
 		~Window();
+
+        auto makeCurrent() -> void;
+		auto makeRelease() -> void;
+		auto clear() -> void;
+		auto swapBuffers() -> void;
 
 		/// @brief Return whether the window is open.
 		/// @return bool True if the window is open.
@@ -66,9 +73,10 @@ namespace aspire
 	private:
 		aspire::Traits traits{};
 		std::vector<Event> events;
-		aspire::Node* node{nullptr};
+		glm::vec4 clearColor{0.0F, 0.0F, 0.0F, 1.0F};
 		std::chrono::steady_clock::duration elapsed{};
 		GLFWwindow* window{nullptr};
+		Node* root{nullptr};
 		bool glfwInitialized{false};
 		bool gladInitialized{false};
 		bool done{false};
