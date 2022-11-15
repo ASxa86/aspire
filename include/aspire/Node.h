@@ -87,15 +87,25 @@ namespace aspire
 		/// @return void
 		virtual auto event(Event& x) -> void;
 
-		/// @brief 
-		/// @param x 
-		/// @return 
+		/// @brief Override to handle the given mouse event.
+		/// @param x The mouse event to handle.
+		/// @return void
 		virtual auto eventMouse(EventMouse& x) -> void;
+
+		/// @brief Override to handle the given keyboard event.
+		/// @param x The keyboard event to handle.
+		/// @return void
 		virtual auto eventKeyboard(EventKeyboard& x) -> void;
 
-	protected:
-		virtual auto onEventMouse(EventMouse& x) -> void;
-		virtual auto onEventKeyboard(EventKeyboard& x) -> void;
+		/// @brief Override to process logic during the update traversal.
+		/// Ensure Node::update() is called before/after the override logic to continue child traversal.
+		/// @return void
+		virtual auto update() -> void;
+
+		/// @brief Override to process logic during the rendering traversal.
+		/// Ensure Node::draw() is called before/after the override logic to continue child traversal.
+		/// @return void
+		virtual auto draw() -> void;
 
 	private:
 		std::vector<std::unique_ptr<Node>> children;

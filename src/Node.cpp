@@ -34,45 +34,52 @@ auto Node::getChildren() const -> const std::vector<std::unique_ptr<Node>>&
 
 auto Node::event(Event& x) -> void
 {
+	auto handled{false};
 	std::visit(aspire::overloaded{// Mouse //
-								  [this](EventMouse& x) { this->eventMouse(x); },
+								  [this, &handled](EventMouse& x)
+								  {
+									  this->eventMouse(x);
+									  handled = x.handled;
+								  },
 								  // Keyboard //
-								  [this](EventKeyboard& x) { this->eventKeyboard(x); },
+								  [this, &handled](EventKeyboard& x)
+								  {
+									  this->eventKeyboard(x);
+									  handled = x.handled;
+								  },
 								  // Do Nothing //
 								  [](auto&) {}},
 			   x);
+
+	if(handled == false)
+	{
+		for(auto&& child : this->children)
+		{
+			child->event(x);
+		}
+	}
 }
 
 auto Node::eventMouse(EventMouse& x) -> void
 {
-	this->onEventMouse(x);
-
-	if(x.handled == false)
-	{
-		for(auto&& child : this->children)
-		{
-			child->eventMouse(x);
-		}
-	}
 }
 
 auto Node::eventKeyboard(EventKeyboard& x) -> void
 {
-	this->onEventKeyboard(x);
+}
 
-	if(x.handled == false)
+auto Node::update() -> void
+{
+	for(auto&& child : this->children)
 	{
-		for(auto&& child : this->children)
-		{
-			child->eventKeyboard(x);
-		}
+		child->update();
 	}
 }
 
-auto Node::onEventMouse(EventMouse& /*x*/) -> void
+auto Node::draw() -> void
 {
-}
-
-auto Node::onEventKeyboard(EventKeyboard& /*x*/) -> void
-{
+	for(auto&& child : this->children)
+	{
+		child->draw();
+	}
 }

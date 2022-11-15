@@ -1,3 +1,4 @@
+#include <aspire/Node.h>
 #include <aspire/Window.h>
 #include <glad/glad.h>
 // Include glfw AFTER glad to prevent multiple gl.h inclusion errors.
@@ -185,10 +186,10 @@ auto Window::run() -> int
 auto Window::frame(std::chrono::steady_clock::duration x) -> void
 {
 	this->frameEvent();
-	// frameUpdate();
+	this->frameUpdate();
 	// frameCull();
 	// framePreRender();
-	// frameRender();
+	this->frameDraw();
 	// framePostRender();
 }
 
@@ -196,9 +197,39 @@ auto Window::frameEvent() -> void
 {
 	glfwPollEvents();
 
-	// for(auto&& event : this->events)
-	//{
-	// }
+	if(this->node != nullptr)
+	{
+		for(auto&& event : this->events)
+		{
+			this->node->event(event);
+		}
+	}
 
 	this->events.clear();
+}
+
+auto Window::frameUpdate() -> void
+{
+	if(this->node != nullptr)
+	{
+		this->node->update();
+	}
+}
+
+auto Window::frameDraw() -> void
+{
+	if(this->node != nullptr)
+	{
+		this->node->draw();
+	}
+}
+
+auto Window::setNode(Node& x) -> void
+{
+	this->node = &x;
+}
+
+auto Window::getNode() const -> Node*
+{
+	return this->node;
 }
