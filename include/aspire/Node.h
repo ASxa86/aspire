@@ -8,6 +8,11 @@
 
 namespace aspire
 {
+	class Node;
+
+	template <typename T>
+	concept NodeType = std::is_base_of<Node, T>::value;
+
 	/// @brief The base class that all visitor operations can be performed on.
 	class ASPIRE_EXPORT Node
 	{
@@ -51,7 +56,7 @@ namespace aspire
 		/// @return void
 		auto addChild(std::unique_ptr<Node> x) -> void;
 
-		template <typename T>
+		template <NodeType T>
 		auto addChild(std::string_view x = {})
 		{
 			auto child = std::make_unique<T>(x);

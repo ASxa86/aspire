@@ -6,15 +6,19 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${PROJECT_INCLUDE_DIR}/aspire/Bitmask.h
 	${PROJECT_INCLUDE_DIR}/aspire/Camera.h
 	${PROJECT_INCLUDE_DIR}/aspire/Event.h
-	${PROJECT_INCLUDE_DIR}/aspire/Geometry.h
 	${PROJECT_INCLUDE_DIR}/aspire/Node.h
+	${PROJECT_INCLUDE_DIR}/aspire/NodeGeometry.h
+	${PROJECT_INCLUDE_DIR}/aspire/Primitive.h
+	${PROJECT_INCLUDE_DIR}/aspire/PrimitiveDrawArrays.h
 	${PROJECT_INCLUDE_DIR}/aspire/Window.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
 	Camera.cpp
-	Geometry.cpp
 	Node.cpp
+	NodeGeometry.cpp
+	Primitive.cpp
+	PrimitiveDrawArrays.cpp
 	Window.cpp
 )
 
