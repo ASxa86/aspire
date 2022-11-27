@@ -6,7 +6,7 @@
   "homepage": "https://github.com/asxa86/asx/",
   "dependencies": [
     "glfw3",
-    "glad",
+    "angle",
     "glm",
     "gtest"
   ]

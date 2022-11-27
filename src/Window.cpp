@@ -1,8 +1,10 @@
+#include <EGL/egl.h>
 #include <aspire/Node.h>
 #include <aspire/Window.h>
-#include <glad/glad.h>
+#include <angle_gl.h>
 // Include glfw AFTER glad to prevent multiple gl.h inclusion errors.
 #include <GLFW/glfw3.h>
+#include <array>
 
 using aspire::Window;
 
@@ -141,10 +143,15 @@ Window::Window(aspire::Traits x) : traits{x}
 
 	if(this->glfwInitialized == true)
 	{
+		glfwWindowHint(GLFW_RED_BITS, this->traits.bitsRed);
+		glfwWindowHint(GLFW_GREEN_BITS, this->traits.bitsGreen);
+		glfwWindowHint(GLFW_BLUE_BITS, this->traits.bitsBlue);
+		glfwWindowHint(GLFW_ALPHA_BITS, this->traits.bitsAlpha);
+		glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_EGL_CONTEXT_API);
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+
 		this->window = glfwCreateWindow(this->traits.width, this->traits.height, this->traits.title.c_str(), nullptr, nullptr);
 		this->makeCurrent();
-
-		this->gladInitialized = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == GL_TRUE;
 
 		glfwSetWindowUserPointer(this->window, &this->events);
 		glfwSetKeyCallback(this->window, CallbackKeyboard);
@@ -227,11 +234,11 @@ auto Window::frameEvent() -> void
 {
 	glfwPollEvents();
 
-	if(this->node != nullptr)
+	if(this->root != nullptr)
 	{
 		for(auto&& event : this->events)
 		{
-			this->node->event(event);
+			this->root->event(event);
 		}
 	}
 
@@ -240,26 +247,26 @@ auto Window::frameEvent() -> void
 
 auto Window::frameUpdate() -> void
 {
-	if(this->node != nullptr)
+	if(this->root != nullptr)
 	{
-		this->node->update();
+		this->root->update();
 	}
 }
 
 auto Window::frameDraw() -> void
 {
-	if(this->node != nullptr)
+	if(this->root != nullptr)
 	{
-		this->node->draw();
+		this->root->draw();
 	}
 }
 
 auto Window::setNode(Node& x) -> void
 {
-	this->node = &x;
+	this->root = &x;
 }
 
 auto Window::getNode() const -> Node*
 {
-	return this->node;
+	return this->root;
 }

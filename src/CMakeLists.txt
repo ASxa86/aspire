@@ -22,14 +22,18 @@ target_sources(${PROJECT_NAME} PRIVATE
 	Window.cpp
 )
 
+find_package(ZLIB REQUIRED)
+find_package(unofficial-angle CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
-find_package(glad CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
 	glfw
-	glad::glad
 	glm::glm
+	unofficial::angle::libEGL
+	unofficial::angle::libANGLE
+	unofficial::angle::libGLESv2
+	unofficial::angle::angle_common
 )
 
 project_install_target()

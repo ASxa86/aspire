@@ -18,9 +18,27 @@ namespace aspire
 		static constexpr auto DefaultWidth{1280};
 		static constexpr auto DefaultHeight{720};
 
+		enum class GraphicsAPI : int
+		{
+			Native,
+			OpenGL,
+			OpenGLES,
+			D3D9,
+			D3D11,
+			Vulkan,
+			Metal
+		};
+
 		std::string title;
 		int width{DefaultWidth};
 		int height{DefaultHeight};
+		int major{2};
+		int minor{0};
+		int bitsRed{8};
+		int bitsGreen{8};
+		int bitsBlue{8};
+		int bitsAlpha{8};
+
 		bool windowDecoration{true};
 	};
 
@@ -31,7 +49,7 @@ namespace aspire
 		Window(aspire::Traits x = {});
 		~Window();
 
-        auto makeCurrent() -> void;
+		auto makeCurrent() -> void;
 		auto makeRelease() -> void;
 		auto clear() -> void;
 		auto swapBuffers() -> void;

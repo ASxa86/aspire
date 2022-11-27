@@ -1,7 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <type_traits>
+#include <angle_gl.h>
 
 namespace aspire
 {
