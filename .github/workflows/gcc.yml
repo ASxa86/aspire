@@ -19,6 +19,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: update apt
+      run: sudo apt update
     
     - name: os-dependencies
       run: sudo apt install libxinerama-dev libxcursor-dev libglu1-mesa-dev xorg-dev g++-12 && echo "CXX=g++-12" >> $GITHUB_ENV
