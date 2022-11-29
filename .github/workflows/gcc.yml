@@ -24,7 +24,7 @@ jobs:
       run: sudo apt update
     
     - name: os-dependencies
-      run: sudo apt install libxinerama-dev libxcursor-dev libglu1-mesa-dev xorg-dev g++-12 && echo "CXX=g++-12" >> $GITHUB_ENV
+      run: sudo apt install libx11-dev mesa-common-dev libxi-dev libxext-dev libxinerama-dev libxcursor-dev libglu1-mesa-dev xorg-dev g++-12 && echo "CXX=g++-12" >> $GITHUB_ENV
     
     - name: vcpkg-clone
       run: git clone https://github.com/microsoft/vcpkg.git    
