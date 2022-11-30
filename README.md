@@ -1,2 +1,2 @@
 # aspire
-Modern OpenGL 4.5+ Scene Graph and Render Engine.
+Modern C++ scene graph for OpenGL, OpenGL ES, Vulkan, Direct3D, Metal, and WebGL.
