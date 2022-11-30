@@ -27,6 +27,11 @@ find_package(unofficial-angle CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
+# Find X11 dependencies for angle which includes these targets with its own.
+if(UNIX)
+	find_package(X11 REQUIRED)
+endif()
+
 target_link_libraries(${PROJECT_NAME} PUBLIC
 	glfw
 	glm::glm
