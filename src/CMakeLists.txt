@@ -3,6 +3,8 @@ project(aspire)
 add_library(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
+	${PROJECT_INCLUDE_DIR}/aspire/BufferObject.h
+	${PROJECT_INCLUDE_DIR}/aspire/BufferObjectVertex.h
 	${PROJECT_INCLUDE_DIR}/aspire/Bitmask.h
 	${PROJECT_INCLUDE_DIR}/aspire/Camera.h
 	${PROJECT_INCLUDE_DIR}/aspire/Event.h
@@ -10,10 +12,13 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${PROJECT_INCLUDE_DIR}/aspire/NodeGeometry.h
 	${PROJECT_INCLUDE_DIR}/aspire/Primitive.h
 	${PROJECT_INCLUDE_DIR}/aspire/PrimitiveDrawArrays.h
+	${PROJECT_INCLUDE_DIR}/aspire/Vertex.h
 	${PROJECT_INCLUDE_DIR}/aspire/Window.h
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
+	BufferObject.cpp
+	BufferObjectVertex.cpp
 	Camera.cpp
 	Node.cpp
 	NodeGeometry.cpp

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aspire/BufferObjectVertex.h>
 #include <aspire/Node.h>
 #include <aspire/Primitive.h>
 
@@ -15,16 +16,20 @@ namespace aspire
 
 		auto addPrimitive(std::unique_ptr<Primitive> x) -> void;
 
-		template <PrimitiveType T>
-		auto addPrimitive() -> T*
+		template <PrimitiveType T, typename... Args>
+		auto addPrimitive(Args&&... x) -> T*
 		{
-			auto primitive = std::make_unique<T>();
+			auto primitive = std::make_unique<T>(std::forward<Args>(x)...);
 			auto p = primitive.get();
 			this->addPrimitive(std::move(primitive));
 			return p;
 		}
 
+		auto setVertices(std::vector<aspire::Vertex> x) -> void;
+		auto getVertices() const -> const std::vector<aspire::Vertex>&;
+
 	private:
+		aspire::BufferObjectVertex vbo;
 		std::vector<std::unique_ptr<Primitive>> primitives;
 	};
 }
