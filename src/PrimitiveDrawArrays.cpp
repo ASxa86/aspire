@@ -2,7 +2,7 @@
 
 using aspire::PrimitiveDrawArrays;
 
-PrimitiveDrawArrays::PrimitiveDrawArrays(Primitive::Type type, int first, int count) : Primitive{type}, first{first}, count{count}
+PrimitiveDrawArrays::PrimitiveDrawArrays(Primitive::Type type, int first, std::size_t count) : Primitive{type}, first{first}, count{count}
 {
 }
 
@@ -16,12 +16,12 @@ auto PrimitiveDrawArrays::getFirst() const -> int
 	return this->first;
 }
 
-auto PrimitiveDrawArrays::setCount(int x) -> void
+auto PrimitiveDrawArrays::setCount(std::size_t x) -> void
 {
 	this->count = x;
 }
 
-auto PrimitiveDrawArrays::getCount() const -> int
+auto PrimitiveDrawArrays::getCount() const -> std::size_t
 {
 	return this->count;
 }

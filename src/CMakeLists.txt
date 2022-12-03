@@ -12,6 +12,8 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${PROJECT_INCLUDE_DIR}/aspire/NodeGeometry.h
 	${PROJECT_INCLUDE_DIR}/aspire/Primitive.h
 	${PROJECT_INCLUDE_DIR}/aspire/PrimitiveDrawArrays.h
+	${PROJECT_INCLUDE_DIR}/aspire/Program.h
+	${PROJECT_INCLUDE_DIR}/aspire/Shader.h
 	${PROJECT_INCLUDE_DIR}/aspire/Vertex.h
 	${PROJECT_INCLUDE_DIR}/aspire/Window.h
 )
@@ -24,6 +26,8 @@ target_sources(${PROJECT_NAME} PRIVATE
 	NodeGeometry.cpp
 	Primitive.cpp
 	PrimitiveDrawArrays.cpp
+	Program.cpp
+	Shader.cpp
 	Window.cpp
 )
 

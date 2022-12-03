@@ -12,7 +12,7 @@ namespace aspire
 		/// @param type The primitive used to render the bound buffers.
 		/// @param first The starting index in the buffer.
 		/// @param count The number of indices to be rendered.
-		PrimitiveDrawArrays(Primitive::Type type, int first, int count);
+		PrimitiveDrawArrays(Primitive::Type type, int first, std::size_t count);
 
 		/// @brief Set the index in the buffer to begin rendering at.
 		/// @param x The starting index in the buffer.
@@ -24,17 +24,17 @@ namespace aspire
 
 		/// @brief Set the number of indices to be rendered.
 		/// @param x The number of indices to be rendered.
-		auto setCount(int x) -> void;
+		auto setCount(std::size_t x) -> void;
 
 		/// @brief Get the number of indices to be rendered.
 		/// @return The number of indices to be rendered.
-		auto getCount() const -> int;
+		auto getCount() const -> std::size_t;
 
 		/// @brief Overriden to implement glDrawArrays.
 		auto draw() -> void override;
 
 	private:
 		int first{};
-		int count{};
+		std::size_t count{};
 	};
 }
