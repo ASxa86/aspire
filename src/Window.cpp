@@ -1,7 +1,8 @@
 #include <EGL/egl.h>
 #include <aspire/Node.h>
 #include <aspire/Window.h>
-#include <angle_gl.h>
+#include <glad/glad.h>
+
 // Include glfw AFTER glad to prevent multiple gl.h inclusion errors.
 #include <GLFW/glfw3.h>
 #include <array>
@@ -147,11 +148,13 @@ Window::Window(aspire::Traits x) : traits{x}
 		glfwWindowHint(GLFW_GREEN_BITS, this->traits.bitsGreen);
 		glfwWindowHint(GLFW_BLUE_BITS, this->traits.bitsBlue);
 		glfwWindowHint(GLFW_ALPHA_BITS, this->traits.bitsAlpha);
-		glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_EGL_CONTEXT_API);
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+		glfwWindowHint(GLFW_VERSION_MAJOR, this->traits.major);
+		glfwWindowHint(GLFW_VERSION_MINOR, this->traits.minor);
 
 		this->window = glfwCreateWindow(this->traits.width, this->traits.height, this->traits.title.c_str(), nullptr, nullptr);
 		this->makeCurrent();
+
+		this->gladInitialized = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == GL_TRUE;
 
 		glfwSetWindowUserPointer(this->window, &this->events);
 		glfwSetKeyCallback(this->window, CallbackKeyboard);
@@ -159,6 +162,9 @@ Window::Window(aspire::Traits x) : traits{x}
 		glfwSetScrollCallback(this->window, CallbackMouseScroll);
 		glfwSetCursorPosCallback(this->window, CallbackMouseMove);
 		glfwSetCursorEnterCallback(this->window, CallbackMouseEnter);
+
+		// Ensure context is current prior to constructing the default state of the context.
+		this->state = std::make_unique<aspire::State>();
 	}
 }
 
@@ -257,7 +263,7 @@ auto Window::frameDraw() -> void
 {
 	if(this->root != nullptr)
 	{
-		this->root->draw();
+		this->root->draw(*this->state);
 	}
 }
 

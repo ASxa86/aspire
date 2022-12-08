@@ -1,6 +1,6 @@
 #pragma once
 
-#include <angle_gl.h>
+#include <glad/glad.h>
 #include <aspire/export.hxx>
 #include <filesystem>
 

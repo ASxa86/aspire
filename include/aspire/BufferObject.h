@@ -1,29 +1,66 @@
 #pragma once
 
-#include <angle_gl.h>
+#include <aspire/Bitmask.h>
+#include <glad/glad.h>
 #include <aspire/export.hxx>
+#include <vector>
 
 namespace aspire
 {
 	class ASPIRE_EXPORT BufferObject
 	{
 	public:
+		BufferObject();
 		virtual ~BufferObject();
 
-		enum class Usage : int
+		enum class BitField : int
 		{
-			DrawStream = GL_STREAM_DRAW,
-			DrawStatic = GL_STATIC_DRAW,
-			DrawDynamic = GL_DYNAMIC_DRAW
+			MapRead = GL_MAP_READ_BIT,
+			MapWrite = GL_MAP_WRITE_BIT,
+			MapPersistent = GL_MAP_PERSISTENT_BIT,
+			MapCoherent = GL_MAP_COHERENT_BIT,
+			Dynamic = GL_DYNAMIC_STORAGE_BIT,
+			ClientStorage = GL_CLIENT_STORAGE_BIT
 		};
 
-		auto setUsage(Usage x) -> void;
-		auto getUsage() const -> Usage;
+		auto setBitField(aspire::Bitmask<BitField> x) -> void;
+		auto getBitField() const -> aspire::Bitmask<BitField>;
 
-		virtual auto bind() const -> void = 0;
-		virtual auto unbind() const -> void = 0;
+		virtual auto getStride() const -> std::size_t = 0;
+		auto getHandle() const -> unsigned int;
+
+		auto load(void* data, size_t size) const -> void;
 
 	private:
-		Usage usage{Usage::DrawStatic};
+		unsigned int handle{};
+		aspire::Bitmask<BitField> bitField{};
+	};
+
+	template <typename T>
+	class BufferObjectTemplate : public BufferObject
+	{
+	public:
+		BufferObjectTemplate()
+		{
+		}
+
+		auto getStride() const -> std::size_t override
+		{
+			return sizeof(T);
+		}
+
+		auto setData(std::vector<T> x) -> void
+		{
+			this->data = std::move(x);
+			this->load(this->data.data(), this->data.size() * this->getStride());
+		}
+
+		auto getData() const -> const std::vector<T>&
+		{
+			return this->data;
+		}
+
+	private:
+		std::vector<T> data{};
 	};
 }

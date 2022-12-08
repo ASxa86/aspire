@@ -34,8 +34,8 @@ namespace aspire
 		auto setUniform(std::string_view x, glm::vec4) -> void;
 		auto linkShaders() -> void;
 
-		auto bind() const -> void;
-		auto unbind() const -> void;
+		auto use() const -> void;
+		auto release() const -> void;
 
 	private:
 		std::unordered_map<Shader::Type, std::unique_ptr<Shader>> shaders;

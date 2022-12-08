@@ -51,12 +51,12 @@ auto Program::linkShaders() -> void
 	glLinkProgram(this->handle);
 }
 
-auto Program::bind() const -> void
+auto Program::use() const -> void
 {
 	glUseProgram(this->handle);
 }
 
-auto Program::unbind() const -> void
+auto Program::release() const -> void
 {
 	glUseProgram(0);
 }

@@ -1,7 +1,10 @@
 #pragma once
 
 #include <aspire/Event.h>
+#include <aspire/Program.h>
+#include <aspire/State.h>
 #include <aspire/export.hxx>
+#include <boost/signals2/signal.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -110,10 +113,25 @@ namespace aspire
 		/// @brief Override to process logic during the rendering traversal.
 		/// Ensure Node::draw() is called before/after the override logic to continue child traversal.
 		/// @return void
-		virtual auto draw() -> void;
+		virtual auto draw(aspire::State& x) -> void;
+
+		auto connectUpdate(auto x)
+		{
+			return this->signalUpdate.connect(x);
+		}
+
+		auto connectDraw(auto x)
+		{
+			return this->signalDraw.connect(x);
+		}
+
+		auto getOrCreateProgram() -> aspire::Program*;
 
 	private:
 		std::vector<std::unique_ptr<Node>> children;
+		std::unique_ptr<aspire::Program> program;
+		boost::signals2::signal<void(aspire::State&)> signalDraw;
+		boost::signals2::signal<void()> signalUpdate;
 		std::string name;
 		Node* parent{nullptr};
 	};

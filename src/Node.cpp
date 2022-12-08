@@ -70,16 +70,47 @@ auto Node::eventKeyboard(EventKeyboard& x) -> void
 
 auto Node::update() -> void
 {
+	// linkProgam
+
+	this->signalUpdate();
+
 	for(auto&& child : this->children)
 	{
 		child->update();
 	}
 }
 
-auto Node::draw() -> void
+auto Node::draw(aspire::State& x) -> void
 {
+	if(this->program != nullptr)
+	{
+		x.pushProgram(this->program.get());
+	}
+
+	auto p = x.currentProgram();
+	p->use();
+
+	this->signalDraw(x);
+
 	for(auto&& child : this->children)
 	{
-		child->draw();
+		child->draw(x);
 	}
+
+	p->release();
+
+	if(this->program != nullptr)
+	{
+		x.popProgram();
+	}
+}
+
+auto Node::getOrCreateProgram() -> aspire::Program*
+{
+	if(this->program == nullptr)
+	{
+		this->program = std::make_unique<aspire::Program>();
+	}
+
+	return this->program.get();
 }

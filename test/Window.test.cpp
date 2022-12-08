@@ -1,5 +1,6 @@
 #include <aspire/NodeGeometry.h>
 #include <aspire/PrimitiveDrawArrays.h>
+#include <aspire/Vertex.h>
 #include <aspire/Window.h>
 #include <gtest/gtest.h>
 
@@ -10,15 +11,16 @@ TEST(Graphics_Window, test)
 	aspire::Window window{traits};
 
 	aspire::Node node{};
-
 	auto geometry = node.addChild<aspire::NodeGeometry>();
 
-	auto vertices = geometry->getVertices();
-	vertices.push_back({{-0.5F, -0.5F, 0.0F}});
-	vertices.push_back({{0.5F, -0.5F, 0.0F}});
-	vertices.push_back({{0.0F, 0.5F, 0.0F}});
-	geometry->setVertices(vertices);
+	auto buffer = geometry->addBufferObject<aspire::Vertex>();
+	auto vertices = buffer->getData();
+	vertices.emplace_back(glm::vec3{-0.5F, -0.5F, 0.0F});
+	vertices.emplace_back(glm::vec3{0.5F, -0.5F, 0.0F});
+	vertices.emplace_back(glm::vec3{0.0F, 0.5F, 0.0F});
+
 	geometry->addPrimitive<aspire::PrimitiveDrawArrays>(aspire::Primitive::Type::Triangles, 0, vertices.size());
+	buffer->setData(std::move(vertices));
 
 	window.setNode(node);
 

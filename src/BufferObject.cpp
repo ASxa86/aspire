@@ -2,16 +2,35 @@
 
 using aspire::BufferObject;
 
+BufferObject::BufferObject()
+{
+	glCreateBuffers(1, &this->handle);
+}
+
 BufferObject::~BufferObject()
 {
+	if(this->handle != 0)
+	{
+		glDeleteBuffers(1, &this->handle);
+	}
 }
 
-auto BufferObject::setUsage(Usage x) -> void
+auto BufferObject::setBitField(aspire::Bitmask<BitField> x) -> void
 {
-	this->usage = x;
+	this->bitField = x;
 }
 
-auto BufferObject::getUsage() const -> Usage
+auto BufferObject::getBitField() const -> aspire::Bitmask<BitField>
 {
-	return this->usage;
+	return this->bitField;
+}
+
+auto BufferObject::getHandle() const -> unsigned int
+{
+	return this->handle;
+}
+
+auto BufferObject::load(void* data, size_t size) const -> void
+{
+	glNamedBufferStorage(this->handle, size, data, static_cast<GLbitfield>(this->bitField.get()));
 }

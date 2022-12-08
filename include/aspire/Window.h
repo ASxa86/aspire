@@ -2,6 +2,7 @@
 
 #include <aspire/Event.h>
 #include <aspire/Node.h>
+#include <aspire/State.h>
 #include <aspire/export.hxx>
 #include <glm/vec4.hpp>
 #include <string>
@@ -18,22 +19,11 @@ namespace aspire
 		static constexpr auto DefaultWidth{1280};
 		static constexpr auto DefaultHeight{720};
 
-		enum class GraphicsAPI : int
-		{
-			Native,
-			OpenGL,
-			OpenGLES,
-			D3D9,
-			D3D11,
-			Vulkan,
-			Metal
-		};
-
 		std::string title;
 		int width{DefaultWidth};
 		int height{DefaultHeight};
-		int major{2};
-		int minor{0};
+		int major{4};
+		int minor{5};
 		int bitsRed{8};
 		int bitsGreen{8};
 		int bitsBlue{8};
@@ -94,6 +84,7 @@ namespace aspire
 		glm::vec4 clearColor{0.0F, 0.0F, 0.0F, 1.0F};
 		std::chrono::steady_clock::duration elapsed{};
 		GLFWwindow* window{nullptr};
+		std::unique_ptr<aspire::State> state;
 		Node* root{nullptr};
 		bool glfwInitialized{false};
 		bool gladInitialized{false};

@@ -6,8 +6,9 @@
   "homepage": "https://github.com/asxa86/asx/",
   "dependencies": [
     "glfw3",
-    "angle",
+    "glad",
     "glm",
-    "gtest"
+    "gtest",
+    "boost-signals2"
   ]
 }

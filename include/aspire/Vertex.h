@@ -13,10 +13,17 @@ namespace aspire
 		glm::vec3 position{};
 
 		/// @brief The (r, g, b, a) for the vertex.
-		glm::vec4 color{};
+		glm::vec4 color{1.0F, 1.0F, 1.0F, 1.0F};
 
 		/// @brief The (u, v), normalized, coordinate for a texture mapped to this vertex.
 		glm::vec2 texCoord{};
+
+		struct Type
+		{
+			using Position = decltype(Vertex::position)::value_type;
+			using Color = decltype(Vertex::color)::value_type;
+			using TexCoord = decltype(Vertex::texCoord)::value_type;
+		};
 
 		/// @brief Defines the size of each vertex component.
 		struct Size
@@ -27,12 +34,11 @@ namespace aspire
 		};
 
 		/// @brief Define the stride/offset of each vertex component.
-		// struct Stride
-		//{
-		//	static constexpr auto Position{offsetof(Vertex, position)};
-		//	static constexpr auto Color{offsetof(Vertex, color)};
-		//	static constexpr auto TexCoord{offsetof(Vertex, texCoord)};
-		// };
+		struct Stride
+		{
+			static constexpr auto ComponentTotal{Size::Position + Size::Color + Size::TexCoord};
+			static constexpr auto Value{ComponentTotal * sizeof(Type::Position)};
+		};
 
 		/// @brief Define the shader location of each vertex component.
 		struct Location
