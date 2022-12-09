@@ -3,6 +3,7 @@
 #include <aspire/Bitmask.h>
 #include <glad/glad.h>
 #include <aspire/export.hxx>
+#include <cstddef>
 #include <vector>
 
 namespace aspire
@@ -34,7 +35,7 @@ namespace aspire
 		auto getBitField() const -> aspire::Bitmask<BitField>;
 
 		/// @brief Override this function to define the stride for specific buffer data type.
-		/// @return 
+		/// @return
 		virtual auto getStride() const -> std::size_t = 0;
 
 		/// @brief Get the native handle of the allocated buffer data.

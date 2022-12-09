@@ -30,7 +30,7 @@ auto BufferObject::getHandle() const -> unsigned int
 	return this->handle;
 }
 
-auto BufferObject::load(void* data, size_t size) const -> void
+auto BufferObject::load(void* data, std::size_t size) const -> void
 {
 	glNamedBufferStorage(this->handle, size, data, static_cast<GLbitfield>(this->bitField.get()));
 }
