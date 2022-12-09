@@ -163,6 +163,8 @@ Window::Window(aspire::Traits x) : traits{x}
 		glfwSetCursorPosCallback(this->window, CallbackMouseMove);
 		glfwSetCursorEnterCallback(this->window, CallbackMouseEnter);
 
+		glfwSwapInterval(this->traits.swapInterval);
+
 		// Ensure context is current prior to constructing the default state of the context.
 		this->state = std::make_unique<aspire::State>();
 	}
@@ -203,9 +205,14 @@ auto Window::open() const -> bool
 	return glfwWindowShouldClose(this->window) == GLFW_FALSE;
 }
 
+#include <algorithm>
+#include <iostream>
+#include <numeric>
+
 auto Window::run() -> int
 {
 	auto start = std::chrono::steady_clock::now();
+	std::deque<std::chrono::duration<double>> frames;
 
 	while(this->open() == true)
 	{
@@ -214,8 +221,19 @@ auto Window::run() -> int
 		start = stop;
 
 		this->frame(this->elapsed);
+
+		frames.emplace_back(this->elapsed);
+
+		if(frames.size() > 200)
+		{
+			frames.pop_front();
+		}
 	}
 
+	const auto sum = std::accumulate(std::begin(frames), std::end(frames), std::chrono::duration<double>::zero());
+	const std::chrono::duration<double> avg = sum / frames.size();
+	const auto fps = 1.0 / avg.count();
+	std::cout << "FPS: " << fps << std::endl;
 	return EXIT_SUCCESS;
 }
 

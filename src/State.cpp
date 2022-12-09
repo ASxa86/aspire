@@ -4,6 +4,7 @@ using aspire::State;
 
 namespace
 {
+	// Define a default vertex shader for rendering aspire geometry.
 	constexpr std::string_view ShaderVertex{R"(
 		#version 330 core
 		layout (location = 0) in vec3 aPos; // the position variable has attribute position 0
@@ -19,6 +20,7 @@ namespace
 		}
 	)"};
 
+	// Define a default fragment shader for rendering aspire geometry.
 	constexpr std::string_view ShaderFragment{R"(
 		#version 330 core
 		out vec4 FragColor;
@@ -34,6 +36,7 @@ namespace
 
 State::State()
 {
+	// Load this state with a default program and shaders that will always be present for building geometry.
 	auto vertex = this->programDefault.addShader<Shader::Type::Vertex>();
 	vertex->loadFromMemory(ShaderVertex);
 

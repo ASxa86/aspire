@@ -28,6 +28,7 @@ namespace aspire
 		int bitsGreen{8};
 		int bitsBlue{8};
 		int bitsAlpha{8};
+		int swapInterval{0};
 
 		bool windowDecoration{true};
 	};

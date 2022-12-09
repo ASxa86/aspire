@@ -20,7 +20,9 @@ namespace aspire
 	class ASPIRE_EXPORT Node
 	{
 	public:
-		Node(std::string_view = {});
+		/// @brief Construct the node with the given name.
+		/// @param x The name used to construct this Node with.
+		Node(std::string_view x = {});
 		virtual ~Node() = default;
 
 		/// @brief Delete copy constructor to prevent object slicing. Use clone instead.
@@ -59,6 +61,10 @@ namespace aspire
 		/// @return void
 		auto addChild(std::unique_ptr<Node> x) -> void;
 
+		/// @brief Creates, adds, and then returns a Node child.
+		/// @tparam T A Node derived type.
+		/// @param x The Node's name.
+		/// @return A pointer to the created node.
 		template <NodeType T>
 		auto addChild(std::string_view x = {})
 		{
@@ -72,7 +78,10 @@ namespace aspire
 		/// @return const std::vector<std::unique_ptr<Node>>&
 		auto getChildren() const -> const std::vector<std::unique_ptr<Node>>&;
 
-		template <typename T>
+		/// @brief Get all node children of a given node type.
+		/// @tparam T The node type to test the children against.
+		/// @return A container of node pointers for the given node type.
+		template <NodeType T>
 		auto getChildren() const -> std::vector<T*>
 		{
 			std::vector<T*> v;
@@ -112,14 +121,21 @@ namespace aspire
 
 		/// @brief Override to process logic during the rendering traversal.
 		/// Ensure Node::draw() is called before/after the override logic to continue child traversal.
+		/// @param x Pushes this Node's current state to the state before rendering its children.
 		/// @return void
 		virtual auto draw(aspire::State& x) -> void;
 
+		/// @brief Connect a function object to be invoked when this Node's update function is called.
+		/// @param x A function object to connect.
+		/// @return A connection object to manage the lifetime of the connected function object. Ignores lifetime by default.
 		auto connectUpdate(auto x)
 		{
 			return this->signalUpdate.connect(x);
 		}
 
+		/// @brief Connect a function object to be invoked when this Node's draw function is called.
+		/// @param x A function object to connect.
+		/// @return A connection object to manage the lifetime of the connected function object. Ignores lifetime by default.
 		auto connectDraw(auto x)
 		{
 			return this->signalDraw.connect(x);
