@@ -23,7 +23,7 @@ build-gcc-debug:
   script:
     # Install VCPKG
     - apt update -y
-    - apt install -y g++ curl tar git zip unzip make
+    - apt install -y g++ curl tar git zip unzip make autoconf
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
     - ./vcpkg/bootstrap-vcpkg.sh
     
@@ -39,5 +39,7 @@ build-gcc-debug:
     - mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
     # Build Aspire
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/lib
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/debug/lib
     - ./vcpkg/vcpkg fetch cmake
     - ${CMAKE_COMMAND} --preset gcc-debug
