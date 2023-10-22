@@ -1,5 +1,4 @@
 stages:
-  - dependencies
   - lint
   - build
   - test
@@ -19,7 +18,7 @@ lint-clang-format:
 
 build-gcc-debug:
   image: ubuntu:latest
-  stage: dependencies
+  stage: build
   script:
     # Install VCPKG
     - apt update -y
@@ -36,7 +35,7 @@ build-gcc-debug:
 
     # Configure NuGet
     - ./vcpkg/vcpkg fetch nuget
-    - mono ./downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
+    - mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
     # Build Aspire
     - ./vcpkg/vcpkg fetch cmake
