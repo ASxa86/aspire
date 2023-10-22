@@ -4,6 +4,7 @@ stages:
 - test
 
 lint-clang-format:
+  image: ubuntu:latest
   stage: lint
   script:
     - echo "No Impl."
