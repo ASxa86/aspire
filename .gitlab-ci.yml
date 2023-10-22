@@ -23,7 +23,7 @@ build-gcc-debug:
   script:
     # Install VCPKG
     - apt update -y
-    - apt install -y g++ curl tar git zip unzip make autoconf
+    - apt install -y g++ curl tar git zip unzip make autoconf python3
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
     - ./vcpkg/bootstrap-vcpkg.sh
     
