@@ -8,17 +8,26 @@ vcpkg:
   image: ubuntu:latest
   stage: dependencies
   script:
+    # Install VCPKG
     - apt update -y
     - apt install -y g++ curl tar git zip unzip
     - git clone https://github.com/microsoft/vcpkg.git
     - cd vcpkg
     - ./bootstrap-vcpkg.sh
     
+    # Install mono
     - apt install -y ca-certificates gnupg
     - gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
     - echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list
     - apt update
     - apt install -y mono-complete
+
+    # Configure NuGet
+    - ./vcpkg fetch nuget
+    - mono ./downloads/tools/nuget-6.2.1-linux/nuget.exe add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+
+    # VCPKG Install
+    - ./vcpkg install --triplet=x64-linux-dynamic
 
 
 lint-clang-format:
