@@ -22,7 +22,7 @@ build-gcc-debug:
   script:
     # Install VCPKG
     - apt update -y
-    - apt install -y g++ curl tar git zip unzip
+    - apt install -y g++ curl tar git zip unzip make
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
     - ./vcpkg/bootstrap-vcpkg.sh
     
