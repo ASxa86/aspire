@@ -23,7 +23,7 @@ build-gcc-debug:
   script:
     # Install VCPKG
     - apt update -y
-    - apt install -y g++ curl tar git zip unzip make autoconf autoconf-archive python3 libtool
+    - apt install -y g++ curl tar git zip unzip make autoconf autoconf-archive python3 python3-distutils libtool
     - apt install -y '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
     - ./vcpkg/bootstrap-vcpkg.sh
