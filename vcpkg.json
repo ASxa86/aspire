@@ -1,0 +1,10 @@
+{
+  "name": "aspire",
+  "version-string": "2023.10.22",
+  "port-version": 1,
+  "description": "QtQuick Game Engine",
+  "homepage": "https://gitlab.com/amshelley86/aspire",
+  "dependencies": [
+    "qtdeclarative"
+  ]
+}
