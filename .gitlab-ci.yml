@@ -23,7 +23,7 @@ build-gcc-debug:
   script:
     # Install VCPKG
     - apt update -y
-    - apt install -y g++ curl tar git zip unzip make autoconf python3
+    - apt install -y g++ curl tar git zip unzip make autoconf autoconf-archive python3
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
     - ./vcpkg/bootstrap-vcpkg.sh
     
@@ -44,7 +44,7 @@ build-gcc-debug:
     - ./vcpkg/vcpkg fetch cmake
     - ${CMAKE_COMMAND} --preset gcc-debug
   artifacts:
-    when: always
+    when: on_failure
     paths:
       - vcpkg/buildtrees/**/*.txt
       - vcpkg/buildtrees/**/*.log
