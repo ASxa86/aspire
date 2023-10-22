@@ -1,0 +1,9 @@
+stages:
+- lint
+- build
+- test
+
+lint-clang-format:
+  stage: lint
+  script:
+    - echo "No Impl."
