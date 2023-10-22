@@ -9,7 +9,7 @@ vcpkg:
   stage: dependencies
   script:
     - apt update -y
-    - apt install -y g++ curl tar git
+    - apt install -y g++ curl tar git zip unzip
     - git clone https://github.com/microsoft/vcpkg.git
     - cd vcpkg
     - ./bootstrap-vcpkg.sh
