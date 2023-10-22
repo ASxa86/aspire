@@ -4,6 +4,10 @@ stages:
   - build
   - test
 
+variables:
+  NUGET_SOURCE: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
+  NUGET_NAME: gitlab
+
 vcpkg:
   image: ubuntu:latest
   stage: dependencies
@@ -24,7 +28,7 @@ vcpkg:
 
     # Configure NuGet
     - ./vcpkg fetch nuget
-    - mono ./downloads/tools/nuget-6.2.1-linux/nuget.exe add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - mono ./downloads/tools/nuget-6.2.1-linux/nuget.exe add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
     # VCPKG Install
     - ./vcpkg install --triplet=x64-linux-dynamic
