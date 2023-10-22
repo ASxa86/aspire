@@ -19,6 +19,7 @@ lint-clang-format:
 build-gcc-debug:
   image: ubuntu:latest
   stage: build
+  needs: []
   script:
     # Install VCPKG
     - apt update -y
