@@ -1,0 +1,8 @@
+{
+    "cmake.configureOnOpen": true,
+    "cmake.useCMakePresets": "always",
+    "files.associations": {
+        "string_view": "cpp"
+    },
+    "editor.formatOnSave": true
+}
