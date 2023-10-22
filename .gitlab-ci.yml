@@ -31,7 +31,8 @@ vcpkg:
     - mono ./downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
     # VCPKG Install
-    - ./vcpkg install --triplet=x64-linux-dynamic
+    - cd ${CI_PROJECT_DIR}
+    - ./vcpkg/vcpkg install --triplet=x64-linux-dynamic
 
 
 lint-clang-format:
