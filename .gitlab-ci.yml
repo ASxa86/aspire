@@ -24,7 +24,7 @@ build-gcc-debug:
     # Install VCPKG
     - apt update -y
     - apt install -y g++ curl tar git zip unzip make autoconf autoconf-archive python3 python3-distutils libtool
-    - apt install -y '^libxcb.*-dev' libfontconfig1-dev libfreetype6-dev libx11-dev libxext-dev libxfixes-dev libglu1-mesa-dev libxrender-dev libxi-dev
+    - apt install -y '^libxcb.*-dev' libfontconfig1-dev libfreetype6-dev libx11-dev libxext-dev libxfixes-dev libgl1-mesa-dev libglu1-mesa-dev libxrender-dev libxi-dev
     - apt install -y libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
     - apt install -y libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxinerama-dev
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
