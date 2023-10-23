@@ -5,6 +5,7 @@
   "description": "QtQuick Game Engine",
   "homepage": "https://gitlab.com/amshelley86/aspire",
   "dependencies": [
-    "qtdeclarative"
+    "qtdeclarative",
+    "osgearth"
   ]
 }
