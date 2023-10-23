@@ -19,6 +19,8 @@ lint-clang-format:
 build-gcc-debug:
   image: ubuntu:latest
   stage: build
+  tags:
+    - aspire-docker
   needs: []
   script:
     # Install VCPKG
