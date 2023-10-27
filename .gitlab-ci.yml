@@ -47,8 +47,7 @@ build-gcc-debug:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/lib
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/debug/lib
     - ./vcpkg/vcpkg fetch cmake
-    - ${CMAKE_COMMAND} --preset gcc-debug
-    - ${CMAKE_COMMAND} --preset --build gcc-debug
+    - ${CMAKE_COMMAND} --build --preset  gcc-debug
   artifacts:
     when: on_failure
     paths:
