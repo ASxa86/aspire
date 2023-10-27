@@ -23,7 +23,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Qt6 CONFIG REQUIRED COMPONENTS Quick)
 
-# add_subdirectory(app)
+set(CMAKE_AUTOMOC ON)
+
+add_subdirectory(app)
 add_subdirectory(src)
 
 set(PROJECT_CONFIG_VERSION ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_ROOT_NAME}-config-version.cmake)
