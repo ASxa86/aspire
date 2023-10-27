@@ -12,7 +12,16 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/bin/Debug",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "QML_IMPORT_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/qml"
+                },
+                {
+                    "name": "QT_PLUGIN_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/plugins"
+                }
+            ],
             "console": "externalTerminal"
         },
         {
