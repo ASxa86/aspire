@@ -16,6 +16,7 @@ namespace aspire
 	public:
 		enum class Roles : int
 		{
+			ID,
 			Rotation
 		};
 

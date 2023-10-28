@@ -6,6 +6,7 @@ using aspire::ModelEntity;
 
 ModelEntity::ModelEntity(QObject* parent) : QAbstractListModel{parent}
 {
+	this->roles.insert(static_cast<int>(Roles::ID), "id");
 	this->roles.insert(static_cast<int>(Roles::Rotation), "rotation");
 }
 
@@ -31,6 +32,10 @@ auto ModelEntity::data(const QModelIndex& index, int role) const -> QVariant
 
 	switch(static_cast<ModelEntity::Roles>(role))
 	{
+		case ModelEntity::Roles::ID:
+			return entity.getID();
+			break;
+
 		case ModelEntity::Roles::Rotation:
 			return entity.getRotation();
 			break;
@@ -53,6 +58,12 @@ auto ModelEntity::classBegin() -> void
 
 auto ModelEntity::componentComplete() -> void
 {
-	this->entities.resize(this->count);
+	this->entities.reserve(this->count);
+
+	for(auto i = 0; i < this->count; i++)
+	{
+		this->entities.emplace_back(i + 1);
+	}
+
 	this->countChanged(this->rowCount());
 }

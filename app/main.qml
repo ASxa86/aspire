@@ -12,17 +12,39 @@ Window {
     property double rotate: 0
 
     Timer {
+        id: timer
         running: true
         repeat: true
         interval: 10
 
+        property double rotate: 0
+        signal rotateChange(double x)
+
         onTriggered: {
-            window.rotate += interval / 1000.0;
+            timer.rotate += interval / 1000.0;
+            timer.rotateChange(timer.rotate);
         }
     }
 
     Item {
         anchors.fill: parent
+
+        Connections {
+            target: timer
+
+            function onRotateChange(rotate) {
+                window.rotate = rotate
+            }
+        }
+
+        WheelHandler {
+            target: repeater
+            orientation: Qt.Vertical
+            property: "radius"
+            rotationScale: 15
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+        }
+
         rotation: window.rotate
 
         Repeater {
@@ -36,8 +58,12 @@ Window {
             property double radius: Math.min(window.width / 2, window.height / 2)
 
             delegate: Item {
+                id: item
                 x: parent.width / 2
                 y: parent.height / 2
+                enabled: false
+
+                // required property int index
 
                 Rectangle {
                     id: rectangle
@@ -51,6 +77,16 @@ Window {
                     color: "black"
                     border.color: "green"
                     border.width: 2
+
+                    Text {
+                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        text: model.id
+                        color: "white"
+                        renderType: Text.NativeRendering
+                        // renderTypeQuality: Text.LowRenderTypeQuality
+                        // antialiasing: false
+                    }
                 }
             }
         }
@@ -87,6 +123,7 @@ Window {
             }
 
             color: "white"
+            font.pixelSize: 30
         }
 
         Text {
@@ -101,6 +138,7 @@ Window {
             }
 
             color: "white"
+            font.pixelSize: 30
         }
     }
 }
