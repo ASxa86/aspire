@@ -9,13 +9,29 @@ Window {
     height: 1080
     color: "black"
 
+    property double rotate: 0
+
+    Timer {
+        running: true
+        repeat: true
+        interval: 10
+
+        onTriggered: {
+            window.rotate += interval / 1000.0;
+        }
+    }
+
     Item {
         anchors.fill: parent
+        rotation: window.rotate
 
         Repeater {
             id: repeater
 
-            model: 4000
+            model: ModelEntity {
+                id: modelEntity
+                count: 4000
+            }
 
             property double radius: Math.min(window.width / 2, window.height / 2)
 
@@ -31,6 +47,7 @@ Window {
                     y: Math.sin(angle) * repeater.radius * Math.random()
                     width: 32
                     height: 32
+                    rotation: model.rotation - window.rotate
                     color: "black"
                     border.color: "green"
                     border.width: 2
@@ -41,7 +58,7 @@ Window {
 
     Text {
         anchors.right: parent.right
-        text: "Count: " + repeater.model
+        text: "Count: " + modelEntity.count
         color: "white"
         font.pixelSize: 75
     }
