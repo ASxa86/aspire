@@ -9,14 +9,13 @@
             "cacheVariables": {
                 "CMAKE_CXX_STANDARD": "23",
                 "CMAKE_DEBUG_POSTFIX": "d",
-                "CMAKE_RELEASE_POSTFIX": "r",
+                "CMAKE_RELEASE_POSTFIX": "",
                 "CMAKE_RELWITHDEBINFO_POSTFIX": "rd",
                 "CMAKE_MINSIZEREL_POSTFIX": "s",
                 "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
                 "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
                 "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
-                "CMAKE_COMPILE_WARNING_AS_ERROR": "ON",
-                "CMAKE_AUTOMOC": "ON"
+                "CMAKE_COMPILE_WARNING_AS_ERROR": "ON"
             }
         },
         {
@@ -56,11 +55,6 @@
                 "BUILD_TESTS": "ON",
                 "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive-"
             }
-        },
-        {
-            "name": "msvc-debug",
-            "displayName": "MSVC Debug",
-            "inherits": "msvc"
         }
     ],
     "buildPresets": [
@@ -70,8 +64,13 @@
         },
         {
             "name": "msvc-debug",
-            "configurePreset": "msvc-debug",
+            "configurePreset": "msvc",
             "configuration": "Debug"
+        },
+        {
+            "name": "msvc-release",
+            "configurePreset": "msvc",
+            "configuration": "Release"
         }
     ]
 }
