@@ -53,6 +53,30 @@
             "console": "externalTerminal"
         },
         {
+            "name": "(Windows) Launch RelWithDebInfo",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/RelWithDebInfo/shapes.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/bin/RelWithDebInfo",
+            "environment": [
+                {
+                    "name": "QML_IMPORT_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/qml"
+                },
+                {
+                    "name": "QT_PLUGIN_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/plugins"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/bin"
+                }
+            ],
+            "console": "externalTerminal"
+        },
+        {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",

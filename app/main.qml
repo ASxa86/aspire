@@ -52,7 +52,7 @@ Window {
 
             model: ModelEntity {
                 id: modelEntity
-                count: 4000
+                count: 7000
             }
 
             property double radius: Math.min(window.width / 2, window.height / 2)
@@ -83,6 +83,8 @@ Window {
                         anchors.centerIn: parent
                         text: model.id
                         color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         renderType: Text.NativeRendering
                         // renderTypeQuality: Text.LowRenderTypeQuality
                         // antialiasing: false

@@ -71,6 +71,11 @@
             "name": "msvc-release",
             "configurePreset": "msvc",
             "configuration": "Release"
+        },
+        {
+            "name": "msvc-relwithdebinfo",
+            "configurePreset": "msvc",
+            "configuration": "RelWithDebInfo"
         }
     ]
 }
