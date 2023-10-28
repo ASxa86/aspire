@@ -63,7 +63,7 @@ auto FrameMetrics::measure() -> void
 	this->frames.emplace_back(elapsed);
 	this->framesRolling.emplace_back(elapsed);
 
-	while(this->framesRolling.size() >= this->rollingCount)
+	while(static_cast<int>(this->framesRolling.size()) >= this->rollingCount)
 	{
 		this->framesRolling.pop_front();
 	}
