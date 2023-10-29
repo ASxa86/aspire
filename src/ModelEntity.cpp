@@ -10,6 +10,20 @@ ModelEntity::ModelEntity(QObject* parent) : QAbstractListModel{parent}
 	this->roles.insert(static_cast<int>(Roles::Rotation), "rotation");
 }
 
+auto ModelEntity::setRotation(double x) noexcept -> void
+{
+	if(this->rotation != x)
+	{
+		this->rotation = x;
+		this->rotationChanged(this->rotation);
+	}
+}
+
+auto ModelEntity::getRotation() const noexcept -> double
+{
+	return this->rotation;
+}
+
 auto ModelEntity::setCount(int x) noexcept -> void
 {
 	this->count = x;

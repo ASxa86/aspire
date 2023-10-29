@@ -13,7 +13,15 @@ namespace aspire
 		QML_VALUE_TYPE(entity)
 
 	public:
+		Entity() = default;
 		Entity(int x);
+
+		Entity(const Entity&) = default;
+		auto operator=(const Entity&) -> Entity& = default;
+
+		Entity(Entity&&) noexcept = default;
+		auto operator=(Entity&&) noexcept -> Entity& = default;
+
 		auto setID(int x) noexcept -> void;
 		auto getID() const noexcept -> int;
 

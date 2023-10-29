@@ -9,33 +9,23 @@ Window {
     height: 1080
     color: "black"
 
-    property double rotate: 0
+    AppState {
+        id: state
+    }
 
-    Timer {
-        id: timer
-        running: true
-        repeat: true
-        interval: 10
+    Action {
+        id: action
+    }
 
-        property double rotate: 0
-        signal rotateChange(double x)
+    Subscribe {
+        id: subscribe
 
-        onTriggered: {
-            timer.rotate += interval / 1000.0;
-            timer.rotateChange(timer.rotate);
-        }
+        action: action
+        state: state
     }
 
     Item {
         anchors.fill: parent
-
-        Connections {
-            target: timer
-
-            function onRotateChange(rotate) {
-                window.rotate = rotate
-            }
-        }
 
         WheelHandler {
             target: repeater
@@ -45,14 +35,22 @@ Window {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
         }
 
-        rotation: window.rotate
+        rotation: repeater.model.rotation
 
         Repeater {
             id: repeater
 
             model: ModelEntity {
                 id: modelEntity
-                count: 7000
+                count: 4000
+
+                property Connections cx: Connections {
+                    target: action
+
+                    function onRotationChanged(rotation) {
+                        modelEntity.rotation = rotation;
+                    }
+                }
             }
 
             property double radius: Math.min(window.width / 2, window.height / 2)
@@ -63,8 +61,6 @@ Window {
                 y: parent.height / 2
                 enabled: false
 
-                // required property int index
-
                 Rectangle {
                     id: rectangle
 
@@ -73,7 +69,7 @@ Window {
                     y: Math.sin(angle) * repeater.radius * Math.random()
                     width: 32
                     height: 32
-                    rotation: model.rotation - window.rotate
+                    rotation: model.rotation - modelEntity.rotation
                     color: "black"
                     border.color: "green"
                     border.width: 2

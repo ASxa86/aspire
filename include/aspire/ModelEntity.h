@@ -10,6 +10,7 @@ namespace aspire
 	{
 		Q_OBJECT
 		Q_INTERFACES(QQmlParserStatus)
+		Q_PROPERTY(double rotation READ getRotation WRITE setRotation NOTIFY rotationChanged)
 		Q_PROPERTY(int count READ rowCount WRITE setCount NOTIFY countChanged)
 		QML_ELEMENT
 
@@ -22,6 +23,9 @@ namespace aspire
 
 		explicit ModelEntity(QObject *parent = nullptr);
 
+		auto setRotation(double x) noexcept -> void;
+		auto getRotation() const noexcept -> double;
+
 		auto setCount(int x) noexcept -> void;
 		auto rowCount(const QModelIndex &parent = QModelIndex()) const -> int override;
 		auto data(const QModelIndex &index, int role = Qt::DisplayRole) const -> QVariant override;
@@ -31,10 +35,12 @@ namespace aspire
 
 	signals:
 		auto countChanged(int) -> void;
+		auto rotationChanged(double) -> void;
 
 	private:
 		std::vector<Entity> entities;
 		QHash<int, QByteArray> roles;
+		double rotation{};
 		int count{};
 	};
 }
