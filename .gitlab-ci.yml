@@ -18,7 +18,6 @@ build-gcc-debug:
     - apt update -y
     - apt install -y g++ make
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
-    - ./vcpkg/bootstrap-vcpkg.sh
 
     # Build Aspire
     - ${CMAKE_COMMAND} --build --preset gcc-debug
