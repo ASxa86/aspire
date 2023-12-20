@@ -16,8 +16,8 @@ build-gcc-debug:
   script:
     # Install VCPKG
     - apt update -y
-    - apt install -y g++ make
+    - apt install -y g++ make cmake
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
 
     # Build Aspire
-    - ${CMAKE_COMMAND} --build --preset gcc-debug
+    - cmake --build --preset gcc-debug
