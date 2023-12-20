@@ -83,7 +83,7 @@ auto Object::getParent() const -> Object*
 	return this->parent;
 }
 
-auto Object::event(aspire::Event* x) -> void
+auto Object::event(aspire::Event*) -> void
 {
 }
 
