@@ -3,13 +3,6 @@ stages:
   - build
   - test
 
-variables:
-  NUGET_SOURCE: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
-  NUGET_NAME: gitlab
-  VCPKG_VERSION: 2023.08.09
-  VCPKG_BINARY_SOURCES: "clear;nuget,${NUGET_NAME},readwrite"
-  CMAKE_COMMAND: ./vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake
-
 lint-clang-format:
   image: ubuntu:latest
   stage: lint
@@ -19,38 +12,22 @@ lint-clang-format:
 build-gcc-debug:
   image: ubuntu:latest
   stage: build
-  tags:
-    - aspire-docker
   needs: []
   script:
-    # Install VCPKG
     - apt update -y
-    - apt install -y g++ curl tar git zip unzip make autoconf autoconf-archive python3 python3-distutils libtool
-    - apt install -y '^libxcb.*-dev' libfontconfig1-dev libfreetype6-dev libx11-dev libxext-dev libxfixes-dev libgl1-mesa-dev libglu1-mesa-dev libxrender-dev libxi-dev
-    - apt install -y libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
-    - apt install -y libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxinerama-dev
-    - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
-    - ./vcpkg/bootstrap-vcpkg.sh
-    
-    # Install mono
-    - apt install -y ca-certificates gnupg
-    - gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    - echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-    - apt update
-    - apt install -y mono-complete
 
-    # Configure NuGet
-    - ./vcpkg/vcpkg fetch nuget
-    - mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
+    # Install Tools
+    - apt install -y g++-12 make cmake
+    - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 10
+    - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10
+    - update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 20
+    - update-alternatives --set cc /usr/bin/gcc
+    - update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 20
+    - update-alternatives --set c++ /usr/bin/g++
 
-    # Build Aspire
-    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/lib
-    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/debug/lib
-    - ./vcpkg/vcpkg fetch cmake
-    - ${CMAKE_COMMAND} --preset gcc-debug
-    - ${CMAKE_COMMAND} --build --preset gcc-debug
-  artifacts:
-    when: on_failure
-    paths:
-      - vcpkg/buildtrees/**/*.txt
-      - vcpkg/buildtrees/**/*.log
+    # Install Dependencies
+    - apt install -y libgl1-mesa-dev libglu1-mesa-dev
+
+    # Build
+    - cmake --preset gcc-debug
+    - cmake --build --preset gcc-debug

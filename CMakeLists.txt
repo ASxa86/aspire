@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.22)
 enable_language(CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -21,11 +21,7 @@ set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt6 CONFIG REQUIRED COMPONENTS Quick)
-
-set(CMAKE_AUTOMOC ON)
-
-add_subdirectory(app)
+# add_subdirectory(app)
 add_subdirectory(src)
 
 set(PROJECT_CONFIG_VERSION ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_ROOT_NAME}-config-version.cmake)
