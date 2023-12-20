@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.22)
 enable_language(CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
