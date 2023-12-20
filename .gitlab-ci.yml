@@ -17,7 +17,7 @@ build-gcc-debug:
     - apt update -y
 
     # Install Tools
-    - apt install -y g++ make cmake
+    - apt install -y g++-12 make cmake
 
     # Install Dependencies
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
