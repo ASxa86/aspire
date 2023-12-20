@@ -14,10 +14,14 @@ build-gcc-debug:
   stage: build
   needs: []
   script:
-    # Install VCPKG
     - apt update -y
+
+    # Install Tools
     - apt install -y g++ make cmake
+
+    # Install Dependencies
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
 
-    # Build Aspire
+    # Build
+    - cmake --preset gcc-debug
     - cmake --build --preset gcc-debug
