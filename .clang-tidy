@@ -7,7 +7,7 @@ FormatStyle:     none
 User:            aaron
 UseColor: 'true'
 ExtraArgs:
-  - '-std=c++2b'
+  - '-stdlib=libc++'
 CheckOptions:
   llvm-else-after-return.WarnOnConditionVariables: 'false'
   modernize-loop-convert.MinConfidence: reasonable
