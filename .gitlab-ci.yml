@@ -45,7 +45,7 @@ build-gcc-debug:
     - apt update -y
 
     # Install Tools
-    - apt install -y g++-12 make cmake
+    - apt install -y g++-$GCC_VERSION make cmake
     - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VERSION 10
     - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCC_VERSION 10
     - update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 20
