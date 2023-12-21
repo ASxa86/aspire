@@ -23,9 +23,9 @@
             }
         },
         {
-            "name": "gcc",
+            "name": "linux",
             "inherits": "default",
-            "displayName": "GCC Default",
+            "displayName": "Linux Default",
             "generator": "Unix Makefiles",
             "condition": {
                 "type": "equals",
@@ -39,10 +39,23 @@
         },
         {
             "name": "gcc-debug",
-            "inherits": "gcc",
+            "inherits": "linux",
             "displayName": "GCC Debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_C_COMPILER": "gcc"
+            }
+        },
+        {
+            "name": "clang-debug",
+            "inherits": "linux",
+            "displayName": "Clang Tidy",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
         {

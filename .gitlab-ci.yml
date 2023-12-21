@@ -9,17 +9,45 @@ lint-clang-format:
   script:
     - echo "No Impl."
 
+build-clang-tidy:
+  image: ubuntu:latest
+  stage: build
+  needs: []
+  variables:
+    CLANG_VERSION: 16
+  script:
+    - apt update -y
+
+    # Install Tools
+    - apt install -y clang-tidy-16 make cmake python3
+    - update-alternatives --install /usr/bin/clang clang /usr/bin/clang-$CLANG_VERSION 10
+    - update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLANG_VERSION 10
+    - update-alternatives --install /usr/bin/cc cc /usr/bin/clang 20
+    - update-alternatives --set cc /usr/bin/clang
+    - update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 20
+    - update-alternatives --set c++ /usr/bin/clang++
+
+    # Install Dependencies
+    - apt install -y libgl1-mesa-dev libglu1-mesa-dev
+
+    # Run Clang Tidy
+    - cmake --preset clang-debug
+    - cd build
+    - run-clang-tidy-16.py
+
 build-gcc-debug:
   image: ubuntu:latest
   stage: build
   needs: []
+  variables:
+    GCC_VERSION: 12
   script:
     - apt update -y
 
     # Install Tools
     - apt install -y g++-12 make cmake
-    - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 10
-    - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10
+    - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VERSION 10
+    - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCC_VERSION 10
     - update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 20
     - update-alternatives --set cc /usr/bin/gcc
     - update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 20
