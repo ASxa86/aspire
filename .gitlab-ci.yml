@@ -22,7 +22,7 @@ build-clang-tidy:
     - apt update -y
 
     # Install Tools
-    - apt install -y clang-tidy-16 make cmake python3
+    - apt install -y clang-tidy-$CLANG_VERSION make cmake python3
     - update-alternatives --install /usr/bin/clang clang /usr/bin/clang-$CLANG_VERSION 10
     - update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLANG_VERSION 10
     - update-alternatives --install /usr/bin/cc cc /usr/bin/clang 20
