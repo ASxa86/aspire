@@ -4,13 +4,13 @@ stages:
   - test
 
 lint-clang-format:
-  image: ubuntu:23.04
+  image: ubuntu:23.10
   stage: lint
   script:
     - echo "No Impl."
 
 build-clang-tidy:
-  image: ubuntu:23.04
+  image: ubuntu:23.10
   stage: build
   needs: []
   variables:
@@ -40,7 +40,7 @@ build-gcc-debug:
   stage: build
   needs: []
   variables:
-    GCC_VERSION: 12
+    GCC_VERSION: 13
   script:
     - apt update -y
 
