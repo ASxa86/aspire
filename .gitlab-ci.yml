@@ -3,14 +3,17 @@ stages:
   - build
   - test
 
+variables:
+  BUILD_IMAGE: ubuntu:23.10
+
 lint-clang-format:
-  image: ubuntu:23.10
+  image: $BUILD_IMAGE
   stage: lint
   script:
     - echo "No Impl."
 
 build-clang-tidy:
-  image: ubuntu:23.10
+  image: $BUILD_IMAGE
   stage: build
   needs: []
   variables:
@@ -36,7 +39,7 @@ build-clang-tidy:
     - run-clang-tidy-16.py
 
 build-gcc-debug:
-  image: ubuntu:23.04
+  image: $BUILD_IMAGE
   stage: build
   needs: []
   variables:
