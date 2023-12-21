@@ -17,7 +17,7 @@ build-clang-tidy:
   stage: build
   needs: []
   variables:
-    CLANG_VERSION: 16
+    CLANG_VERSION: 17
   script:
     - apt update -y
 
@@ -36,7 +36,7 @@ build-clang-tidy:
     # Run Clang Tidy
     - cmake --preset clang-debug
     - cd build
-    - run-clang-tidy-16.py
+    - run-clang-tidy-$CLANG_VERSION.py
 
 build-gcc-debug:
   image: $BUILD_IMAGE
