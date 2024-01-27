@@ -23,9 +23,7 @@ build-clang-tidy:
     # Run Clang Tidy
     - cmake --preset clang-debug
     - cd build
-    - find /usr -name run-clang-tidy.py
-    - /usr/bin/run-clang-tidy.py
-    # - /usr/share/clang/clang-tidy-diff.py
+    - /usr/bin/run-clang-tidy
 
 build-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-gcc:latest
