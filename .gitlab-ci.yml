@@ -3,9 +3,6 @@ stages:
   - build
   - test
 
-variables:
-  BUILD_IMAGE: ubuntu:23.10
-
 lint-clang-format:
   image: $BUILD_IMAGE
   stage: lint
@@ -13,30 +10,19 @@ lint-clang-format:
     - echo "No Impl."
 
 build-clang-tidy:
-  image: $BUILD_IMAGE
+  image: $CI_REGISTRY/asxa86/images/ubuntu-clang:latest
   stage: build
   needs: []
   variables:
     CLANG_VERSION: 17
   script:
-    - apt update -y
-
-    # Install Tools
-    - apt install -y clang-tidy-$CLANG_VERSION make cmake python3
-    - update-alternatives --install /usr/bin/clang clang /usr/bin/clang-$CLANG_VERSION 10
-    - update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLANG_VERSION 10
-    - update-alternatives --install /usr/bin/cc cc /usr/bin/clang 20
-    - update-alternatives --set cc /usr/bin/clang
-    - update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 20
-    - update-alternatives --set c++ /usr/bin/clang++
-
     # Install Dependencies
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
 
     # Run Clang Tidy
     - cmake --preset clang-debug
     - cd build
-    - run-clang-tidy-$CLANG_VERSION.py
+    - run-clang-tidy.py
 
 build-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-gcc:latest
