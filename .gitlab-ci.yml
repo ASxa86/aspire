@@ -23,7 +23,7 @@ build-clang-tidy:
     # Run Clang Tidy
     - cmake --preset clang-debug
     - cd build
-    - ls -al /usr/bin
+    - find /usr -name run-clang-tidy.py
     - /usr/bin/run-clang-tidy.py
     # - /usr/share/clang/clang-tidy-diff.py
 
