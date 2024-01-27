@@ -17,6 +17,7 @@ build-clang-tidy:
     CLANG_VERSION: 17
   script:
     # Install Dependencies
+    - apt install -y make cmake
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
 
     # Run Clang Tidy
@@ -29,9 +30,8 @@ build-gcc-debug:
   stage: build
   needs: []
   script:
-    - apt install -y make cmake
-
     # Install Dependencies
+    - apt install -y make cmake
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
 
     # Build
