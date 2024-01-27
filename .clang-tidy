@@ -1,13 +1,11 @@
 ---
 Checks:          'clang-diagnostic-*,clang-analyzer-*'
-WarningsAsErrors: ''
-HeaderFilterRegex: ''
+WarningsAsErrors: '*'
+HeaderFilterRegex: '*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     none
 User:            aaron
 UseColor: 'true'
-ExtraArgs:
-  - '-stdlib=libc++'
 CheckOptions:
   llvm-else-after-return.WarnOnConditionVariables: 'false'
   modernize-loop-convert.MinConfidence: reasonable
