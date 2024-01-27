@@ -17,7 +17,7 @@ build-clang-tidy:
     CLANG_VERSION: 17
   script:
     # Install Dependencies
-    - apt install -y make cmake
+    - apt install -y make cmake python3
     - apt install -y libgl1-mesa-dev libglu1-mesa-dev
 
     # Run Clang Tidy
