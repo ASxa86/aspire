@@ -13,8 +13,6 @@ build-clang-tidy:
   image: $CI_REGISTRY/asxa86/images/ubuntu-clang:latest
   stage: build
   needs: []
-  variables:
-    CLANG_VERSION: 17
   script:
     # Install Dependencies
     - apt install -y make cmake python3
