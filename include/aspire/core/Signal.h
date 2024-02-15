@@ -33,7 +33,7 @@ namespace aspire
 		auto emit(Args... args) -> void
 		{
 			// Need a way to combine the results of non-void type return arguments.
-			for(auto&& slot : this->slots)
+			for(auto* slot : this->slots)
 			{
 				(*static_cast<SlotType*>(slot))(std::forward<Args>(args)...);
 			}

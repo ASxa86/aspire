@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <aspire/export.hxx>
 #include <cstdint>
-#include <expected>
 #include <functional>
 #include <memory>
 
@@ -38,6 +37,9 @@ namespace aspire
 	template <typename T>
 	class Slot;
 
+	/// @brief This class wraps a std::function
+	/// @tparam Return
+	/// @tparam ...Args
 	template <typename Return, typename... Args>
 	class Slot<Return(Args...)> : public Connection
 	{
@@ -48,22 +50,14 @@ namespace aspire
 		{
 		}
 
-		auto operator()(Args... args) const -> std::expected<Return, Error>
+		auto operator()(Args... args) const -> void
 		{
 			if(this->function == nullptr)
 			{
-				return std::unexpected<Error>{Error::Invalid};
+				return;
 			}
 
-			if constexpr(std::is_void<Return>::value == true)
-			{
-				this->function(std::forward<Args>(args)...);
-				return {};
-			}
-			else
-			{
-				return this->function(std::forward<Args>(args)...);
-			}
+			this->function(std::forward<Args>(args)...);
 		}
 
 	private:
