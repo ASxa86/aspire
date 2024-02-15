@@ -14,7 +14,7 @@ namespace aspire
 
 	/// @brief Object is the base class of all aspire objects. This class is designed to enable
 	/// a parent child component tree architecture and communication system via signals and slots.
-	class ASPIRE_EXPORT Object
+	class ASPIRE_CORE_EXPORT Object
 	{
 	public:
 		Object();

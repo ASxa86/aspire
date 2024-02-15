@@ -1,11 +1,11 @@
 #pragma once
 
-#include <aspire/export.hxx>
+#include <aspire/core/export.hxx>
 #include <chrono>
 
 namespace aspire
 {
-	class ASPIRE_EXPORT Event
+	class ASPIRE_CORE_EXPORT Event
 	{
 	public:
 		enum class Type : int

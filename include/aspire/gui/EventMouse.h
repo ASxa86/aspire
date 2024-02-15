@@ -2,10 +2,11 @@
 
 #include <aspire/core/Event.h>
 #include <aspire/math/Point.h>
+#include <aspire/gui/export.hxx>
 
 namespace aspire
 {
-	class ASPIRE_EXPORT EventMouse : public Event
+	class ASPIRE_GUI_EXPORT EventMouse : public Event
 	{
 	public:
 		enum class Button : int

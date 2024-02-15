@@ -1,11 +1,11 @@
 #pragma once
 
 #include <aspire/gui/Surface.h>
-#include <aspire/export.hxx>
+#include <aspire/gui/export.hxx>
 
 namespace aspire
 {
-	class ASPIRE_EXPORT Context
+	class ASPIRE_GUI_EXPORT Context
 	{
 	public:
 		virtual ~Context() = default;

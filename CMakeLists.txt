@@ -5,7 +5,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
-include(cmake/project_add_qml_module.cmake)
 include(cmake/project_install_target.cmake)
 include(cmake/project_gen_export.cmake)
 
@@ -23,6 +22,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(app)
 add_subdirectory(src)
+add_subdirectory(test)
 
 set(PROJECT_CONFIG_VERSION ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_ROOT_NAME}-config-version.cmake)
 write_basic_package_version_file(${PROJECT_CONFIG_VERSION} VERSION 0.0.0 COMPATIBILITY SameMajorVersion)

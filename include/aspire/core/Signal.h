@@ -8,7 +8,7 @@ namespace aspire
 {
 	namespace impl
 	{
-		class ASPIRE_EXPORT SignalBase
+		class ASPIRE_CORE_EXPORT SignalBase
 		{
 		public:
 			virtual ~SignalBase();

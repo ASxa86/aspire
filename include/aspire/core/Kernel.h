@@ -4,7 +4,7 @@
 
 namespace aspire
 {
-	class ASPIRE_EXPORT Kernel : public Object
+	class ASPIRE_CORE_EXPORT Kernel : public Object
 	{
 	public:
 		auto run() -> int;

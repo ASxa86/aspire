@@ -3,11 +3,13 @@
 #include <aspire/core/Object.h>
 #include <aspire/core/Pimpl.h>
 #include <aspire/gui/Surface.h>
+#include <aspire/gui/export.hxx>
+
 #include <array>
 
 namespace aspire
 {
-	class ASPIRE_EXPORT Window : public Object
+	class ASPIRE_GUI_EXPORT Window : public Object
 	{
 	public:
 		Window();

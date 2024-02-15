@@ -1,11 +1,11 @@
 #pragma once
 
 #include <array>
-#include <aspire/export.hxx>
+#include <aspire/math/export.hxx>
 
 namespace aspire
 {
-	class ASPIRE_EXPORT Point
+	class ASPIRE_MATH_EXPORT Point
 	{
 	public:
 		Point() = default;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include <aspire/export.hxx>
+#include <aspire/core/export.hxx>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -14,7 +14,7 @@ namespace aspire
 	}
 
 	/// @brief This class maintains common functionality between slots.
-	class ASPIRE_EXPORT Connection
+	class ASPIRE_CORE_EXPORT Connection
 	{
 	public:
 		explicit Connection(impl::SignalBase& x);
