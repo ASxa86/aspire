@@ -11,14 +11,14 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_sources(${PROJECT_NAME} PRIVATE
     Context.cpp
-    ContextWin32.cpp
-    ContextWin32.h
     EventMouse.cpp
     Window.cpp
 )
 
 if(MSVC)
     target_sources(${PROJECT_NAME} PRIVATE
+        ContextWin32.cpp
+        ContextWin32.h
         WindowWin32.cpp
     )    
 elseif(UNIX)
