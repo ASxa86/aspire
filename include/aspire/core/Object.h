@@ -1,6 +1,7 @@
 #pragma once
 
 #include <aspire/core/Event.h>
+#include <aspire/core/EventTimer.h>
 #include <aspire/core/Signal.h>
 #include <typeindex>
 #include <unordered_map>
@@ -181,6 +182,9 @@ namespace aspire
 
 		/// @brief Connect to this signal to observe when this object has been destroyed.
 		Signal<void()> destroyed;
+
+	protected:
+		virtual auto eventTimer(EventTimer* x) -> void;
 
 	private:
 		std::string name;

@@ -83,8 +83,17 @@ auto Object::getParent() const -> Object*
 	return this->parent;
 }
 
-auto Object::event(aspire::Event*) -> void
+auto Object::event(aspire::Event* x) -> void
 {
+	switch(x->getType())
+	{
+		case Event::Type::Timer:
+			this->eventTimer(static_cast<EventTimer*>(x));
+			break;
+
+		default:
+			break;
+	}
 }
 
 auto Object::initialize() -> void
@@ -110,4 +119,8 @@ auto Object::terminate() -> void
 auto Object::track(std::unique_ptr<Connection> x) -> void
 {
 	this->connections.emplace_back(std::move(x));
+}
+
+auto Object::eventTimer(EventTimer*) -> void
+{
 }

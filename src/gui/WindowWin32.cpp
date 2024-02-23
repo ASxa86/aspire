@@ -153,18 +153,18 @@ auto Window::onInitialized() -> void
 		return;
 	}
 
-	this->pimpl->handle = CreateWindowEx(0,								 //	Optional Styles
-										 this->pimpl->className,		 // ClassName
+	this->pimpl->handle = CreateWindowEx(0,						  //	Optional Styles
+										 this->pimpl->className,  // ClassName
 										 this->getTitle().data(), // Window Title
-										 WS_OVERLAPPEDWINDOW,			 // Window Style
-										 this->getX(),					 // Position X
-										 this->getY(),					 // Position Y
-										 this->getWidth(),				 // Size Width
-										 this->getHeight(),				 // Size Height
-										 nullptr,						 //
-										 nullptr,						 //
-										 this->pimpl->hInstance,		 // Application Handle
-										 nullptr						 //
+										 WS_OVERLAPPEDWINDOW,	  // Window Style
+										 this->getX(),			  // Position X
+										 this->getY(),			  // Position Y
+										 this->getWidth(),		  // Size Width
+										 this->getHeight(),		  // Size Height
+										 nullptr,				  //
+										 nullptr,				  //
+										 this->pimpl->hInstance,  // Application Handle
+										 nullptr				  //
 	);
 
 	SetWindowLongPtr(this->pimpl->handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
@@ -181,8 +181,6 @@ auto Window::onInitialized() -> void
 	{
 		return;
 	}
-
-	Object::connect(kernel, &Kernel::frame, this, [this] { this->processEvents(); });
 }
 
 auto Window::processEvents() -> void

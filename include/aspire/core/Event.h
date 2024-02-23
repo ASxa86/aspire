@@ -11,9 +11,7 @@ namespace aspire
 		enum class Type : int
 		{
 			Unknown,
-			Frame,
-			Draw,
-			Closed,
+			Timer,
 			MouseDoubleClicked,
 			MousePressed,
 			MouseReleased,
