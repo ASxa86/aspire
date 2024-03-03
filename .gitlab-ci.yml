@@ -31,34 +31,10 @@ build-clang-tidy:
     - /usr/bin/run-clang-tidy -p build
 
 build-gcc-debug:
-  image: ubuntu:23.10
+  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   needs: []
   script:
-    - apt update -y
-
-    # Install GCC
-    - |
-      apt install -y g++-13 && \
-      update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10 && \
-      update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 10 && \
-      update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 20 && \
-      update-alternatives --set cc /usr/bin/gcc && \
-      update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 20 && \
-      update-alternatives --set c++ /usr/bin/g++
-
-    - apt install -y curl tar git zip unzip make autoconf autoconf-archive python3 python3-distutils libtool
-    - apt install -y '^libxcb.*-dev' libfontconfig1-dev libfreetype6-dev libx11-dev libxext-dev libxfixes-dev libgl1-mesa-dev libglu1-mesa-dev libxrender-dev libxi-dev
-    - apt install -y libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev
-    - apt install -y libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxinerama-dev
-    
-    # Install mono
-    - apt install -y ca-certificates gnupg
-    - gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    - echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-    - apt update
-    - apt install -y mono-complete
-
     # Get vcpkg
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
     - ./vcpkg/bootstrap-vcpkg.sh
@@ -69,8 +45,6 @@ build-gcc-debug:
     - mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
     # Build Aspire
-    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/lib
-    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CI_PROJECT_DIR}/vcpkg/installed/x64-linux-dynamic/debug/lib
     - ${CMAKE_COMMAND} --preset gcc-debug
     - ${CMAKE_COMMAND} --build --preset gcc-debug
   artifacts:
