@@ -8,6 +8,7 @@ variables:
   NUGET_NAME: gitlab
   VCPKG_VERSION: 2024.02.14
   VCPKG_BINARY_SOURCES: "clear;nuget,${NUGET_NAME},readwrite"
+  VCPKG_INSTALL_OPTIONS: "--debug"
   CMAKE_COMMAND: ./vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake
 
 lint-clang-format:
