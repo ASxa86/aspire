@@ -1,5 +1,3 @@
-interruptible: true
-
 stages:
   - lint
   - build
