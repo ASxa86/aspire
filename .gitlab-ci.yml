@@ -31,7 +31,7 @@ build-clang-tidy:
     - /usr/bin/run-clang-tidy -p build
 
 build-gcc-debug:
-  image: $CI_REGISTRY/asxa86/images/ubuntu-gcc:latest
+  image: ubuntu:23.10
   stage: build
   needs: []
   script:
