@@ -55,7 +55,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
-                "CMAKE_C_COMPILER": "/usr/bin/clang",
+                "CMAKE_C_COMPILER": "/usr/bin/clang-17",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
