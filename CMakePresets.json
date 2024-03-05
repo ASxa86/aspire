@@ -54,8 +54,8 @@
             "displayName": "Clang Tidy",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
+                "CMAKE_C_COMPILER": "/usr/bin/clang",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
