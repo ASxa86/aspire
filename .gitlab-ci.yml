@@ -11,6 +11,16 @@ variables:
   CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake
   NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe
 
+.get-vcpkg: &get-vcpkg
+  # Get vcpkg
+  - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
+  - ./vcpkg/bootstrap-vcpkg.sh
+  - ./vcpkg/vcpkg fetch nuget
+  - ./vcpkg/vcpkg fetch cmake
+
+  # Configure NuGet
+  - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
+
 lint-clang-format:
   image: $BUILD_IMAGE
   stage: lint
@@ -18,17 +28,18 @@ lint-clang-format:
     - echo "No Impl."
 
 build-clang-tidy:
-  image: $CI_REGISTRY/asxa86/images/ubuntu-clang:latest
+  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   needs: []
+  tags:
+    - saas-linux-medium-amd64
   script:
-    # Install Dependencies
-    - apt update -y
-    - apt install -y make cmake python3
-    - apt install -y libgl1-mesa-dev libglu1-mesa-dev
+    - *get-vcpkg
+
+    # Configure Aspire
+    - ${CMAKE_COMMAND} --preset clang-debug
 
     # Run Clang Tidy
-    - cmake --preset clang-debug
     - /usr/bin/run-clang-tidy -p build
 
 build-gcc-debug:
@@ -38,14 +49,7 @@ build-gcc-debug:
   tags:
     - saas-linux-medium-amd64
   script:
-    # Get vcpkg
-    - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
-    - ./vcpkg/bootstrap-vcpkg.sh
-    - ./vcpkg/vcpkg fetch nuget
-    - ./vcpkg/vcpkg fetch cmake
-
-    # Configure NuGet
-    - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
+    - *get-vcpkg
 
     # Build Aspire
     - ${CMAKE_COMMAND} --preset gcc-debug
