@@ -35,6 +35,8 @@ build-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   needs: []
+  tags:
+    - saas-linux-medium-amd64
   script:
     # Get vcpkg
     - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
