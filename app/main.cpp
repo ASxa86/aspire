@@ -1,14 +1,18 @@
-#include <aspire/core/Kernel.h>
-#include <aspire/gui/Window.h>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QQuickWindow>
 
-int main()
+int main(int argc, char** argv)
 {
-	aspire::Kernel kernel{};
+	QGuiApplication app{argc, argv};
 
-	auto* window = kernel.addChild<aspire::Window>();
-	window->setWidth(1280);
-	window->setHeight(720);
-	window->setTitle("Aspire");
+	QSurfaceFormat format;
+	format.setSwapInterval(0);
+	format.setSamples(8);
+	QSurfaceFormat::setDefaultFormat(format);
 
-	return kernel.run();
+	QQmlApplicationEngine engine;
+	engine.load(QUrl::fromLocalFile(MAIN_QML));
+
+	return QGuiApplication::exec();
 }

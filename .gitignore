@@ -36,6 +36,3 @@ vcpkg/
 
 # Build
 build
-
-# User Config
-*.user
