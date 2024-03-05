@@ -34,7 +34,7 @@
             },
             "cacheVariables": {
                 "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "-Wall -Wextra -pedantic",
+                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Werror -pedantic",
                 "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic"
             }
         },
@@ -70,7 +70,7 @@
             },
             "cacheVariables": {
                 "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive-"
+                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX"
             }
         }
     ],
