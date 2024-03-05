@@ -40,7 +40,7 @@ build-clang-tidy:
     - ${CMAKE_COMMAND} --preset clang-debug
 
     # Run Clang Tidy
-    - /usr/bin/run-clang-tidy -p build
+    - /usr/bin/run-clang-tidy-17 -p build
 
 build-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
