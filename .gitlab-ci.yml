@@ -26,7 +26,9 @@ build-clang-tidy:
   stage: build
   needs: []
   tags:
-    - saas-linux-medium-amd64
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
   script:
     - *get-vcpkg
 
