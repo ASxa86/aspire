@@ -61,13 +61,16 @@ build-clang-tidy:
       - vcpkg/buildtrees/**/*.log
 
 build-clang-debug:
+  extends: .build-base
   variables:
     CMAKE_PRESET: clang-debug
 
 build-gcc-debug:
+  extends: .build-base
   variables:
     CMAKE_PRESET: gcc-debug
 
 build-gcc-release:
+  extends: .build-base
   variables:
     CMAKE_PRESET: gcc-release
