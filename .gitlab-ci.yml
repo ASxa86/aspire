@@ -39,6 +39,9 @@ build-clang-tidy:
     # Configure Aspire
     - ${CMAKE_COMMAND} --preset clang-debug
 
+    # Build to force generate moc files.
+    - ${CMAKE_COMMAND} --build --preset clang-debug
+
     # Run Clang Tidy
     - /usr/bin/run-clang-tidy-17 -p build
 
@@ -60,15 +63,10 @@ build-clang-tidy:
       - vcpkg/buildtrees/**/*.txt
       - vcpkg/buildtrees/**/*.log
 
-build-clang-debug:
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: clang-debug
-
-build-gcc-debug:
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: gcc-debug
+# build-clang-debug:
+#   extends: .build-base
+#   variables:
+#     CMAKE_PRESET: clang-debug
 
 build-gcc-release:
   extends: .build-base
