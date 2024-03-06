@@ -46,9 +46,19 @@
             }
         },
         {
+            "name": "gcc-release",
+            "inherits": "linux",
+            "displayName": "GCC Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_C_COMPILER": "gcc"
+            }
+        },
+        {
             "name": "clang-debug",
             "inherits": "linux",
-            "displayName": "Clang Tidy",
+            "displayName": "Clang Debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
@@ -75,6 +85,14 @@
         {
             "name": "gcc-debug",
             "configurePreset": "gcc-debug"
+        },
+        {
+            "name": "gcc-release",
+            "configurePreset": "gcc-release"
+        },
+        {
+            "name": "clang-debug",
+            "configurePreset": "clang-debug"
         },
         {
             "name": "msvc-debug",
