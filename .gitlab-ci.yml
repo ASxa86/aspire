@@ -21,12 +21,6 @@ variables:
   # Configure NuGet
   - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
-lint-clang-format:
-  image: $BUILD_IMAGE
-  stage: lint
-  script:
-    - echo "No Impl."
-
 build-clang-tidy:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build

@@ -19,7 +19,9 @@ option(BUILD_TESTS "Enable building ${PROJECT_NAME} test applications." ON)
 
 set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${PROJECT_INCLUDE_DIR})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+# Define build directory includes as system to avoid tools like clang-tidy from scanning them.
+include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Qt6 CONFIG REQUIRED COMPONENTS Quick)
 
