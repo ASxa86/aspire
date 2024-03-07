@@ -9,7 +9,7 @@ Checks: '-*,
   readability-*
 '
 WarningsAsErrors: '*'
-HeaderFilterRegex: '*'
+HeaderFilterRegex: '^(include|src|app)/.*\.h'
 AnalyzeTemporaryDtors: false
 FormatStyle: file
 UseColor: 'true'
