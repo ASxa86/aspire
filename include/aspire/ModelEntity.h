@@ -27,9 +27,9 @@ namespace aspire
 		[[nodiscard]] auto getRotation() const noexcept -> double;
 
 		auto setCount(int x) noexcept -> void;
-		auto rowCount(const QModelIndex &parent = QModelIndex()) const -> int override;
-		auto data(const QModelIndex &index, int role = Qt::DisplayRole) const -> QVariant override;
-		auto roleNames() const -> QHash<int, QByteArray> override;
+		[[nodiscard]] auto rowCount(const QModelIndex &parent = QModelIndex()) const -> int override;
+		[[nodiscard]] auto data(const QModelIndex &index, int role = Qt::DisplayRole) const -> QVariant override;
+		[[nodiscard]] auto roleNames() const -> QHash<int, QByteArray> override;
 		auto classBegin() -> void override;
 		auto componentComplete() -> void override;
 

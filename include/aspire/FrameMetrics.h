@@ -29,6 +29,8 @@ namespace aspire
 		};
 		Q_ENUM(Thread)
 
+		static constexpr auto DefaultRollingCount{200};
+
 		explicit FrameMetrics(QQuickItem* parent = nullptr);
 
 		auto setRollingCount(int x) noexcept -> void;
@@ -38,7 +40,7 @@ namespace aspire
 		[[nodiscard]] auto getThread() const noexcept -> Thread;
 
 		auto componentComplete() -> void override;
-		auto updatePaintNode(QSGNode*, UpdatePaintNodeData*) -> QSGNode* override;
+		auto updatePaintNode(QSGNode* /*unused*/, UpdatePaintNodeData* /*unused*/) -> QSGNode* override;
 
 	signals:
 		void fpsCurrentChanged(double);
@@ -61,7 +63,7 @@ namespace aspire
 		double fpsMin{std::numeric_limits<double>::max()};
 		double fpsMax{};
 		int frameCount{};
-		int rollingCount{200};
+		int rollingCount{DefaultRollingCount};
 		Thread thread{Thread::Main};
 	};
 }

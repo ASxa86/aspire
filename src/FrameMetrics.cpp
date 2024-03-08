@@ -75,7 +75,7 @@ auto FrameMetrics::measure() -> void
 	this->fpsRolling = 1.0 / (sum.count() / this->framesRolling.size());
 
 	sum = std::accumulate(std::begin(this->frames), std::end(this->frames), std::chrono::duration<double>::zero());
-	this->fpsMean = 1.0 / (sum.count() / this->frames.size());
+	this->fpsMean = 1.0 / (sum.count() / static_cast<double>(this->frames.size()));
 	this->frameCount = static_cast<int>(this->frames.size());
 
 	this->fpsCurrentChanged(this->fpsCurrent);

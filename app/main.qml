@@ -42,7 +42,7 @@ Window {
 
             model: ModelEntity {
                 id: modelEntity
-                count: 4000
+                count: 2000
 
                 property Connections cx: Connections {
                     target: action

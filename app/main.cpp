@@ -6,9 +6,12 @@ auto main(int argc, char** argv) -> int
 {
 	QGuiApplication app{argc, argv};
 
+	constexpr auto defaultSwapInterval{0};
+	constexpr auto defaultSamples{8};
+
 	QSurfaceFormat format;
-	format.setSwapInterval(0);
-	format.setSamples(8);
+	format.setSwapInterval(defaultSwapInterval);
+	format.setSamples(defaultSamples);
 	QSurfaceFormat::setDefaultFormat(format);
 
 	QQmlApplicationEngine engine;
