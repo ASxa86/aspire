@@ -29,6 +29,7 @@ build-clang-tidy:
     # - saas-linux-medium-amd64
     - shelley
     - docker
+    - large
   script:
     - *get-vcpkg
 
@@ -39,7 +40,13 @@ build-clang-tidy:
     - ${CMAKE_COMMAND} --build --preset clang-debug
 
     # Run Clang Tidy
-    - /usr/bin/run-clang-tidy-17 -p build
+    - pushd src
+    - /usr/bin/run-clang-tidy-17 -p ${CI_PROJECT_DIR}/build --config-file=${CI_PROJECT_DIR}/.clang-tidy
+    - popd
+
+    - pushd app
+    - /usr/bin/run-clang-tidy-17 -p ${CI_PROJECT_DIR}/build --config-file=${CI_PROJECT_DIR}/.clang-tidy
+    - popd
 
 .build-base:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
