@@ -40,13 +40,7 @@ build-clang-tidy:
     - ${CMAKE_COMMAND} --build --preset clang-debug
 
     # Run Clang Tidy
-    - pushd src
-    - /usr/bin/run-clang-tidy-17 -p ${CI_PROJECT_DIR}/build -config-file ${CI_PROJECT_DIR}/.clang-tidy -j $(nproc --all)
-    - popd
-
-    - pushd app
-    - /usr/bin/run-clang-tidy-17 -p ${CI_PROJECT_DIR}/build -config-file ${CI_PROJECT_DIR}/.clang-tidy -j $(nproc --all)
-    - popd
+    - /usr/bin/run-clang-tidy-17 -p build -j $(nproc --all) -source-filter=${CI_PROJECT_DIR}/(src|app)/.*
 
 .build-base:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
