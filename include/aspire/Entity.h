@@ -15,6 +15,7 @@ namespace aspire
 	public:
 		Entity() = default;
 		Entity(int x);
+		~Entity() = default;
 
 		Entity(const Entity&) = default;
 		auto operator=(const Entity&) -> Entity& = default;
@@ -23,10 +24,10 @@ namespace aspire
 		auto operator=(Entity&&) noexcept -> Entity& = default;
 
 		auto setID(int x) noexcept -> void;
-		auto getID() const noexcept -> int;
+		[[nodiscard]] auto getID() const noexcept -> int;
 
 		auto setRotation(double x) noexcept -> void;
-		auto getRotation() const noexcept -> double;
+		[[nodiscard]] auto getRotation() const noexcept -> double;
 
 		auto operator<=>(const Entity&) const noexcept = default;
 

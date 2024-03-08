@@ -48,7 +48,7 @@ auto FrameMetrics::componentComplete() -> void
 	}
 }
 
-auto FrameMetrics::updatePaintNode(QSGNode*, UpdatePaintNodeData*) -> QSGNode*
+auto FrameMetrics::updatePaintNode(QSGNode* /*unused*/, UpdatePaintNodeData* /*unused*/) -> QSGNode*
 {
 	this->update();
 	this->measure();

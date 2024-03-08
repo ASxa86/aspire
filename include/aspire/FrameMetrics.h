@@ -32,10 +32,10 @@ namespace aspire
 		explicit FrameMetrics(QQuickItem* parent = nullptr);
 
 		auto setRollingCount(int x) noexcept -> void;
-		auto getRollingCount() const noexcept -> int;
+		[[nodiscard]] auto getRollingCount() const noexcept -> int;
 
 		auto setThread(Thread x) noexcept -> void;
-		auto getThread() const noexcept -> Thread;
+		[[nodiscard]] auto getThread() const noexcept -> Thread;
 
 		auto componentComplete() -> void override;
 		auto updatePaintNode(QSGNode*, UpdatePaintNodeData*) -> QSGNode* override;

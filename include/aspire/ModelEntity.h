@@ -24,7 +24,7 @@ namespace aspire
 		explicit ModelEntity(QObject *parent = nullptr);
 
 		auto setRotation(double x) noexcept -> void;
-		auto getRotation() const noexcept -> double;
+		[[nodiscard]] auto getRotation() const noexcept -> double;
 
 		auto setCount(int x) noexcept -> void;
 		auto rowCount(const QModelIndex &parent = QModelIndex()) const -> int override;

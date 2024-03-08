@@ -40,7 +40,7 @@ build-clang-tidy:
     - ${CMAKE_COMMAND} --build --preset clang-debug
 
     # Run Clang Tidy
-    - find src/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-17 -p build
+    - find src/ app/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-17 -p build
 
 .build-base:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
