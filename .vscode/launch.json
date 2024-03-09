@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch Debug",
+            "name": "(Windows) Launch Shapes Debug",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/bin/Debug/shapes.exe",
@@ -77,28 +77,28 @@
             "console": "externalTerminal"
         },
         {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
+            "name": "(Windows) Launch EDHStats Debug",
+            "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/test-aspire",
+            "program": "${workspaceFolder}/build/bin/Debug/edhstats.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/bin",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
+            "cwd": "${workspaceFolder}/build/bin/Debug",
+            "environment": [
                 {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
+                    "name": "QML_IMPORT_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/Qt6/qml"
                 },
                 {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
+                    "name": "QT_PLUGIN_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/Qt6/plugins"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/bin"
                 }
-            ]
-        }
+            ],
+            "console": "externalTerminal"
+        },
     ]
 }
