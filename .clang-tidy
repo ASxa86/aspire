@@ -1,10 +1,19 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*'
+Checks: '-*,
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  bugprone-*,
+  cert-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  readability-*,
+  -readability-identifier-length,
+  -readability-simplify-boolean-expr
+'
 WarningsAsErrors: '*'
-HeaderFilterRegex: '*'
+HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
-FormatStyle:     none
-User:            aaron
+FormatStyle: file
 UseColor: 'true'
 CheckOptions:
   llvm-else-after-return.WarnOnConditionVariables: 'false'

@@ -1,15 +1,11 @@
 {
-    "version": 3,
-    "cmakeMinimumRequired": {
-        "major": 3,
-        "minor": 22,
-        "patch": 0
-    },
+    "version": 6,
     "configurePresets": [
         {
             "name": "default",
             "displayName": "Default",
             "binaryDir": "${sourceDir}/build/",
+            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_CXX_STANDARD": "23",
                 "CMAKE_DEBUG_POSTFIX": "d",
@@ -34,7 +30,9 @@
             },
             "cacheVariables": {
                 "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Werror -pedantic"
+                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Werror -pedantic",
+                "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic",
+                "VCPKG_APPLOCAL_DEPS": "OFF"
             }
         },
         {
@@ -48,13 +46,23 @@
             }
         },
         {
+            "name": "gcc-release",
+            "inherits": "linux",
+            "displayName": "GCC Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_C_COMPILER": "gcc"
+            }
+        },
+        {
             "name": "clang-debug",
             "inherits": "linux",
-            "displayName": "Clang Tidy",
+            "displayName": "Clang Debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
+                "CMAKE_C_COMPILER": "/usr/bin/clang-17",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
@@ -69,7 +77,7 @@
             },
             "cacheVariables": {
                 "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive-"
+                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX"
             }
         }
     ],
@@ -77,6 +85,14 @@
         {
             "name": "gcc-debug",
             "configurePreset": "gcc-debug"
+        },
+        {
+            "name": "gcc-release",
+            "configurePreset": "gcc-release"
+        },
+        {
+            "name": "clang-debug",
+            "configurePreset": "clang-debug"
         },
         {
             "name": "msvc-debug",

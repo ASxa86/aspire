@@ -3,36 +3,69 @@ stages:
   - build
   - test
 
-lint-clang-format:
-  image: $BUILD_IMAGE
-  stage: lint
-  script:
-    - echo "No Impl."
+variables:
+  NUGET_SOURCE: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
+  NUGET_NAME: gitlab
+  VCPKG_VERSION: 2024.02.14
+  VCPKG_BINARY_SOURCES: "clear;nuget,${NUGET_NAME},readwrite"
+  CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake
+  NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe
+
+.get-vcpkg: &get-vcpkg
+  # Get vcpkg
+  - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
+  - ./vcpkg/bootstrap-vcpkg.sh
+  - ./vcpkg/vcpkg fetch nuget
+  - ./vcpkg/vcpkg fetch cmake
+
+  # Configure NuGet
+  - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
 build-clang-tidy:
-  image: $CI_REGISTRY/asxa86/images/ubuntu-clang:latest
+  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   needs: []
+  tags:
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
   script:
-    # Install Dependencies
-    - apt update -y
-    - apt install -y make cmake python3
-    - apt install -y libgl1-mesa-dev libglu1-mesa-dev
+    - *get-vcpkg
+
+    # Configure Aspire
+    - ${CMAKE_COMMAND} --preset clang-debug
+
+    # Build to force generate moc files.
+    - ${CMAKE_COMMAND} --build --preset clang-debug
 
     # Run Clang Tidy
-    - cmake --preset clang-debug
-    - /usr/bin/run-clang-tidy -p build
+    - find src/ app/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-17 -p build
 
-build-gcc-debug:
-  image: $CI_REGISTRY/asxa86/images/ubuntu-gcc:latest
+.build-base:
+  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   needs: []
+  tags:
+    - saas-linux-medium-amd64
   script:
-    # Install Dependencies
-    - apt update -y
-    - apt install -y make cmake
-    - apt install -y libgl1-mesa-dev libglu1-mesa-dev
+    - *get-vcpkg
 
-    # Build
-    - cmake --preset gcc-debug
-    - cmake --build --preset gcc-debug
+    # Build Aspire
+    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
+    - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
+  artifacts:
+    when: on_failure
+    paths:
+      - vcpkg/buildtrees/**/*.txt
+      - vcpkg/buildtrees/**/*.log
+
+# build-clang-debug:
+#   extends: .build-base
+#   variables:
+#     CMAKE_PRESET: clang-debug
+
+build-gcc-release:
+  extends: .build-base
+  variables:
+    CMAKE_PRESET: gcc-release
