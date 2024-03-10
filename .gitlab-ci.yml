@@ -81,4 +81,4 @@ build-gcc-debug-android:
   before_script:
     - curl -O https://dl.google.com/android/repository/${ANDROID_NDK}-linux.zip
     - unzip ${ANDROID_NDK}-linux.zip
-    - export ANDROID_NDK_HOME= ${CI_PROJECT_DIR}/${ANDROID_NDK}
+    - export ANDROID_NDK_HOME= /${ANDROID_NDK}
