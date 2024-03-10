@@ -36,3 +36,6 @@ vcpkg/
 
 # Build
 build
+
+# vscode
+*.user
