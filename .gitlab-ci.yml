@@ -79,6 +79,7 @@ build-gcc-debug-android:
     CMAKE_PRESET: gcc-debug-android
     ANDROID_NDK: android-ndk-r26c
     ANDROID_CMD: cmdline-tools
+    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/bin/sdkmanager
     
   before_script:
     - curl -O https://dl.google.com/android/repository/${ANDROID_NDK}-linux.zip
@@ -86,6 +87,8 @@ build-gcc-debug-android:
     - export ANDROID_NDK_HOME=${CI_PROJECT_DIR}/${ANDROID_NDK}
 
     - curl -O https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-    - unzip commandlinetools-linux-11076708_latest.zip -d ${CI_PROJECT_DIR}
-    - export ANDROID_SDK_ROOT=${ANDROID_CMD}
+    - unzip -qq commandlinetools-linux-11076708_latest.zip -d ${CI_PROJECT_DIR}
+    - export ANDROID_SDK_ROOT=${CI_PROJECT_DIR}/${ANDROID_CMD}
+
+    - ${CI_PROJECTT_}
 
