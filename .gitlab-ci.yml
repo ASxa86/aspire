@@ -77,3 +77,8 @@ build-gcc-debug-android:
   extends: .build-base
   variables:
     CMAKE_PRESET: gcc-debug-android
+    ANDROID_NDK: android-ndk-r26c-linux
+  before_script:
+    - curl -O https://dl.google.com/android/repository/${ANDROID_NDK}.zip
+    - unzip ${ANDROID_NDK}.zip
+    - export ANDROID_NDK_HOME= ${CI_PROJECT_DIR}/${ANDROID_NDK}
