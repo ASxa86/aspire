@@ -77,14 +77,13 @@ build-gcc-debug-android:
   extends: .build-base
   variables:
     CMAKE_PRESET: gcc-android-debug
-    ANDROID_CMD: cmdline-tools
     # Qt 6.6 requires the following Android SDK and NDK version.
     # https://doc.qt.io/qt-6/android-getting-started.html
     ANDROID_SDK_VERSION: 33
     ANDROID_NDK_VERSION: 25.1.8937393
     ANDROID_HOME: ${CI_PROJECT_DIR}/android-sdk
     ANDROID_NDK_HOME: ${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}
-    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/${ANDROID_CMD}/bin/sdkmanager --sdk_root=${ANDROID_HOME}
+    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_HOME}
     
   script:
     # NDK Requires OpenJDK v17 per trial and error.
@@ -96,7 +95,11 @@ build-gcc-debug-android:
     - unzip -qq commandlinetools-linux-11076708_latest.zip -d ${CI_PROJECT_DIR}
 
     - mkdir ${ANDROID_HOME}
+
+    # Accept required licenses.
+    - cd ${ANDROID_HOME}
     - ${SDKMANAGER_CMD} --licenses
+    - cd ..
     - '${SDKMANAGER_CMD} "platforms;android-${ANDROID_SDK_VERSION}" "platform-tools" "build-tools;${ANDROID_SDK_VERSION}.0.0"'
     - '${SDKMANAGER_CMD} "ndk;${ANDROID_NDK_VERSION}"'
 
