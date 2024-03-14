@@ -84,7 +84,7 @@ build-gcc-debug-android:
     ANDROID_NDK_VERSION: 25.1.8937393
     ANDROID_HOME: ${CI_PROJECT_DIR}/android-sdk
     ANDROID_NDK_HOME: ${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}
-    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/${ANDROID_CMD}/bin/sdkmanager
+    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/${ANDROID_CMD}/bin/sdkmanager --sdk_root=${ANDROID_HOME}
     
   script:
     # NDK Requires OpenJDK v17 per trial and error.
