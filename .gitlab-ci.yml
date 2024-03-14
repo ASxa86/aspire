@@ -97,9 +97,9 @@ build-gcc-debug-android:
     - mkdir ${ANDROID_HOME}
 
     # Accept required licenses.
-    - cd ${ANDROID_HOME}
+    - pushd ${ANDROID_HOME}
     - yes | ${SDKMANAGER_CMD} --licenses
-    - cd ..
+    - popd
     - '${SDKMANAGER_CMD} "platforms;android-${ANDROID_SDK_VERSION}" "platform-tools" "build-tools;${ANDROID_SDK_VERSION}.0.0"'
     - '${SDKMANAGER_CMD} "ndk;${ANDROID_NDK_VERSION}"'
 
