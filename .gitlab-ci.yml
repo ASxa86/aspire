@@ -84,7 +84,7 @@ build-gcc-debug-android:
     ANDROID_NDK_VERSION: 25.1.8937393
     ANDROID_HOME: ${CI_PROJECT_DIR}/android-sdk
     ANDROID_NDK_HOME: ${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}
-    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/${ANDROID_CMD}/bin/sdkmanager --sdk_root=${ANDROID_HOME}
+    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/${ANDROID_CMD}/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses
     
   script:
     # NDK Requires OpenJDK v17 per trial and error.
@@ -96,8 +96,8 @@ build-gcc-debug-android:
     - unzip -qq commandlinetools-linux-11076708_latest.zip -d ${CI_PROJECT_DIR}
 
     - mkdir ${ANDROID_HOME}
-    - '${SDKMANAGER_CMD} --licenses "platforms;android-${ANDROID_SDK_VERSION}" "platform-tools" "build-tools;${ANDROID_SDK_VERSION}.0.0"'
-    - '${SDKMANAGER_CMD} --licenses "ndk;${ANDROID_NDK_VERSION}"'
+    - '${SDKMANAGER_CMD} --install "platforms;android-${ANDROID_SDK_VERSION}" "platform-tools" "build-tools;${ANDROID_SDK_VERSION}.0.0"'
+    - '${SDKMANAGER_CMD} --install "ndk;${ANDROID_NDK_VERSION}"'
 
     - *get-vcpkg
 
