@@ -76,7 +76,7 @@ variables:
 build-gcc-debug-android:
   extends: .build-base
   variables:
-    CMAKE_PRESET: gcc-debug-android
+    CMAKE_PRESET: gcc-android-debug
     ANDROID_CMD: cmdline-tools
     # Qt 6.6 requires the following Android SDK and NDK version.
     # https://doc.qt.io/qt-6/android-getting-started.html
