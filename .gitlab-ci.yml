@@ -88,7 +88,7 @@ build-gcc-debug-android:
     
   script:
     # NDK Requires OpenJDK v17 per trial and error.
-    - sudo apt install -y openjdk-17-jdk
+    - apt install -y openjdk-17-jdk
     - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
     - curl -O https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
