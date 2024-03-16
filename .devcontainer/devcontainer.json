@@ -1,3 +1,8 @@
 {
-    "image": "registry.gitlab.com/asxa86/images/android-dev:latest"
+    "image": "registry.gitlab.com/asxa86/images/android-dev:latest",
+    "runArgs": [
+        "--env-file",
+        ".devcontainer/devcontainer.env"
+    ],
+    "postCreateCommand": "bash ./.devcontainer/configure.sh"
 }
