@@ -74,33 +74,11 @@ variables:
 #     CMAKE_PRESET: gcc-release
 
 build-gcc-debug-android:
-  extends: .build-base
+  image: $CI_REGISTRY/asxa86/images/android-dev:latest
   variables:
     CMAKE_PRESET: gcc-android-debug
-    # Qt 6.6 requires the following Android SDK and NDK version.
-    # https://doc.qt.io/qt-6/android-getting-started.html
-    ANDROID_SDK_VERSION: 33
-    ANDROID_NDK_VERSION: 25.1.8937393
-    ANDROID_HOME: ${CI_PROJECT_DIR}/android-sdk
-    ANDROID_NDK_HOME: ${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}
-    SDKMANAGER_CMD: ${CI_PROJECT_DIR}/cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_HOME}
     
   script:
-    # NDK Requires OpenJDK v17 per trial and error.
-    - apt update -y
-    - apt install -y openjdk-17-jdk
-    - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-
-    - curl -O https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-    - unzip -qq commandlinetools-linux-11076708_latest.zip -d ${CI_PROJECT_DIR}
-
-    - mkdir ${ANDROID_HOME}
-
-    # Accept required licenses.
-    - yes | ${SDKMANAGER_CMD} --licenses || true
-    - '${SDKMANAGER_CMD} "platforms;android-${ANDROID_SDK_VERSION}" "platform-tools" "build-tools;${ANDROID_SDK_VERSION}.0.0"'
-    - '${SDKMANAGER_CMD} "ndk;${ANDROID_NDK_VERSION}"'
-
     - *get-vcpkg
 
     # Build Aspire
