@@ -75,6 +75,11 @@ variables:
 
 build-gcc-debug-android:
   image: $CI_REGISTRY/asxa86/images/android-dev:latest
+  tags:
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
   variables:
     CMAKE_PRESET: gcc-android-debug
     
@@ -84,3 +89,8 @@ build-gcc-debug-android:
     # Build Aspire
     - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET} --debug-find
     - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
+  artifacts:
+    when: on_failure
+    paths:
+      - vcpkg/buildtrees/**/*.txt
+      - vcpkg/buildtrees/**/*.log
