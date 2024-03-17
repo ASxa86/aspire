@@ -1,3 +1,8 @@
 {
-    "image": "registry.gitlab.com/asxa86/images/android-dev:latest"
+    "image": "registry.gitlab.com/asxa86/images/android-dev:latest",
+    "containerEnv": {
+        "VCPKG_ROOT": "${containerWorkspaceFolder}/vcpkg",
+        "CMAKE_COMMAND": "${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake"
+    },
+    "postCreateCommand": ".devcontainer/post-create.sh"
 }
