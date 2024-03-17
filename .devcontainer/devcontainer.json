@@ -1,7 +1,9 @@
 {
     "image": "registry.gitlab.com/asxa86/images/android-dev:latest",
     "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin"
+        "VCPKG_VERSION": "2024.02.14",
+        "VCPKG_ROOT": "${containerWorkspaceFolder}/vcpkg",
+        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/vcpkg:${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin"
     },
     "customizations": {
         "vscode": {
@@ -12,5 +14,6 @@
                 "ms-vscode.cpptools-extension-pack"
             ]
         }
-    }
+    },
+    "postCreateCommand": ".devcontainer/postcreate.sh"
 }
