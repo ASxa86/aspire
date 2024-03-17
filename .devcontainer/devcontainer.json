@@ -4,5 +4,15 @@
         "VCPKG_ROOT": "${containerWorkspaceFolder}/vcpkg",
         "CMAKE_COMMAND": "${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake"
     },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cmake-tools",
+                "twxs.cmake",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack"
+            ]
+        }
+    },
     "postCreateCommand": ".devcontainer/post-create.sh"
 }
