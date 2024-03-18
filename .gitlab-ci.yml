@@ -87,7 +87,7 @@ build-gcc-debug-android:
     - *get-vcpkg
 
     # Build Aspire
-    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET} --debug-find
+    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
     - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
   artifacts:
     when: on_failure
