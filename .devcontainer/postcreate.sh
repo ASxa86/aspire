@@ -9,3 +9,5 @@ fi
 ./vcpkg/bootstrap-vcpkg.sh
 ./vcpkg/vcpkg fetch nuget
 ./vcpkg/vcpkg fetch cmake
+
+mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source $NUGET_SOURCE -name $NUGET_NAME -username $GITLAB_USER -password $GITLAB_USER_TOKEN
