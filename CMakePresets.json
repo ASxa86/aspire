@@ -79,6 +79,36 @@
                 "BUILD_TESTS": "ON",
                 "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX"
             }
+        },
+        {
+            "name": "gcc-android",
+            "inherits": "linux",
+            "displayName": "GCC Android",
+            "environment": {
+                "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME"
+            },
+            "cacheVariables": {
+                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
+                "VCPKG_TARGET_TRIPLET": "arm64-android-qt",
+                "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets"
+            }
+        },
+        {
+            "name": "gcc-android-debug",
+            "inherits": "gcc-android",
+            "displayName": "GCC Android (Debug)",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "gcc-android-release",
+            "inherits": "gcc-android",
+            "displayName": "GCC Android (Release)",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
         }
     ],
     "buildPresets": [
@@ -108,6 +138,10 @@
             "name": "msvc-relwithdebinfo",
             "configurePreset": "msvc",
             "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "gcc-android-debug",
+            "configurePreset": "gcc-android-debug"
         }
     ]
 }
