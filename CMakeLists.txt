@@ -23,7 +23,7 @@ include_directories(${PROJECT_INCLUDE_DIR})
 # Define build directory includes as system to avoid tools like clang-tidy from scanning them.
 include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(Qt6 6.6 CONFIG REQUIRED COMPONENTS Quick)
+find_package(Qt6 CONFIG REQUIRED COMPONENTS Quick)
 
 set(CMAKE_AUTOMOC ON)
 
