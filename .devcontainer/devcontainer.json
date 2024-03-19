@@ -1,11 +1,11 @@
 {
     "image": "registry.gitlab.com/asxa86/images/android-dev:latest",
     "remoteEnv": {
-        "NUGET_SOURCE": "https://gitlab.com/api/v4/projects/51467465/packages/nuget/index.json",
         "NUGET_NAME": "gitlab",
+        "NUGET_SOURCE": "https://gitlab.com/api/v4/projects/51467465/packages/nuget/index.json",
         "VCPKG_VERSION": "2024.02.14",
         "VCPKG_ROOT": "${containerWorkspaceFolder}/vcpkg",
-        "VCPKG_BINARY_SOURCES": "clear;nuget,$NUGET_NAME,readwrite",
+        "VCPKG_BINARY_SOURCES": "clear;nuget,gitlab,readwrite",
         "GITLAB_USER": "${localEnv:GITLAB_USER}",
         "GITLAB_USER_TOKEN": "${localEnv:GITLAB_USER_TOKEN}",
         "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/vcpkg:${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin"

@@ -6,6 +6,10 @@
             "displayName": "Default",
             "binaryDir": "${sourceDir}/build/",
             "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "environment": {
+                "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME",
+                "VCPKG_FEATURE_FLAGS": "-compilertracking"
+            },
             "cacheVariables": {
                 "CMAKE_CXX_STANDARD": "23",
                 "CMAKE_DEBUG_POSTFIX": "d",
@@ -84,9 +88,6 @@
             "name": "gcc-android",
             "inherits": "linux",
             "displayName": "GCC Android",
-            "environment": {
-                "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME"
-            },
             "cacheVariables": {
                 "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
                 "VCPKG_TARGET_TRIPLET": "arm64-android-qt",
