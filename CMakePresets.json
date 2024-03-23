@@ -85,28 +85,30 @@
             }
         },
         {
-            "name": "gcc-android",
+            "name": "android-arm64-v8a",
             "inherits": "linux",
             "displayName": "GCC Android",
             "cacheVariables": {
                 "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
                 "VCPKG_TARGET_TRIPLET": "arm64-android-qt",
                 "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
-                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets"
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
+                "ANDROID_ABI": "arm64-v8a",
+                "ANDROID_STL": "c++_shared"
             }
         },
         {
-            "name": "gcc-android-debug",
-            "inherits": "gcc-android",
-            "displayName": "GCC Android (Debug)",
+            "name": "android-arm64-v8a-debug",
+            "inherits": "android-arm64-v8a",
+            "displayName": "Android Arm64 v8a (Debug)",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "gcc-android-release",
-            "inherits": "gcc-android",
-            "displayName": "GCC Android (Release)",
+            "name": "android-arm64-v8a-release",
+            "inherits": "android-arm64-v8a",
+            "displayName": "Android Arm64 v8a (Release)",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -141,8 +143,8 @@
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "gcc-android-debug",
-            "configurePreset": "gcc-android-debug"
+            "name": "android-arm64-debug",
+            "configurePreset": "android-arm64-v8a-debug"
         }
     ]
 }

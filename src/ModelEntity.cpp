@@ -1,5 +1,4 @@
 #include <aspire/ModelEntity.h>
-#include <ranges>
 
 using aspire::Entity;
 using aspire::ModelEntity;
