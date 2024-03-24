@@ -1,3 +1,4 @@
+# These ports were not playing nice when compiling as dynamic.
 set(STATIC_PORTS
     harfbuzz
     libb2
