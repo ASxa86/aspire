@@ -73,7 +73,7 @@ build-gcc-release:
   variables:
     CMAKE_PRESET: gcc-release
 
-build-gcc-debug-android:
+build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-dev:latest
   tags:
     # - saas-linux-medium-amd64
@@ -81,7 +81,7 @@ build-gcc-debug-android:
     - docker
     - large
   variables:
-    CMAKE_PRESET: gcc-android-debug
+    CMAKE_PRESET: android-arm64-debug
     
   script:
     - *get-vcpkg
