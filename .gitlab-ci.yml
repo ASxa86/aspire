@@ -3,6 +3,9 @@ stages:
   - build
   - test
 
+default:
+  interruptible: true
+
 variables:
   NUGET_SOURCE: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
   NUGET_NAME: gitlab

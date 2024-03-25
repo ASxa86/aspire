@@ -36,6 +36,7 @@
                 "BUILD_TESTS": "ON",
                 "CMAKE_CXX_FLAGS": "-Wall -Wextra -Werror -pedantic",
                 "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
                 "VCPKG_APPLOCAL_DEPS": "OFF"
             }
         },
@@ -81,6 +82,7 @@
             },
             "cacheVariables": {
                 "BUILD_TESTS": "ON",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
                 "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX"
             }
         },
