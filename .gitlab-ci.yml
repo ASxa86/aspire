@@ -77,7 +77,7 @@ build-gcc-release:
     CMAKE_PRESET: gcc-release
 
 build-android-armg64-debug:
-  image: $CI_REGISTRY/asxa86/images/android-dev:latest
+  image: $CI_REGISTRY/asxa86/images/android-build:latest
   tags:
     # - saas-linux-medium-amd64
     - shelley

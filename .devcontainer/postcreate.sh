@@ -15,6 +15,3 @@ mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source $NU
 
 echo "mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe config -set maxHttpRequestsPerSource=64"
 mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe config -set maxHttpRequestsPerSource=64
-
-echo "sdkmanager emulator"
-sdkmanager emulator
