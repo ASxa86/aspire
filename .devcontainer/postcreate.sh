@@ -15,3 +15,11 @@ mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source $NU
 
 echo "mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe config -set maxHttpRequestsPerSource=64"
 mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe config -set maxHttpRequestsPerSource=64
+
+sdkmanager "emulator"
+sdkmanager "system-images;android-33;google_apis;x86_64"
+apt install -y libpulse-dev
+
+echo "avdmanager create avd -n pixel5 -k \"system-images;android-33;google_apis;x86_64\" -d \"pixel_5\" -p \"$WORKSPACE_DIR/avd\""
+avdmanager create avd -n pixel5 -f -k "system-images;android-33;google_apis;x86_64" -d "pixel_5" -p "$WORKSPACE_DIR/avd"
+emulator -avd pixel5
