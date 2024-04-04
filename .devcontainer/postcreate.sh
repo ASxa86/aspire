@@ -20,6 +20,10 @@ sdkmanager "emulator"
 sdkmanager "system-images;android-33;google_apis;x86_64"
 apt install -y libpulse-dev
 
+if [ ! -d "$WORKSPACE_DIR/avd" ]; then
+    mkdir $WORKSPACE_DIR/avd
+fi
+
 echo "avdmanager create avd -n pixel5 -k \"system-images;android-33;google_apis;x86_64\" -d \"pixel_5\" -p \"$WORKSPACE_DIR/avd\""
 avdmanager create avd -n pixel5 -f -k "system-images;android-33;google_apis;x86_64" -d "pixel_5" -p "$WORKSPACE_DIR/avd"
 emulator -avd pixel5
