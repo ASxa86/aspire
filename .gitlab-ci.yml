@@ -76,24 +76,14 @@ build-gcc-release:
   variables:
     CMAKE_PRESET: gcc-release
 
+build-android-x64-debug:
+  image: $CI_REGISTRY/asxa86/images/android-build:latest
+  extends: .build-base
+  variables:
+    CMAKE_PRESET: android-x64-debug
+
 build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
-  tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
+  extends: .build-base
   variables:
     CMAKE_PRESET: android-arm64-debug
-    
-  script:
-    - *get-vcpkg
-
-    # Build Aspire
-    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
-    - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
-  artifacts:
-    when: on_failure
-    paths:
-      - vcpkg/buildtrees/**/*.txt
-      - vcpkg/buildtrees/**/*.log

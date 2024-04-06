@@ -85,9 +85,35 @@
             }
         },
         {
+            "name": "android-x64",
+            "inherits": "linux",
+            "displayName": "Android x64",
+            "cacheVariables": {
+                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-android",
+                "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
+                "ANDROID_ABI": "x86_64",
+                "ANDROID_STL": "c++_shared"
+            }
+        },
+        {
+            "name": "android-x64-debug",
+            "inherits": "android-x64",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "android-x64-release",
+            "inherits": "android-x64",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
             "name": "android-arm64-v8a",
             "inherits": "linux",
-            "displayName": "GCC Android",
+            "displayName": "Android arm64",
             "cacheVariables": {
                 "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
                 "VCPKG_TARGET_TRIPLET": "arm64-android",
@@ -99,7 +125,7 @@
         {
             "name": "android-arm64-debug",
             "inherits": "android-arm64-v8a",
-            "displayName": "Android Arm64 v8a (Debug)",
+            "displayName": "Android Arm64 (Debug)",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
@@ -107,7 +133,7 @@
         {
             "name": "android-arm64-release",
             "inherits": "android-arm64-v8a",
-            "displayName": "Android Arm64 v8a (Release)",
+            "displayName": "Android Arm64 (Release)",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -140,6 +166,14 @@
             "name": "msvc-relwithdebinfo",
             "configurePreset": "msvc",
             "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "android-x64-debug",
+            "configurePreset": "android-x64-debug"
+        },
+        {
+            "name": "android-x64-release",
+            "configurePreset": "android-x64-release"
         },
         {
             "name": "android-arm64-debug",
