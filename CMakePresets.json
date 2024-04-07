@@ -85,15 +85,27 @@
             }
         },
         {
-            "name": "android-x64",
+            "name": "android",
             "inherits": "linux",
-            "displayName": "Android x64",
             "cacheVariables": {
                 "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
-                "VCPKG_TARGET_TRIPLET": "x64-android",
+                "ANDROID_STL": "c++_shared",
+                "ANDROID_SDK_ROOT": "$env{ANDROID_HOME}",
                 "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
-                "ANDROID_ABI": "x86_64",
-                "ANDROID_STL": "c++_shared"
+                "ANDROID_PLATFORM": "33",
+                "CMAKE_DEBUG_POSTFIX": "",
+                "CMAKE_RELEASE_POSTFIX": "",
+                "CMAKE_RELWITHDEBINFO_POSTFIX": "",
+                "CMAKE_MINSIZEREL_POSTFIX": ""
+            }
+        },
+        {
+            "name": "android-x64",
+            "inherits": "android",
+            "displayName": "Android x64",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-android",
+                "ANDROID_ABI": "x86_64"
             }
         },
         {
@@ -112,14 +124,11 @@
         },
         {
             "name": "android-arm64-v8a",
-            "inherits": "linux",
+            "inherits": "android",
             "displayName": "Android arm64",
             "cacheVariables": {
-                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
                 "VCPKG_TARGET_TRIPLET": "arm64-android",
-                "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
-                "ANDROID_ABI": "arm64-v8a",
-                "ANDROID_STL": "c++_shared"
+                "ANDROID_ABI": "arm64-v8a"
             }
         },
         {
