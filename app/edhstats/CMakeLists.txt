@@ -1,6 +1,6 @@
 project(edhstats)
 
-add_executable(${PROJECT_NAME})
+qt_add_executable(${PROJECT_NAME})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE MAIN_QML="${CMAKE_CURRENT_SOURCE_DIR}/main.qml")
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
