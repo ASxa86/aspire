@@ -81,7 +81,7 @@
             },
             "cacheVariables": {
                 "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX"
+                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX /wd4251{end}"
             }
         },
         {

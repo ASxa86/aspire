@@ -5,7 +5,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
-include(cmake/project_add_qml_module.cmake)
 include(cmake/project_gen_export.cmake)
 include(cmake/project_install_target.cmake)
 
@@ -22,13 +21,6 @@ include_directories(${PROJECT_INCLUDE_DIR})
 
 # Define build directory includes as system to avoid tools like clang-tidy from scanning them.
 include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR})
-
-# Qt fails to find this path for android when it invokes Qt6AndroidMacros.cmake.
-set(QT_ANDROID_PATH_CMAKE_DIR_${ANDROID_ABI} ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/share)
-
-find_package(Qt6 CONFIG REQUIRED COMPONENTS Quick)
-
-set(CMAKE_AUTOMOC ON)
 
 add_subdirectory(app)
 add_subdirectory(src)

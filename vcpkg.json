@@ -1,10 +1,18 @@
 {
   "name": "aspire",
-  "version-string": "2023.10.22",
+  "version-string": "2024.4.23",
   "port-version": 1,
-  "description": "QtQuick Game Engine",
-  "homepage": "https://gitlab.com/amshelley86/aspire",
+  "description": "AS personal integration and rendering engine",
+  "homepage": "https://gitlab.com/asxa86/aspire",
   "dependencies": [
-    "qtdeclarative"
+    "boost-asio",
+    "boost-dll",
+    "boost-signals2",
+    "entt",
+    "glad",
+    "glfw3",
+    "gtest",
+    "magic-enum",
+    "nlohmann-json"
   ]
 }

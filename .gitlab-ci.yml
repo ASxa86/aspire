@@ -29,10 +29,7 @@ build-clang-tidy:
   stage: build
   needs: []
   tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
+    - saas-linux-medium-amd64
   script:
     - *get-vcpkg
 
@@ -50,10 +47,7 @@ build-clang-tidy:
   stage: build
   needs: []
   tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
+    - saas-linux-medium-amd64
   script:
     - *get-vcpkg
 
@@ -75,15 +69,3 @@ build-gcc-release:
   extends: .build-base
   variables:
     CMAKE_PRESET: gcc-release
-
-build-android-x64-debug:
-  image: $CI_REGISTRY/asxa86/images/android-build:latest
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: android-x64-debug
-
-build-android-armg64-debug:
-  image: $CI_REGISTRY/asxa86/images/android-build:latest
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: android-arm64-debug

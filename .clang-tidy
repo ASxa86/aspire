@@ -6,9 +6,7 @@ Checks: '-*,
   cert-*,
   cppcoreguidelines-*,
   modernize-*,
-  readability-*,
-  -readability-identifier-length,
-  -readability-simplify-boolean-expr
+  readability-*
 '
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
