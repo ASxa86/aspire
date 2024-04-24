@@ -8,6 +8,7 @@
     "boost-asio",
     "boost-dll",
     "boost-signals2",
+    "boost-log",
     "entt",
     "glad",
     "glfw3",
