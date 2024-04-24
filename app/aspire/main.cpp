@@ -2,7 +2,7 @@
 
 using aspire::core::Object;
 
-int main()
+auto main() -> void
 {
     Object object;
     (void)object;
