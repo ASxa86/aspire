@@ -1,5 +1,5 @@
 {
-    "image": "registry.gitlab.com/asxa86/images/android-build:latest",
+    "image": "registry.gitlab.com/asxa86/images/ubuntu-dev:latest",
     "remoteEnv": {
         "NUGET_NAME": "gitlab",
         "NUGET_SOURCE": "https://gitlab.com/api/v4/projects/51467465/packages/nuget/index.json",
@@ -13,9 +13,7 @@
     },
     "runArgs": [
         "--gpus",
-        "all",
-        "--device",
-        "/dev/kvm"
+        "all"
     ],
     "customizations": {
         "vscode": {
@@ -23,11 +21,9 @@
                 "ms-vscode.cmake-tools",
                 "twxs.cmake",
                 "ms-vscode.cpptools",
-                "ms-vscode.cpptools-extension-pack",
-                "bbenoist.QML"
+                "ms-vscode.cpptools-extension-pack"
             ]
         }
     },
-    "overrideCommand": true,
     "postCreateCommand": "bash .devcontainer/postcreate.sh"
 }

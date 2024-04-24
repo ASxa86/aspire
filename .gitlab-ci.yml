@@ -29,10 +29,7 @@ lint-clang-tidy:
   stage: lint
   needs: []
   tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
+    - saas-linux-medium-amd64
   script:
     - *get-vcpkg
 
@@ -50,10 +47,7 @@ lint-clang-tidy:
   stage: build
   needs: []
   tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
+    - saas-linux-medium-amd64
   script:
     - *get-vcpkg
 
