@@ -20,7 +20,7 @@ namespace aspire::core
 		auto operator=(Object&&) noexcept -> Object& = delete;
 
 		auto setName(std::string_view x) -> void;
-		auto getName() const -> std::string_view;
+		[[nodiscard]] auto getName() const -> std::string_view;
 
 	private:
 		std::vector<std::unique_ptr<Object>> children;
