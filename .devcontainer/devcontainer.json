@@ -9,7 +9,7 @@
         "GITLAB_USER": "${localEnv:GITLAB_USER}",
         "GITLAB_USER_TOKEN": "${localEnv:GITLAB_USER_TOKEN}",
         "WORKSPACE_DIR": "${containerWorkspaceFolder}",
-        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/vcpkg:${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin"
+        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/vcpkg:${containerWorkspaceFolder}/vcpkg/downloads/tools/cmake-3.29.0-linux/cmake-3.29.0-linux-x86_64/bin"
     },
     "runArgs": [
         "--gpus",
@@ -21,7 +21,8 @@
                 "ms-vscode.cmake-tools",
                 "twxs.cmake",
                 "ms-vscode.cpptools",
-                "ms-vscode.cpptools-extension-pack"
+                "ms-vscode.cpptools-extension-pack",
+                "xaver.clang-format"
             ]
         }
     },

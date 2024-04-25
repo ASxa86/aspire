@@ -13,3 +13,12 @@ TEST(Object, name)
 	EXPECT_EQ(object.getName(), "");
 	EXPECT_TRUE(object.getName().empty());
 }
+
+TEST(Object, remove)
+{
+	Object parent;
+	parent.addChild(std::make_unique<Object>());
+	ASSERT_FALSE(parent.getChildren().empty());
+	parent.getChildren()[0]->remove();
+	EXPECT_TRUE(parent.getChildren().empty());
+}
