@@ -4,8 +4,6 @@ add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
     Object.test.cpp
-    Point.test.cpp
-    PointF.test.cpp
 )
 
 enable_testing()

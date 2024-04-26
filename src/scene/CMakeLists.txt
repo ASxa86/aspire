@@ -7,8 +7,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     Node.cpp
 )
 
+find_package(glm CONFIG REQUIRED)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    aspire-core
+    glm::glm
 )
 
 project_gen_export()

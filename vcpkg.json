@@ -14,6 +14,7 @@
     "glfw3",
     "gtest",
     "magic-enum",
-    "nlohmann-json"
+    "nlohmann-json",
+    "glm"
   ]
 }
