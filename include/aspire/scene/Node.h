@@ -25,11 +25,11 @@ namespace aspire::scene
 
 		/// @brief Get the children this node owns.
 		/// @return The immutable list of children this node owns.
-		auto getChildren() const noexcept -> const std::vector<std::unique_ptr<Node>>&;
+		[[nodiscard]] auto getChildren() const noexcept -> const std::vector<std::unique_ptr<Node>>&;
 
 		/// @brief Get the owning parent of this node.
 		/// @return The owning parent. Nullptr if this node is not a child of another node.
-		auto getParent() const noexcept -> Node*;
+		[[nodiscard]] auto getParent() const noexcept -> Node*;
 
 		/// @brief Removes this node from its parent and returns an owning pointer.
 		/// @return The owning pointer of the removed node. Nullptr if the node couldn't be removed.
