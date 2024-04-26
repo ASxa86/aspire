@@ -112,7 +112,9 @@
         "strstream": "cpp",
         "syncstream": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "*.tcc": "cpp",
+        "rope": "cpp"
     },
     "editor.formatOnSave": true,
     "git.ignoreLimitWarning": true
