@@ -22,11 +22,11 @@ namespace aspire::core
 		auto setName(std::string_view x) -> void;
 		[[nodiscard]] auto getName() const -> std::string_view;
 
-		auto getParent() const -> Object*;
+		[[nodiscard]] auto getParent() const -> Object*;
 		auto addChild(std::unique_ptr<Object> x) -> void;
-		auto remove() -> void;
+		[[nodiscard]] auto remove() -> std::unique_ptr<Object>;
 
-		auto getChildren() const -> const std::vector<std::unique_ptr<Object>>&;
+		[[nodiscard]] auto getChildren() const -> const std::vector<std::unique_ptr<Object>>&;
 
 	private:
 		std::vector<std::unique_ptr<Object>> children;

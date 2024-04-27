@@ -28,14 +28,14 @@ auto Node::remove() -> std::unique_ptr<Node>
 
 	auto [beg, end] = std::ranges::remove_if(this->parent->children, [this](auto&& x) { return x.get() == this; });
 
-	std::unique_ptr<Node> node;
-
-	if(beg != end)
+	if(beg == end)
 	{
-		node = std::move(*beg);
-		this->parent->children.erase(beg, end);
-		node->parent = nullptr;
+		return nullptr;
 	}
+
+	auto node = std::move(*beg);
+	this->parent->children.erase(beg, end);
+	node->parent = nullptr;
 
 	return node;
 }
