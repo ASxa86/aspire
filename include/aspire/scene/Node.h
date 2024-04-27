@@ -14,10 +14,10 @@ namespace aspire::scene
 		virtual ~Node() = default;
 
 		Node(const Node&) = delete;
-		Node& operator=(const Node&) = delete;
+		auto operator=(const Node&) -> Node& = delete;
 
 		Node(Node&&) noexcept = delete;
-		Node& operator=(Node&&) noexcept = delete;
+		auto operator=(Node&&) noexcept -> Node& = delete;
 
 		/// @brief Add the given node to this node and claim ownership.
 		/// @param x The node to add to this node.
@@ -33,7 +33,7 @@ namespace aspire::scene
 
 		/// @brief Removes this node from its parent and returns an owning pointer.
 		/// @return The owning pointer of the removed node. Nullptr if the node couldn't be removed.
-		auto remove() -> std::unique_ptr<Node>;
+		[[nodiscard]] auto remove() -> std::unique_ptr<Node>;
 
 	private:
 		std::vector<std::unique_ptr<Node>> children;

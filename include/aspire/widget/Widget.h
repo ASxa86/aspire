@@ -12,16 +12,16 @@ namespace aspire::widget
 		Widget();
 		~Widget() override;
 		auto setX(int x) noexcept -> void;
-		auto getX() const noexcept -> int;
+		[[nodiscard]] auto getX() const noexcept -> int;
 
 		auto setY(int x) noexcept -> void;
-		auto getY() const noexcept -> int;
+		[[nodiscard]] auto getY() const noexcept -> int;
 
 		auto setHeight(int x) noexcept -> void;
-		auto getHeight() const noexcept -> int;
+		[[nodiscard]] auto getHeight() const noexcept -> int;
 
 		auto setWidth(int x) noexcept -> void;
-		auto getWidth() const noexcept -> int;
+		[[nodiscard]] auto getWidth() const noexcept -> int;
 
 	private:
 		struct Impl;

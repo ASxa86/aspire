@@ -9,7 +9,7 @@ namespace aspire::widget
 	{
 	public:
 		auto setWidget(std::unique_ptr<Widget> x) -> void;
-		auto getWidget() const -> Widget*;
+		[[nodiscard]] auto getWidget() const -> Widget*;
 
 	private:
 		std::unique_ptr<Widget> widget;
