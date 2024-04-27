@@ -13,6 +13,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     glm::glm
 )
 
+project_compile_options()
 project_gen_export()
 project_install_target()
 
