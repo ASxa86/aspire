@@ -14,6 +14,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     aspire-scene
 )
 
+project_compile_options()
 project_gen_export()
 project_install_target()
 

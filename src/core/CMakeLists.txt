@@ -9,6 +9,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     Object.cpp
 )
 
+project_compile_options()
 project_gen_export()
 project_install_target()
 
