@@ -11,6 +11,13 @@ namespace aspire::widget
 	public:
 		Widget();
 		~Widget() override;
+
+		Widget(const Widget&) = delete;
+		auto operator=(const Widget&) = delete;
+
+		Widget(Widget&&) noexcept = delete;
+		auto operator=(Widget&&) noexcept = delete;
+
 		auto setX(int x) noexcept -> void;
 		[[nodiscard]] auto getX() const noexcept -> int;
 

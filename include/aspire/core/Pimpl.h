@@ -11,7 +11,7 @@ public:
 	Pimpl();
 
 	template <typename... Args>
-	Pimpl(Args&&...) noexcept;
+	Pimpl(Args&&.../*args*/) noexcept;
 
 	~Pimpl();
 
