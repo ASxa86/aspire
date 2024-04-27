@@ -5,6 +5,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
+include(cmake/project_compile_options.cmake)
 include(cmake/project_gen_export.cmake)
 include(cmake/project_install_target.cmake)
 

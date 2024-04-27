@@ -4,9 +4,12 @@ add_library(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
     ${PROJECT_INCLUDE_DIR}/aspire/core/Object.h
-    Object.cpp    
+    ${PROJECT_INCLUDE_DIR}/aspire/core/Pimpl.h
+    ${PROJECT_INCLUDE_DIR}/aspire/core/PimplImpl.h
+    Object.cpp
 )
 
+project_compile_options()
 project_gen_export()
 project_install_target()
 

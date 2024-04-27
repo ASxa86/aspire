@@ -1,9 +1,10 @@
-project(aspire-core-test)
+project(aspire-widget-test)
 
 add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
-    Object.test.cpp
+    Widget.test.cpp
+    Window.test.cpp
 )
 
 enable_testing()
@@ -11,7 +12,7 @@ enable_testing()
 find_package(GTest CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    aspire-core
+    aspire-widget
     GTest::gtest
     GTest::gtest_main
 )
