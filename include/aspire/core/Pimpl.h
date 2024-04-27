@@ -15,6 +15,12 @@ public:
 
 	~Pimpl();
 
+	Pimpl(const Pimpl&) = delete;
+	auto operator=(const Pimpl&) -> Pimpl& = delete;
+
+	Pimpl(Pimpl&&) noexcept = default;
+	auto operator=(Pimpl&&) noexcept -> Pimpl& = default;
+
 	auto operator->() -> T*;
 
 	auto operator->() const -> const T*;

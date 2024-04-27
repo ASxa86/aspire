@@ -16,9 +16,7 @@ Pimpl<T>::Pimpl(Args&&... args) noexcept : m{std::make_unique<T>(std::forward<Ar
 }
 
 template <typename T>
-Pimpl<T>::~Pimpl()
-{
-}
+Pimpl<T>::~Pimpl() = default;
 
 template <typename T>
 auto Pimpl<T>::operator->() -> T*
