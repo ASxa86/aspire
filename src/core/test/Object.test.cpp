@@ -17,8 +17,14 @@ TEST(Object, name)
 TEST(Object, remove)
 {
 	Object parent;
-	parent.addChild(std::make_unique<Object>());
-	ASSERT_FALSE(parent.getChildren().empty());
-	parent.getChildren()[0]->remove();
+	auto child = std::make_unique<Object>();
+	auto* childObject = child.get();
+	parent.addChild(std::move(child));
+	EXPECT_EQ(childObject->getParent(), &parent);
+	EXPECT_FALSE(parent.getChildren().empty());
+
+	child = childObject->remove();
+	ASSERT_NE(child, nullptr);
+	EXPECT_EQ(child->getParent(), nullptr);
 	EXPECT_TRUE(parent.getChildren().empty());
 }

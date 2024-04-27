@@ -1,4 +1,5 @@
 #include <aspire/core/Object.h>
+#include <algorithm>
 
 using aspire::core::Object;
 
@@ -23,14 +24,25 @@ auto Object::addChild(std::unique_ptr<Object> x) -> void
 	this->children.emplace_back(std::move(x));
 }
 
-auto Object::remove() -> void
+auto Object::remove() -> std::unique_ptr<Object>
 {
 	if(this->parent == nullptr)
 	{
-		return;
+		return nullptr;
 	}
 
-	std::erase_if(this->parent->children, [this](auto&& x) { return x.get() == this; });
+	auto [beg, end] = std::ranges::remove_if(this->parent->children, [this](auto&& x) { return x.get() == this; });
+
+	if(beg == end)
+	{
+		return nullptr;
+	}
+
+	auto node = std::move(*beg);
+	this->parent->children.erase(beg, end);
+	node->parent = nullptr;
+
+	return node;
 }
 
 auto Object::getChildren() const -> const std::vector<std::unique_ptr<Object>>&
