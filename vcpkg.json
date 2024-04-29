@@ -15,6 +15,7 @@
     "gtest",
     "magic-enum",
     "nlohmann-json",
-    "glm"
+    "glm",
+    "vulkan"
   ]
 }

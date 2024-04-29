@@ -10,6 +10,7 @@ include(cmake/project_gen_export.cmake)
 include(cmake/project_install_target.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_CXX_STANDARD 23)
 
 set(PROJECT_ROOT_NAME aspire)
 project(${PROJECT_ROOT_NAME})
