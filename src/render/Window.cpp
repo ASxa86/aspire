@@ -1,7 +1,7 @@
 #include <aspire/render/Window.h>
 
-#include <vulkan/vulkan.h>
 #include <aspire/core/PimplImpl.h>
+#include <vulkan/vulkan.h>
 
 #include <GLFW/glfw3.h>
 
@@ -31,7 +31,8 @@ Window::Window(const Traits& x) : pimpl{x}
 	this->pimpl->window =
 		glfwCreateWindow(this->pimpl->traits.width, this->pimpl->traits.height, this->pimpl->traits.title.c_str(), nullptr, nullptr);
 
-	glfwCreateWindowSurface(this->pimpl->instance, this->pimpl->window, nullptr, &this->pimpl->surface);
+	// vkCreateInstance(nullptr, nullptr, &this->pimpl->instance);
+	// glfwCreateWindowSurface(this->pimpl->instance, this->pimpl->window, nullptr, &this->pimpl->surface);
 }
 
 auto Window::move(int x, int y) -> void
@@ -50,4 +51,5 @@ auto Window::resize(int width, int height) -> void
 
 auto Window::frame() -> void
 {
+	glfwSwapBuffers(this->pimpl->window);
 }
