@@ -18,5 +18,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 add_test(aspire-test ${PROJECT_NAME})
 
-project_compile_options()
+project_compile_options_exe()
 project_install_target()
