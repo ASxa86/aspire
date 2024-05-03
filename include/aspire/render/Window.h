@@ -9,19 +9,27 @@ namespace aspire::render
 	class ASPIRE_RENDER_EXPORT Window
 	{
 	public:
-		struct Traits
-		{
-			std::string title;
-			int x{};
-			int y{};
-			int width{};
-			int height{};
-		};
+		Window();
+		~Window();
 
-		Window(const Traits& x);
+		auto setTitle(std::string_view x) -> void;
+		auto getTitle() const -> std::string_view;
 
-		auto move(int x, int y) -> void;
-		auto resize(int width, int height) -> void;
+		auto setX(int x) noexcept -> void;
+		[[nodiscard]] auto getX() const noexcept -> int;
+
+		auto setY(int x) noexcept -> void;
+		[[nodiscard]] auto getY() const noexcept -> int;
+
+		auto setHeight(int x) noexcept -> void;
+		[[nodiscard]] auto getHeight() const noexcept -> int;
+
+		auto setWidth(int x) noexcept -> void;
+		[[nodiscard]] auto getWidth() const noexcept -> int;
+
+		auto create() -> void;
+		auto destroy() -> void;
+		auto valid() noexcept -> bool;
 		auto frame() -> void;
 
 	private:

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aspire/core/Pimpl.h>
 #include <aspire/core/export.hxx>
 #include <memory>
 #include <string_view>
@@ -11,8 +12,8 @@ namespace aspire::core
 	class ASPIRE_CORE_EXPORT Object
 	{
 	public:
-		Object() = default;
-		virtual ~Object() = default;
+		Object();
+		virtual ~Object();
 
 		Object(const Object&) = delete;
 		auto operator=(const Object&) -> Object& = delete;
@@ -44,9 +45,18 @@ namespace aspire::core
 		/// @return The list of children owned by this object.
 		[[nodiscard]] auto getChildren() const -> const std::vector<std::unique_ptr<Object>>&;
 
+		/// @brief Invoke to process any overriden onStartup functions for this object and its children.
+		auto startup() -> void;
+
+		/// @brief Returns whether this object has processed its startup function.
+		/// @return True if this object has been processed. Otherwise, false.
+		auto isStartup() -> bool;
+
+	protected:
+		virtual auto onStartup() -> void;
+
 	private:
-		std::vector<std::unique_ptr<Object>> children;
-		Object* parent{};
-		std::string name;
+		struct Impl;
+		Pimpl<Impl> pimpl;
 	};
 }
