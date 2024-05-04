@@ -3,13 +3,19 @@
 
 auto main() -> int
 {
+	constexpr auto defaultX{80};
+	constexpr auto defaultY{80};
+	constexpr auto defaultWidth{1280};
+	constexpr auto defaultHeight{720};
+
 	aspire::core::Kernel kernel;
 
 	auto window = std::make_unique<aspire::widget::Window>();
-	window->setX(80);
-	window->setY(80);
-	window->setWidth(1280);
-	window->setHeight(720);
+	window->setX(defaultX);
+	window->setY(defaultY);
+	window->setWidth(defaultWidth);
+	window->setHeight(defaultHeight);
+	window->setTitle("Aspire");
 	kernel.addService(std::move(window));
 
 	return kernel.run();

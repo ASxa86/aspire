@@ -101,7 +101,7 @@ auto Window::create() -> void
 
 auto Window::destroy() -> void
 {
-	if(this->valid() == true)
+	if(this->valid())
 	{
 		glfwDestroyWindow(this->pimpl->window);
 	}

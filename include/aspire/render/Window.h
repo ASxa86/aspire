@@ -12,8 +12,14 @@ namespace aspire::render
 		Window();
 		~Window();
 
+		Window(const Window&) = delete;
+		auto operator=(const Window&) = delete;
+
+		Window(Window&&) noexcept = delete;
+		auto operator=(Window&&) noexcept = delete;
+
 		auto setTitle(std::string_view x) -> void;
-		auto getTitle() const -> std::string_view;
+		[[nodiscard]] auto getTitle() const -> std::string_view;
 
 		auto setX(int x) noexcept -> void;
 		[[nodiscard]] auto getX() const noexcept -> int;

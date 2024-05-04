@@ -11,7 +11,7 @@ struct Window::Impl
 {
 	~Impl()
 	{
-		if(this->renderThread.joinable() == true)
+		if(this->renderThread.joinable())
 		{
 			this->renderThread.join();
 		}
@@ -21,6 +21,8 @@ struct Window::Impl
 	std::mutex renderThreadMutex;
 	aspire::render::Window renderer;
 	std::unique_ptr<Widget> widget;
+
+	std::string title;
 	int x{};
 	int y{};
 	int width{};
@@ -80,6 +82,16 @@ auto Window::getWidget() const -> Widget*
 	return this->pimpl->widget.get();
 }
 
+auto Window::setTitle(std::string_view x) -> void
+{
+	this->pimpl->title = x;
+}
+
+auto Window::getTitle() const -> std::string_view
+{
+	return this->pimpl->title;
+}
+
 auto Window::frame() -> void
 {
 	// Synchronize main thread with render thread.
@@ -90,7 +102,7 @@ auto Window::frame() -> void
 		return;
 	}
 
-	for(auto& widget : this->pimpl->widget->getChildren())
+	for(const auto& widget : this->pimpl->widget->getChildren())
 	{
 		(void)widget;
 	}
@@ -109,11 +121,12 @@ auto Window::onStartup() -> void
 				this->pimpl->renderer.setY(this->pimpl->y);
 				this->pimpl->renderer.setWidth(this->pimpl->width);
 				this->pimpl->renderer.setHeight(this->pimpl->height);
+				this->pimpl->renderer.setTitle(this->pimpl->title);
 				this->pimpl->renderer.create();
 				valid = this->pimpl->renderer.valid();
 			}
 
-			while(valid == true)
+			while(valid)
 			{
 				// Block until the main thread has freed itself.
 				std::scoped_lock lock(this->pimpl->renderThreadMutex);

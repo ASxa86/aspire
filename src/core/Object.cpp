@@ -76,7 +76,7 @@ auto Object::getChildren() const -> const std::vector<std::unique_ptr<Object>>&
 
 auto Object::startup() -> void
 {
-	if(this->pimpl->isStartup == true)
+	if(this->pimpl->isStartup)
 	{
 		return;
 	}
