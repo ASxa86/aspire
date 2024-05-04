@@ -7,10 +7,6 @@ using aspire::render::VulkanInstance;
 
 struct VulkanInstance::Impl
 {
-	Impl()
-	{
-	}
-
 	VkInstanceCreateInfo info{};
 	VkAllocationCallbacks allocCallback{};
 	VkInstance instance{};

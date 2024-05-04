@@ -31,6 +31,9 @@ namespace aspire::widget
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
 
+		auto setTitle(std::string_view x) -> void;
+		[[nodiscard]] auto getTitle() const -> std::string_view;
+
 		auto setWidget(std::unique_ptr<Widget> x) -> void;
 		[[nodiscard]] auto getWidget() const -> Widget*;
 
