@@ -10,16 +10,6 @@ using aspire::widget::Window;
 
 struct Window::Impl
 {
-	~Impl()
-	{
-		this->renderThread.request_stop();
-
-		if(this->renderThread.joinable())
-		{
-			this->renderThread.join();
-		}
-	}
-
 	std::jthread renderThread;
 
 	std::mutex renderThreadMutex;
@@ -35,7 +25,16 @@ struct Window::Impl
 };
 
 Window::Window() = default;
-Window::~Window() = default;
+
+Window::~Window()
+{
+	this->pimpl->renderThread.request_stop();
+
+	if(this->pimpl->renderThread.joinable())
+	{
+		this->pimpl->renderThread.join();
+	}
+}
 
 auto Window::setX(int x) noexcept -> void
 {
@@ -125,7 +124,7 @@ auto Window::onStartup() -> void
 {
 	this->pimpl->kernel = dynamic_cast<aspire::core::Kernel*>(this->getParent());
 
-	if(!this->pimpl->kernel)
+	if(this->pimpl->kernel == nullptr)
 	{
 		return;
 	}

@@ -18,10 +18,10 @@ namespace aspire::core
 		virtual ~Event();
 
 		Event(const Event&) = delete;
-		Event& operator=(const Event&) = delete;
+		auto operator=(const Event&) -> Event& = delete;
 
 		Event(Event&&) noexcept = delete;
-		Event& operator=(Event&&) = delete;
+		auto operator=(Event&&) -> Event& = delete;
 
 		[[nodiscard]] auto type() const -> Type;
 

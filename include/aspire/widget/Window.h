@@ -7,6 +7,7 @@
 
 namespace aspire::widget
 {
+	/// @brief This class defines an application window.
 	class ASPIRE_WIDGET_EXPORT Window : public aspire::core::Service
 	{
 	public:
@@ -37,7 +38,7 @@ namespace aspire::widget
 		auto setWidget(std::unique_ptr<Widget> x) -> void;
 		[[nodiscard]] auto getWidget() const -> Widget*;
 
-		auto event(aspire::core::Event*) -> void override;
+		auto event(aspire::core::Event* x) -> void override;
 
 		auto frame() -> void override;
 
