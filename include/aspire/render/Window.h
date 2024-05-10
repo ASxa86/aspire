@@ -1,7 +1,9 @@
 #pragma once
 
 #include <aspire/core/Pimpl.h>
+#include <aspire/render/Event.h>
 #include <aspire/render/export.hxx>
+#include <functional>
 #include <string>
 
 namespace aspire::render
@@ -32,6 +34,10 @@ namespace aspire::render
 
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
+
+		auto addEvent(Event x) -> void;
+		auto handleEvent(std::function<void(EventWindow)> x) -> void;
+		auto handleEvent(std::function<void(EventMouse)> x) -> void;
 
 		auto create() -> void;
 		auto destroy() -> void;

@@ -42,7 +42,7 @@ auto Object::addChild(std::unique_ptr<Object> x) -> void
 	this->pimpl->children.emplace_back(std::move(x));
 
 	// Once the object has been started, we need to invoke any new objects that get added dynamically after the fact.
-	if(this->isStartup() == true && temp->isStartup() == false)
+	if(this->isStartup() && !temp->isStartup())
 	{
 		temp->startup();
 	}
@@ -72,6 +72,10 @@ auto Object::remove() -> std::unique_ptr<Object>
 auto Object::getChildren() const -> const std::vector<std::unique_ptr<Object>>&
 {
 	return this->pimpl->children;
+}
+
+auto Object::event(Event* /*x*/) -> void
+{
 }
 
 auto Object::startup() -> void

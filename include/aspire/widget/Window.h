@@ -37,6 +37,8 @@ namespace aspire::widget
 		auto setWidget(std::unique_ptr<Widget> x) -> void;
 		[[nodiscard]] auto getWidget() const -> Widget*;
 
+		auto event(aspire::core::Event*) -> void override;
+
 		auto frame() -> void override;
 
 	protected:

@@ -4,6 +4,8 @@
 
 namespace aspire::core
 {
+	class Kernel;
+
 	class ASPIRE_CORE_EXPORT Service : public Object
 	{
 	public:

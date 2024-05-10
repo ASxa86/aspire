@@ -3,7 +3,9 @@ project(aspire-render)
 add_library(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
-    ${PROJECT_INCLUDE_DIR}/aspire/render/Window.h
+    ${PROJECT_INCLUDE_DIR}/aspire/render/Event.h
+    ${PROJECT_INCLUDE_DIR}/aspire/render/EventMouse.h
+    ${PROJECT_INCLUDE_DIR}/aspire/render/EventWindow.h
     ${PROJECT_INCLUDE_DIR}/aspire/render/Window.h
     VulkanInstance.cpp
     VulkanInstance.h

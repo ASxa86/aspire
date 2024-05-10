@@ -21,17 +21,23 @@ Pimpl<T>::~Pimpl() = default;
 template <typename T>
 auto Pimpl<T>::operator->() -> T*
 {
-	return m.get();
+	return this->m.get();
 }
 
 template <typename T>
 auto Pimpl<T>::operator->() const -> const T*
 {
-	return m.get();
+	return this->m.get();
 }
 
 template <typename T>
 auto Pimpl<T>::operator*() -> T&
 {
-	return *m.get();
+	return *this->m.get();
+}
+
+template <typename T>
+auto Pimpl<T>::get() const -> T*
+{
+	return this->m.get();
 }
