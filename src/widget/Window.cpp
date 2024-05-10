@@ -131,11 +131,6 @@ auto Window::onStartup() -> void
 	}
 
 	this->pimpl->renderer.handleEvent(
-		[this](aspire::render::EventMouse) {
-
-		});
-
-	this->pimpl->renderer.handleEvent(
 		[this](aspire::render::EventWindow x)
 		{
 			switch(x.type)
