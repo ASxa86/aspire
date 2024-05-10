@@ -1,24 +1,27 @@
 #pragma once
 
 #include <aspire/core/Pimpl.h>
-#include <aspire/core/Service.h>
-#include <aspire/widget/Widget.h>
-#include <aspire/widget/export.hxx>
+#include <aspire/render/Event.h>
+#include <aspire/render/export.hxx>
+#include <functional>
+#include <string>
 
-namespace aspire::widget
+namespace aspire::render
 {
-	/// @brief This class defines an application window.
-	class ASPIRE_WIDGET_EXPORT Window : public aspire::core::Service
+	class ASPIRE_RENDER_EXPORT Window
 	{
 	public:
 		Window();
-		~Window() override;
+		~Window();
 
 		Window(const Window&) = delete;
 		auto operator=(const Window&) = delete;
 
 		Window(Window&&) noexcept = delete;
 		auto operator=(Window&&) noexcept = delete;
+
+		auto setTitle(std::string_view x) -> void;
+		[[nodiscard]] auto getTitle() const -> std::string_view;
 
 		auto setX(int x) noexcept -> void;
 		[[nodiscard]] auto getX() const noexcept -> int;
@@ -32,18 +35,14 @@ namespace aspire::widget
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
 
-		auto setTitle(std::string_view x) -> void;
-		[[nodiscard]] auto getTitle() const -> std::string_view;
+		auto addEvent(Event x) -> void;
+		auto handleEvent(std::function<void(EventWindow)> x) -> void;
+		auto handleEvent(std::function<void(EventMouse)> x) -> void;
 
-		auto setWidget(std::unique_ptr<Widget> x) -> void;
-		[[nodiscard]] auto getWidget() const -> Widget*;
-
-		auto event(aspire::core::Event* x) -> void override;
-
-		auto frame() -> void override;
-
-	protected:
-		auto onStartup() -> void override;
+		auto create() -> void;
+		auto destroy() -> void;
+		auto valid() noexcept -> bool;
+		auto frame() -> void;
 
 	private:
 		struct Impl;

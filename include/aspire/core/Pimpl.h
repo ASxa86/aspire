@@ -11,7 +11,7 @@ public:
 	Pimpl();
 
 	template <typename... Args>
-	Pimpl(Args&&.../*args*/) noexcept;
+	Pimpl(Args&&... /*args*/) noexcept;
 
 	~Pimpl();
 
@@ -26,6 +26,8 @@ public:
 	auto operator->() const -> const T*;
 
 	auto operator*() -> T&;
+
+	[[nodiscard]] auto get() const -> T*;
 
 private:
 	std::unique_ptr<T> m;
