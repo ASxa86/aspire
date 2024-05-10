@@ -27,7 +27,7 @@ public:
 
 	auto operator*() -> T&;
 
-	auto get() const -> T*;
+	[[nodiscard]] auto get() const -> T*;
 
 private:
 	std::unique_ptr<T> m;

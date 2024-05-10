@@ -18,18 +18,25 @@ namespace
 		using Ts::operator()...;
 	};
 
+	auto GetWindow(GLFWwindow* x) -> Window*
+	{
+		// NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+		return reinterpret_cast<Window*>(glfwGetWindowUserPointer(x));
+	}
+
 	auto CallbackWindowClose(GLFWwindow* glfw) -> void
 	{
-		auto* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfw));
+		auto* window = GetWindow(glfw);
 
 		EventWindow event;
 		event.type = EventWindow::Type::Close;
 		window->addEvent(event);
 	}
 
+	// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 	auto CallbackMousePos(GLFWwindow* glfw, double x, double y) -> void
 	{
-		auto* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfw));
+		auto* window = GetWindow(glfw);
 
 		EventMouse event;
 		event.x = x;
@@ -38,9 +45,10 @@ namespace
 		window->addEvent(event);
 	}
 
-	auto CallbackMouseButton(GLFWwindow* glfw, int button, int action, int) -> void
+	// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+	auto CallbackMouseButton(GLFWwindow* glfw, int button, int action, int /*unused*/) -> void
 	{
-		auto* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfw));
+		auto* window = GetWindow(glfw);
 
 		double x{};
 		double y{};
@@ -94,8 +102,10 @@ struct Window::Impl
 
 	std::vector<Event> events;
 
-	std::function<void(EventWindow)> handleEventWindow;
-	std::function<void(EventMouse)> handleEventMouse;
+	// Default initialize event handlers to do nothing. This is being done to save an extra if check
+	// on valid functions everytime the events get processed.
+	std::function<void(EventWindow)> handleEventWindow{[](auto) {}};
+	std::function<void(EventMouse)> handleEventMouse{[](auto) {}};
 
 	std::string title;
 	int x{};

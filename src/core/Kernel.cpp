@@ -26,6 +26,7 @@ auto Kernel::addService(std::unique_ptr<Service> x) -> void
 	this->addChild(std::move(x));
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 auto Kernel::sendEvent(Event& x, Object* receiver) -> void
 {
 	receiver->event(&x);
@@ -45,7 +46,7 @@ auto Kernel::run() -> int
 	this->pimpl->running = true;
 	this->pimpl->start = std::chrono::steady_clock::now();
 
-	while(this->pimpl->running == true)
+	while(this->pimpl->running)
 	{
 		this->pimpl->elapsed += std::chrono::steady_clock::now() - this->pimpl->start;
 
