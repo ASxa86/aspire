@@ -2,16 +2,100 @@
 
 #include <aspire/core/PimplImpl.h>
 #include <vulkan/vulkan.h>
+#include <vector>
 
 #include <GLFW/glfw3.h>
 
+using aspire::render::EventMouse;
+using aspire::render::EventWindow;
 using aspire::render::Window;
+
+namespace
+{
+	template <class... Ts>
+	struct EventHandler : Ts...
+	{
+		using Ts::operator()...;
+	};
+
+	auto CallbackWindowClose(GLFWwindow* glfw) -> void
+	{
+		auto* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfw));
+
+		EventWindow event;
+		event.type = EventWindow::Type::Close;
+		window->addEvent(event);
+	}
+
+	auto CallbackMousePos(GLFWwindow* glfw, double x, double y) -> void
+	{
+		auto* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfw));
+
+		EventMouse event;
+		event.x = x;
+		event.y = y;
+		event.type = EventMouse::Type::Move;
+		window->addEvent(event);
+	}
+
+	auto CallbackMouseButton(GLFWwindow* glfw, int button, int action, int) -> void
+	{
+		auto* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfw));
+
+		double x{};
+		double y{};
+		glfwGetCursorPos(glfw, &x, &y);
+
+		EventMouse event;
+		event.x = x;
+		event.y = y;
+
+		switch(button)
+		{
+			case GLFW_MOUSE_BUTTON_LEFT:
+				event.button = EventMouse::Button::Left;
+				break;
+
+			case GLFW_MOUSE_BUTTON_MIDDLE:
+				event.button = EventMouse::Button::Middle;
+				break;
+
+			case GLFW_MOUSE_BUTTON_RIGHT:
+				event.button = EventMouse::Button::Right;
+				break;
+
+			default:
+				break;
+		}
+
+		switch(action)
+		{
+			case GLFW_PRESS:
+				event.type = EventMouse::Type::Press;
+				break;
+
+			case GLFW_RELEASE:
+				event.type = EventMouse::Type::Release;
+				break;
+
+			default:
+				break;
+		}
+
+		window->addEvent(event);
+	}
+}
 
 struct Window::Impl
 {
 	GLFWwindow* window{};
 	VkInstance instance{};
 	VkSurfaceKHR surface{};
+
+	std::vector<Event> events;
+
+	std::function<void(EventWindow)> handleEventWindow;
+	std::function<void(EventMouse)> handleEventMouse;
 
 	std::string title;
 	int x{};
@@ -74,6 +158,21 @@ auto Window::getWidth() const noexcept -> int
 	return this->pimpl->width;
 }
 
+auto Window::addEvent(Event x) -> void
+{
+	this->pimpl->events.emplace_back(x);
+}
+
+auto Window::handleEvent(std::function<void(EventWindow)> x) -> void
+{
+	this->pimpl->handleEventWindow = std::move(x);
+}
+
+auto Window::handleEvent(std::function<void(EventMouse)> x) -> void
+{
+	this->pimpl->handleEventMouse = std::move(x);
+}
+
 auto Window::create() -> void
 {
 	if(glfwInit() == GLFW_FALSE)
@@ -96,6 +195,11 @@ auto Window::create() -> void
 		return;
 	}
 
+	glfwSetWindowUserPointer(this->pimpl->window, this);
+	glfwSetWindowCloseCallback(this->pimpl->window, &CallbackWindowClose);
+	glfwSetCursorPosCallback(this->pimpl->window, &CallbackMousePos);
+	glfwSetMouseButtonCallback(this->pimpl->window, &CallbackMouseButton);
+
 	this->pimpl->valid = this->pimpl->window != nullptr;
 }
 
@@ -116,7 +220,13 @@ auto Window::valid() noexcept -> bool
 
 auto Window::frame() -> void
 {
-	glfwPollEvents();
+	for(auto event : this->pimpl->events)
+	{
+		std::visit(EventHandler{[](auto) {}, this->pimpl->handleEventWindow, this->pimpl->handleEventMouse}, event);
+	}
+
+	this->pimpl->events.clear();
 
 	glfwSwapBuffers(this->pimpl->window);
+	glfwPollEvents();
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aspire/core/Event.h>
 #include <aspire/core/Pimpl.h>
 #include <aspire/core/export.hxx>
 #include <memory>
@@ -44,6 +45,10 @@ namespace aspire::core
 		/// @brief Get the, read-only, list of child objects.
 		/// @return The list of children owned by this object.
 		[[nodiscard]] auto getChildren() const -> const std::vector<std::unique_ptr<Object>>&;
+
+		/// @brief Override to handle any event this object has received.
+		/// @param x The event to be handled.
+		virtual auto event(Event* x) -> void;
 
 		/// @brief Invoke to process any overriden onStartup functions for this object and its children.
 		auto startup() -> void;

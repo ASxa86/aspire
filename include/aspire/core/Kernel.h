@@ -20,7 +20,12 @@ namespace aspire::core
 		auto operator=(Kernel&&) noexcept = delete;
 
 		auto addService(std::unique_ptr<Service> x) -> void;
+
+		auto sendEvent(Event& x, Object* receiver) -> void;
+		auto queueEvent(std::unique_ptr<Event> x, Object* receiver) -> void;
+
 		auto run() -> int;
+		auto quit() -> void;
 
 	private:
 		struct Impl;

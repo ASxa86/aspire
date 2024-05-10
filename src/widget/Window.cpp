@@ -1,5 +1,6 @@
 #include <aspire/widget/Window.h>
 
+#include <aspire/core/Kernel.h>
 #include <aspire/core/PimplImpl.h>
 #include <aspire/render/Window.h>
 #include <mutex>
@@ -11,16 +12,20 @@ struct Window::Impl
 {
 	~Impl()
 	{
+		this->renderThread.request_stop();
+
 		if(this->renderThread.joinable())
 		{
 			this->renderThread.join();
 		}
 	}
 
-	std::thread renderThread;
+	std::jthread renderThread;
+
 	std::mutex renderThreadMutex;
 	aspire::render::Window renderer;
 	std::unique_ptr<Widget> widget;
+	aspire::core::Kernel* kernel{};
 
 	std::string title;
 	int x{};
@@ -92,29 +97,62 @@ auto Window::getTitle() const -> std::string_view
 	return this->pimpl->title;
 }
 
+auto Window::event(aspire::core::Event* x) -> void
+{
+	switch(x->type())
+	{
+		case aspire::core::Event::Type::Close:
+			this->pimpl->kernel->quit();
+			break;
+
+		default:
+			break;
+	}
+}
+
 auto Window::frame() -> void
 {
 	// Synchronize main thread with render thread.
 	std::scoped_lock lock(this->pimpl->renderThreadMutex);
 
-	if(this->pimpl->renderer.valid() == false)
+	if(!this->pimpl->renderer.valid())
 	{
 		return;
-	}
-
-	for(const auto& widget : this->pimpl->widget->getChildren())
-	{
-		(void)widget;
 	}
 }
 
 auto Window::onStartup() -> void
 {
-	this->pimpl->renderThread = std::thread(
-		[this]
-		{
-			auto valid{false};
+	this->pimpl->kernel = dynamic_cast<aspire::core::Kernel*>(this->getParent());
 
+	if(!this->pimpl->kernel)
+	{
+		return;
+	}
+
+	this->pimpl->renderer.handleEvent(
+		[this](aspire::render::EventMouse) {
+
+		});
+
+	this->pimpl->renderer.handleEvent(
+		[this](aspire::render::EventWindow x)
+		{
+			switch(x.type)
+			{
+				case aspire::render::EventWindow::Type::Close:
+					this->pimpl->kernel->queueEvent(std::make_unique<aspire::core::Event>(aspire::core::Event::Type::Close), this);
+					break;
+
+				default:
+					break;
+			}
+		});
+
+	this->pimpl->renderThread = std::jthread(
+		[this](auto stopToken)
+		{
+			// Initialize the window, surface, and graphics context on the render thread.
 			{
 				std::scoped_lock lock(this->pimpl->renderThreadMutex);
 				this->pimpl->renderer.setX(this->pimpl->x);
@@ -123,12 +161,27 @@ auto Window::onStartup() -> void
 				this->pimpl->renderer.setHeight(this->pimpl->height);
 				this->pimpl->renderer.setTitle(this->pimpl->title);
 				this->pimpl->renderer.create();
-				valid = this->pimpl->renderer.valid();
+
+				// Exit the thread if renderer failed to create.
+				if(!this->pimpl->renderer.valid())
+				{
+					this->pimpl->renderThread.request_stop();
+				}
 			}
 
-			while(valid)
+			while(!stopToken.stop_requested())
 			{
-				// Block until the main thread has freed itself.
+				if(this->pimpl->widget)
+				{
+					// Handle updating the scene graph on the render thread. This should be queued widgets that get added via an ::update() or
+					// dirty() invocation. Not all widgets.
+					for(const auto& widget : this->pimpl->widget->getChildren())
+					{
+						(void)widget;
+					}
+				}
+
+				// Synchronize with the main thread (Window::frame).
 				std::scoped_lock lock(this->pimpl->renderThreadMutex);
 				this->pimpl->renderer.frame();
 			}
