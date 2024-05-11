@@ -6,6 +6,7 @@
 #include <mutex>
 #include <thread>
 
+using aspire::core::Event;
 using aspire::widget::Window;
 
 struct Window::Impl
@@ -135,7 +136,7 @@ auto Window::onStartup() -> void
 			switch(x.type)
 			{
 				case aspire::render::EventWindow::Type::Close:
-					this->pimpl->kernel->queueEvent(std::make_unique<aspire::core::Event>(aspire::core::Event::Type::Close), this);
+					this->pimpl->kernel->queueEvent(std::make_unique<Event>(Event::Type::Close), this);
 					break;
 
 				default:

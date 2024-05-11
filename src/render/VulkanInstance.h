@@ -2,13 +2,19 @@
 
 #include <aspire/core/Pimpl.h>
 
+class GLFWwindow;
+
 namespace aspire::render
 {
 	class VulkanInstance
 	{
 	public:
-		auto create() -> bool;
+		VulkanInstance();
+		~VulkanInstance();
+
+		auto create(GLFWwindow* x) -> bool;
 		auto destroy() -> void;
+		auto valid() const noexcept -> bool;
 
 	private:
 		struct Impl;
