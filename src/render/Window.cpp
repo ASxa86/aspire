@@ -3,6 +3,7 @@
 #include <aspire/core/PimplImpl.h>
 #include <vulkan/vulkan.h>
 #include <vector>
+#include "VulkanInstance.h"
 
 #include <GLFW/glfw3.h>
 
@@ -97,8 +98,7 @@ namespace
 struct Window::Impl
 {
 	GLFWwindow* window{};
-	VkInstance instance{};
-	VkSurfaceKHR surface{};
+	VulkanInstance vulkanInstance;
 
 	std::vector<Event> events;
 
@@ -210,7 +210,7 @@ auto Window::create() -> void
 	glfwSetCursorPosCallback(this->pimpl->window, &CallbackMousePos);
 	glfwSetMouseButtonCallback(this->pimpl->window, &CallbackMouseButton);
 
-	this->pimpl->valid = this->pimpl->window != nullptr;
+	this->pimpl->valid = this->pimpl->vulkanInstance.create(this->pimpl->window);
 }
 
 auto Window::destroy() -> void
