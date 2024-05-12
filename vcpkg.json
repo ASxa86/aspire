@@ -16,6 +16,6 @@
     "magic-enum",
     "nlohmann-json",
     "glm",
-    "vulkan"
+    "vulkan-sdk-components"
   ]
 }
