@@ -333,6 +333,41 @@ struct VulkanInstance::Impl
 		return details;
 	}
 
+	auto createImageViews() -> bool
+	{
+		this->swapChainImageViews.resize(this->swapChainImages.size());
+
+		for(size_t i = 0; i < this->swapChainImages.size(); i++)
+		{
+			VkImageViewCreateInfo createInfo{};
+			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			createInfo.image = this->swapChainImages[i];
+			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			createInfo.format = swapChainImageFormat;
+			createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+			createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			createInfo.subresourceRange.baseMipLevel = 0;
+			createInfo.subresourceRange.levelCount = 1;
+			createInfo.subresourceRange.baseArrayLayer = 0;
+			createInfo.subresourceRange.layerCount = 1;
+
+			if(vkCreateImageView(this->device, &createInfo, nullptr, &this->swapChainImageViews[i]) != VK_SUCCESS)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	auto createGraphicsPipeline() -> bool
+	{
+		return false;
+	}
+
 	const std::vector<const char*> deviceExtensions{VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
 	VkInstance instance{};
@@ -345,6 +380,7 @@ struct VulkanInstance::Impl
 	std::vector<VkImage> swapChainImages{};
 	VkFormat swapChainImageFormat{};
 	VkExtent2D swapChainExtent{};
+	std::vector<VkImageView> swapChainImageViews{};
 
 	bool valid{false};
 };
@@ -361,12 +397,18 @@ auto VulkanInstance::create(GLFWwindow* x) -> bool
 	this->pimpl->valid &= this->pimpl->pickPhysicalDevice();
 	this->pimpl->valid &= this->pimpl->createLogicalDevice();
 	this->pimpl->valid &= this->pimpl->createSwapChain(x);
+	this->pimpl->valid &= this->pimpl->createImageViews();
 
 	return this->pimpl->valid;
 }
 
 auto VulkanInstance::destroy() -> void
 {
+	for(auto imageView : this->pimpl->swapChainImageViews)
+	{
+		vkDestroyImageView(this->pimpl->device, imageView, nullptr);
+	}
+
 	vkDestroySwapchainKHR(this->pimpl->device, this->pimpl->swapChain, nullptr);
 	vkDestroyDevice(this->pimpl->device, nullptr);
 	vkDestroySurfaceKHR(this->pimpl->instance, this->pimpl->surface, nullptr);

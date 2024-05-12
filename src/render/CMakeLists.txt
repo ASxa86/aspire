@@ -15,11 +15,13 @@ target_sources(${PROJECT_NAME} PRIVATE
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(Vulkan REQUIRED)
+find_package(glslang CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     glad::glad
     glfw
     Vulkan::Vulkan
+    glslang::glslang
 )
 
 project_compile_options()
