@@ -5,6 +5,13 @@
   "description": "QtQuick Game Engine",
   "homepage": "https://gitlab.com/amshelley86/aspire",
   "dependencies": [
+    {
+      "name": "qtbase",
+      "default-features": false,
+      "features": [
+        "png"
+      ]
+    },
     "qtdeclarative"
   ]
 }
