@@ -1,2 +1,1 @@
-add_subdirectory(shapes)
-add_subdirectory(edhstats)
+add_subdirectory(edit)
