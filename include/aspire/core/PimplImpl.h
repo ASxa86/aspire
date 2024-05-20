@@ -19,25 +19,25 @@ template <typename T>
 Pimpl<T>::~Pimpl() = default;
 
 template <typename T>
-auto Pimpl<T>::operator->() -> T*
+auto Pimpl<T>::operator->() noexcept -> T*
 {
 	return this->m.get();
 }
 
 template <typename T>
-auto Pimpl<T>::operator->() const -> const T*
+auto Pimpl<T>::operator->() const noexcept -> const T*
 {
 	return this->m.get();
 }
 
 template <typename T>
-auto Pimpl<T>::operator*() -> T&
+auto Pimpl<T>::operator*() noexcept -> T&
 {
 	return *this->m.get();
 }
 
 template <typename T>
-auto Pimpl<T>::get() const -> T*
+auto Pimpl<T>::get() const noexcept -> T*
 {
 	return this->m.get();
 }
