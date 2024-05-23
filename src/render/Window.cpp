@@ -1,11 +1,8 @@
 #include <aspire/render/Window.h>
 
-#include <aspire/core/PimplImpl.h>
-#include <vulkan/vulkan.h>
-#include <vector>
-#include "VulkanInstance.h"
-
 #include <GLFW/glfw3.h>
+#include <aspire/core/PimplImpl.h>
+#include <vector>
 
 using aspire::render::EventMouse;
 using aspire::render::EventWindow;
@@ -98,7 +95,6 @@ namespace
 struct Window::Impl
 {
 	GLFWwindow* window{};
-	VulkanInstance vulkanInstance;
 
 	std::vector<Event> events;
 
@@ -190,12 +186,7 @@ auto Window::create() -> void
 		return;
 	}
 
-	if(glfwVulkanSupported() == GLFW_FALSE)
-	{
-		return;
-	}
-
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 
 	this->pimpl->window = glfwCreateWindow(this->pimpl->width, this->pimpl->height, this->pimpl->title.c_str(), nullptr, nullptr);
 
@@ -210,7 +201,7 @@ auto Window::create() -> void
 	glfwSetCursorPosCallback(this->pimpl->window, &CallbackMousePos);
 	glfwSetMouseButtonCallback(this->pimpl->window, &CallbackMouseButton);
 
-	this->pimpl->valid = this->pimpl->vulkanInstance.create(this->pimpl->window);
+	this->pimpl->valid = this->pimpl->window != nullptr;
 }
 
 auto Window::destroy() -> void

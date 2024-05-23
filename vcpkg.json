@@ -5,17 +5,8 @@
   "description": "AS personal integration and rendering engine",
   "homepage": "https://gitlab.com/asxa86/aspire",
   "dependencies": [
-    "boost-asio",
-    "boost-dll",
-    "boost-signals2",
-    "boost-log",
-    "entt",
-    "glad",
     "glfw3",
     "gtest",
-    "magic-enum",
-    "nlohmann-json",
-    "glm",
-    "vulkan-sdk-components"
+    "glm"
   ]
 }
