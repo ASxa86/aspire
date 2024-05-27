@@ -70,4 +70,7 @@ function(project_add_qml_module)
         ARCHIVE DESTINATION plugins/${MODULE_FOLDER_NAME}
         RUNTIME DESTINATION plugins/${MODULE_FOLDER_NAME}
     )
+
+    project_gen_export()
+    project_install_target()
 endfunction()
