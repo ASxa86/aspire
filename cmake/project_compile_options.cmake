@@ -28,9 +28,10 @@ function(project_compile_common)
 	if(BUILD_ENABLE_HARDENED)
 		if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 			# using Clang
-			target_compile_options(${PROJECT_NAME} PRIVATE -fstack-clash-protection)
+			# target_compile_options(${PROJECT_NAME} PRIVATE -fstack-clash-protection)
 			target_compile_options(${PROJECT_NAME} PRIVATE -fstack-protector-strong)
 			target_compile_options(${PROJECT_NAME} PRIVATE -mretpoline)
+
 			target_link_options(${PROJECT_NAME} PRIVATE -Wl,-z,noexecstack)
 			target_link_options(${PROJECT_NAME} PRIVATE -Wl,-z,relro)
 			target_link_options(${PROJECT_NAME} PRIVATE -Wl,-z,now)

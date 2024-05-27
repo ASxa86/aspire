@@ -18,7 +18,7 @@
                 "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
                 "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
                 "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
-                "CMAKE_COMPILE_WARNING_AS_ERROR": "ON"
+                "CMAKE_COMPILE_WARNING_AS_ERROR": true
             }
         },
         {
@@ -33,7 +33,7 @@
             },
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic-release",
-                "VCPKG_APPLOCAL_DEPS": "OFF"
+                "VCPKG_APPLOCAL_DEPS": false
             }
         },
         {
@@ -63,8 +63,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
-                "CMAKE_C_COMPILER": "/usr/bin/clang-17",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_C_COMPILER": "/usr/bin/clang-17"
             }
         },
         {
@@ -87,11 +86,12 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "BUILD_SHARED_LIBS": "OFF",
+                "BUILD_SHARED_LIBS": false,
+                "BUILD_ENABLE_HARDENED": false,
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_C_COMPILER": "clang",
                 "VCPKG_TARGET_TRIPLET": "arm64-osx-release",
-                "VCPKG_APPLOCAL_DEPS": "OFF"
+                "VCPKG_APPLOCAL_DEPS": false
             }
         },
         {
