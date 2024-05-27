@@ -1,4 +1,5 @@
 import QtQuick
+import aspire
 
 Rectangle {
     anchors.fill: parent
@@ -8,7 +9,7 @@ Rectangle {
 
     Text {
         anchors.centerIn: parent
-        text: "Hello"
+        text: Aspire.meters(30).toString()
         color: "white"
         font.pixelSize: 50
     }
