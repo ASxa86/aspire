@@ -12,6 +12,8 @@ project_add_qml_module(
         QtQuick
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt::Quick
 )
+
+add_subdirectory(test)
