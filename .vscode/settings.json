@@ -114,7 +114,10 @@
         "typeindex": "cpp",
         "valarray": "cpp",
         "*.tcc": "cpp",
-        "rope": "cpp"
+        "rope": "cpp",
+        "__config": "cpp",
+        "__node_handle": "cpp",
+        "__tree": "cpp"
     },
     "editor.formatOnSave": true,
     "git.ignoreLimitWarning": true

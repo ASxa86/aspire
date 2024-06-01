@@ -1,0 +1,5 @@
+function(project_add_library)
+    add_library(${ARGV})
+    project_compile_lib()
+    project_install_target()
+endfunction()

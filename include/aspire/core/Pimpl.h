@@ -21,13 +21,13 @@ public:
 	Pimpl(Pimpl&&) noexcept = default;
 	auto operator=(Pimpl&&) noexcept -> Pimpl& = default;
 
-	auto operator->() -> T*;
+	auto operator->() noexcept -> T*;
 
-	auto operator->() const -> const T*;
+	auto operator->() const noexcept -> const T*;
 
-	auto operator*() -> T&;
+	auto operator*() noexcept -> T&;
 
-	[[nodiscard]] auto get() const -> T*;
+	[[nodiscard]] auto get() const noexcept -> T*;
 
 private:
 	std::unique_ptr<T> m;
