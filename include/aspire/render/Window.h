@@ -5,7 +5,6 @@
 #include <aspire/render/export.hxx>
 #include <functional>
 #include <string>
-
 #include <glm/vec4.hpp>
 
 namespace aspire::render
@@ -13,7 +12,7 @@ namespace aspire::render
 	class ASPIRE_RENDER_EXPORT Window
 	{
 	public:
-		Window();
+		Window() noexcept;
 		~Window();
 
 		Window(const Window&) = delete;

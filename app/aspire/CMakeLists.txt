@@ -7,5 +7,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    aspire-core
     aspire-widget
 )
