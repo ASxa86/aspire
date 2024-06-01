@@ -118,6 +118,7 @@ struct Window::Impl
 	std::function<void(EventMouse)> handleEventMouse{[](auto) {}};
 
 	std::string title;
+	glm::vec4 clearColor{0.2f, 0.3f, 0.3f, 1.0f};
 	int x{};
 	int y{};
 	int width{};
@@ -176,6 +177,16 @@ auto Window::setWidth(int x) noexcept -> void
 auto Window::getWidth() const noexcept -> int
 {
 	return this->pimpl->width;
+}
+
+auto Window::setClearColor(glm::vec4 x) noexcept -> void
+{
+	this->pimpl->clearColor = x;
+}
+
+auto Window::getClearColor() const noexcept -> glm::vec4
+{
+	return this->pimpl->clearColor;
 }
 
 auto Window::addEvent(Event x) -> void
@@ -257,6 +268,9 @@ auto Window::frame() -> void
 	this->pimpl->events.clear();
 
 	glfwMakeContextCurrent(this->pimpl->window);
+
+	glClearColor(this->pimpl->clearColor.r, this->pimpl->clearColor.g, this->pimpl->clearColor.b, this->pimpl->clearColor.a);
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	glViewport(0, 0, this->pimpl->width, this->pimpl->height);
 
