@@ -1,0 +1,15 @@
+function(project_add_executable)
+    add_executable(${ARGV})
+    project_compile_exe()
+    project_install_target()
+
+    if(MSVC)
+        if("${VCPKG_BUILD_TYPE}" STREQUAL "release")
+            set(PROJECT_VCPKG_ROOT ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET})
+        else()
+            set(PROJECT_VCPKG_ROOT ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}$<$<CONFIG:Debug>:/debug>)
+        endif()
+
+        set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${PROJECT_VCPKG_ROOT}/bin")
+    endif()
+endfunction()

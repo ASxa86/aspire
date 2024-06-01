@@ -7,7 +7,6 @@
             "binaryDir": "${sourceDir}/build/",
             "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "environment": {
-                "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME",
                 "VCPKG_FEATURE_FLAGS": "-compilertracking"
             },
             "cacheVariables": {
@@ -33,8 +32,6 @@
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Werror -pedantic",
                 "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic-release",
                 "VCPKG_APPLOCAL_DEPS": "OFF"
             }
@@ -79,10 +76,6 @@
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
-            },
-            "cacheVariables": {
-                "BUILD_TESTS": "ON",
-                "CMAKE_CXX_FLAGS": "/DWIN32 /D_WINDOWS /EHsc /MP /permissive- /W4 /WX"
             }
         },
         {
@@ -95,9 +88,7 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "BUILD_TESTS": "ON",
                 "BUILD_SHARED_LIBS": "OFF",
-                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Werror -pedantic",
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_C_COMPILER": "clang",
                 "VCPKG_TARGET_TRIPLET": "arm64-osx-release",
@@ -125,6 +116,7 @@
                 "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
                 "ANDROID_STL": "c++_shared",
                 "ANDROID_SDK_ROOT": "$env{ANDROID_HOME}",
+                "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME",
                 "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
                 "ANDROID_PLATFORM": "33",
                 "CMAKE_DEBUG_POSTFIX": "",

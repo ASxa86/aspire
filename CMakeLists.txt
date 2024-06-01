@@ -6,6 +6,8 @@ include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 include(cmake/project_compile_options.cmake)
+include(cmake/project_add_library.cmake)
+include(cmake/project_add_executable.cmake)
 include(cmake/project_gen_export.cmake)
 include(cmake/project_install_target.cmake)
 
@@ -28,7 +30,8 @@ set(PROJECT_ROOT_NAME aspire)
 project(${PROJECT_ROOT_NAME})
 
 option(BUILD_SHARED_LIBS "Enable building ${PROJECT_NAME} as shared libraries." ON)
-option(BUILD_TESTS "Enable building ${PROJECT_NAME} test applications." ON)
+option(BUILD_ENABLE_HARDENED "Enable hardened compiler options" ON)
+option(BUILD_TESTS "Enable building ${PROJECT_NAME} test applications." OFF)
 
 set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${PROJECT_INCLUDE_DIR})
