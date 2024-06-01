@@ -99,7 +99,41 @@ endfunction()
 function(project_compile_options_exe)
     project_compile_options()
 
-    if(MSVC)
-        set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-    endif()
+	if(BUILD_ENABLE_HARDENED)
+		if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+			# using Clang
+			target_compile_options(${PROJECT_NAME} PRIVATE -fPIC)
+		elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+			# using GCC
+			target_compile_options(${PROJECT_NAME} PRIVATE -fPIC)
+		elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+			# using Visual Studio C++
+		endif()
+	endif()
+endfunction()
+
+function(project_compile_exe)
+	project_compile_common()
+
+	if(MSVC)
+		# Define the output directory as the working directory for visual studio debugging.
+		set(WORKING_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>)
+		set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${WORKING_DIR})
+	endif()
+
+	set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+
+	if(BUILD_ENABLED_HARDENED)
+		if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+			# using Clang
+			target_compile_options(${PROJECT_NAME} PRIVATE -fPIE)
+			target_link_options(${PROJECT_NAME} PRIVATE -pie)
+		elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+			# using GCC
+			target_compile_options(${PROJECT_NAME} PRIVATE -fPIE)
+			target_link_options(${PROJECT_NAME} PRIVATE -pie)
+		elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+			# using Visual Studio C++
+		endif()
+	endif()
 endfunction()

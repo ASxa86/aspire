@@ -1,6 +1,6 @@
 project(aspire-scene)
 
-add_library(${PROJECT_NAME})
+project_add_library(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
     ${PROJECT_INCLUDE_DIR}/aspire/scene/Node.h
@@ -12,9 +12,5 @@ find_package(glm CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     glm::glm
 )
-
-project_compile_options()
-project_gen_export()
-project_install_target()
 
 add_subdirectory(test)
