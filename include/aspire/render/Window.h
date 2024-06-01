@@ -6,6 +6,8 @@
 #include <functional>
 #include <string>
 
+#include <glm/vec4.hpp>
+
 namespace aspire::render
 {
 	class ASPIRE_RENDER_EXPORT Window
@@ -34,6 +36,9 @@ namespace aspire::render
 
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
+
+		auto setClearColor(glm::vec4 x) noexcept -> void;
+		[[nodiscard]] auto getClearColor() const noexcept -> glm::vec4;
 
 		auto addEvent(Event x) -> void;
 		auto handleEvent(std::function<void(EventWindow)> x) -> void;
