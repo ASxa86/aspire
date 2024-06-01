@@ -41,8 +41,6 @@ namespace
 		event.width = width;
 		event.height = height;
 		window->addEvent(event);
-		window->setWidth(width);
-		window->setHeight(height);
 	}
 
 	// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
@@ -272,7 +270,79 @@ auto Window::frame() -> void
 	glClearColor(this->pimpl->clearColor.r, this->pimpl->clearColor.g, this->pimpl->clearColor.b, this->pimpl->clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glViewport(0, 0, this->pimpl->width, this->pimpl->height);
+	// sort command buffer?
+	//
+	// Command Buffer
+	// Loop over queued commands.
+	int fbWidth{};
+	int fbHeight{};
+	glfwGetFramebufferSize(this->pimpl->window, &fbWidth, &fbHeight);
+	glViewport(0, 0, fbWidth, fbHeight);
+
+	static unsigned int shaderProgram{};
+
+	if(shaderProgram == 0)
+	{
+		// Use program
+		constexpr auto* vertexShader =
+			"#version 330 core\n"
+			"layout (location = 0) in vec3 aPos;\n"
+			"void main()\n"
+			"{\n"
+			"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+			"}\0";
+
+		unsigned int vtxSdr = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vtxSdr, 1, &vertexShader, nullptr);
+		glCompileShader(vtxSdr);
+
+		constexpr auto* fragmentShaderSource = R"(
+			#version 330 core
+			out vec4 FragColor;
+
+			void main()
+			{
+				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			} 
+		)";
+
+		unsigned int fragmentShader;
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+		glCompileShader(fragmentShader);
+
+		shaderProgram = glCreateProgram();
+		glAttachShader(shaderProgram, vtxSdr);
+		glAttachShader(shaderProgram, fragmentShader);
+		glLinkProgram(shaderProgram);
+
+		glDeleteShader(vtxSdr);
+		glDeleteShader(fragmentShader);
+	}
+
+	// Vertex Buffer
+	std::array vertices{-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+
+	static unsigned int vbo{};
+
+	if(vbo == 0)
+	{
+		glGenBuffers(1, &vbo);
+	}
+
+	static unsigned int vao{};
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glUseProgram(shaderProgram);
+	glBindVertexArray(vao);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	glfwSwapBuffers(this->pimpl->window);
 	glfwPollEvents();
