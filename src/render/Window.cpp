@@ -126,7 +126,7 @@ struct Window::Impl
 	bool valid{false};
 };
 
-Window::Window() = default;
+Window::Window() noexcept = default;
 Window::~Window() = default;
 
 auto Window::setTitle(std::string_view x) -> void
