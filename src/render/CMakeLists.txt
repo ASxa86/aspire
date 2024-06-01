@@ -11,7 +11,9 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 find_package(glfw3 CONFIG REQUIRED)
+find_package(glad CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     glfw
+    glad::glad
 )
