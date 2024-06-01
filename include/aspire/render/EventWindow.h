@@ -11,9 +11,12 @@ namespace aspire::render
 			Unknown,
 			Close,
 			Show,
-			Hide
+			Hide,
+			Resize
 		};
 
+		int width{};
+		int height{};
 		Type type{Type::Unknown};
 	};
 }

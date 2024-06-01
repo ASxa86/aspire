@@ -4,10 +4,10 @@
             "name": "(Debug) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/Debug/aspire",
+            "program": "${workspaceFolder}/build/bin/Debug/aspired",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/bin",
+            "cwd": "${workspaceFolder}/build/bin/Debug",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb"

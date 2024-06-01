@@ -1,4 +1,5 @@
 #include <aspire/render/Window.h>
+#include <glad/glad.h>
 
 #include <GLFW/glfw3.h>
 #include <aspire/core/PimplImpl.h>
@@ -29,6 +30,19 @@ namespace
 		EventWindow event;
 		event.type = EventWindow::Type::Close;
 		window->addEvent(event);
+	}
+
+	auto CallbackWindowResize(GLFWwindow* glfw, int width, int height) -> void
+	{
+		auto* window = GetWindow(glfw);
+
+		EventWindow event;
+		event.type = EventWindow::Type::Resize;
+		event.width = width;
+		event.height = height;
+		window->addEvent(event);
+		window->setWidth(width);
+		window->setHeight(height);
 	}
 
 	// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
@@ -186,7 +200,9 @@ auto Window::create() -> void
 		return;
 	}
 
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	this->pimpl->window = glfwCreateWindow(this->pimpl->width, this->pimpl->height, this->pimpl->title.c_str(), nullptr, nullptr);
 
@@ -196,12 +212,23 @@ auto Window::create() -> void
 		return;
 	}
 
+	glfwMakeContextCurrent(this->pimpl->window);
+
+	if(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == GL_FALSE)
+	{
+		return;
+	}
+
 	glfwSetWindowUserPointer(this->pimpl->window, this);
 	glfwSetWindowCloseCallback(this->pimpl->window, &CallbackWindowClose);
+	glfwSetWindowSizeCallback(this->pimpl->window, &CallbackWindowResize);
 	glfwSetCursorPosCallback(this->pimpl->window, &CallbackMousePos);
 	glfwSetMouseButtonCallback(this->pimpl->window, &CallbackMouseButton);
 
 	this->pimpl->valid = this->pimpl->window != nullptr;
+
+	// Release the context to give the Window::frame() invoker the opportunity to render on a different thread.
+	glfwMakeContextCurrent(nullptr);
 }
 
 auto Window::destroy() -> void
@@ -221,12 +248,17 @@ auto Window::valid() noexcept -> bool
 
 auto Window::frame() -> void
 {
+	// Process events
 	for(auto event : this->pimpl->events)
 	{
 		std::visit(EventHandler{[](auto) {}, this->pimpl->handleEventWindow, this->pimpl->handleEventMouse}, event);
 	}
 
 	this->pimpl->events.clear();
+
+	glfwMakeContextCurrent(this->pimpl->window);
+
+	glViewport(0, 0, this->pimpl->width, this->pimpl->height);
 
 	glfwSwapBuffers(this->pimpl->window);
 	glfwPollEvents();
