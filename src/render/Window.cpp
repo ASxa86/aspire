@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include <aspire/core/PimplImpl.h>
+#include <array>
 #include <vector>
 
 using aspire::render::EventMouse;
@@ -270,10 +271,12 @@ auto Window::frame() -> void
 	glClearColor(this->pimpl->clearColor.r, this->pimpl->clearColor.g, this->pimpl->clearColor.b, this->pimpl->clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// sort command buffer?
+	// sort command buffer? Sort geometry by shader requirements?
+	// 
 	//
 	// Command Buffer
-	// Loop over queued commands.
+	// Loop over queued commands, update buffer data, texture data, etc...
+	// queued commands may consist of glViewport, glDrawyArrays, glUseProgram, etc...
 	int fbWidth{};
 	int fbHeight{};
 	glfwGetFramebufferSize(this->pimpl->window, &fbWidth, &fbHeight);
@@ -323,19 +326,23 @@ auto Window::frame() -> void
 	// Vertex Buffer
 	std::array vertices{-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
 
+	static unsigned int vao{};
+
+	if(vao == 0)
+	{
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+	}
+
 	static unsigned int vbo{};
 
 	if(vbo == 0)
 	{
 		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		// OnDirty
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 	}
-
-	static unsigned int vao{};
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
