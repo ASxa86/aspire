@@ -37,7 +37,7 @@ namespace aspire::widget
 		/// node.
 		/// @param x The scene node that corresponds to this widget. Nullptr if it doesn't exist.
 		/// @return The root node to represent this widget in the scene.
-		auto update(aspire::scene::Node* x) -> std::unique_ptr<aspire::scene::Node>;
+		virtual auto update(aspire::scene::Node* x) -> std::unique_ptr<aspire::scene::Node>;
 
 	private:
 		struct Impl;
