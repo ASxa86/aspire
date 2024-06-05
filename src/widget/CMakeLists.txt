@@ -9,10 +9,12 @@ target_sources(${PROJECT_NAME} PRIVATE
     Window.cpp
 )
 
+find_package(SFML COMPONENTS graphics CONFIG REQUIRED)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
     aspire-core
     aspire-scene
-    aspire-render
+    sfml-graphics
 )
 
 add_subdirectory(test)

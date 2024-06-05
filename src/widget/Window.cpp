@@ -2,7 +2,7 @@
 
 #include <aspire/core/Kernel.h>
 #include <aspire/core/PimplImpl.h>
-#include <aspire/render/Window.h>
+#include <SFML/Graphics.hpp>
 #include <mutex>
 #include <thread>
 
@@ -11,11 +11,27 @@ using aspire::widget::Window;
 
 struct Window::Impl
 {
-	aspire::render::Window renderer;
+	~Impl()
+	{
+		this->stopToken = true;
+
+		if(this->renderThread.joinable() == true)
+		{
+			this->renderThread.join();
+		}
+	}
+
+	std::thread renderThread;
+	std::atomic<bool> stopToken{};
+	std::mutex renderMutex;
+	sf::RenderWindow renderer{};
+	sf::Color clearColor{};
+
 	std::unique_ptr<Widget> widget;
 	aspire::core::Kernel* kernel{};
 
 	std::string title;
+	Color color{.r = 0.2f, .g = 0.3f, .b = 0.3f, .a = 1.0f};
 	int x{};
 	int y{};
 	int width{};
@@ -88,6 +104,16 @@ auto Window::getTitle() const -> std::string_view
 	return this->pimpl->title;
 }
 
+auto Window::setColor(Color x) noexcept -> void
+{
+	this->pimpl->color = x;
+}
+
+auto Window::getColor() const noexcept -> Color
+{
+	return this->pimpl->color;
+}
+
 auto Window::event(aspire::core::Event* x) -> void
 {
 	switch(x->type())
@@ -103,12 +129,31 @@ auto Window::event(aspire::core::Event* x) -> void
 
 auto Window::frame() -> void
 {
-	if(!this->pimpl->renderer.valid())
+	if(this->pimpl->renderer.isOpen() == false)
 	{
 		return;
 	}
 
-	this->pimpl->renderer.frame();
+	std::scoped_lock lock(this->pimpl->renderMutex);
+
+	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
+	this->pimpl->renderer.setSize({static_cast<unsigned int>(this->pimpl->width), static_cast<unsigned int>(this->pimpl->height)});
+
+	sf::Event e{};
+	while(this->pimpl->renderer.pollEvent(e) == true)
+	{
+		switch(e.type)
+		{
+			case sf::Event::EventType::Closed:
+			{
+				Event evt{Event::Type::Close};
+				this->pimpl->kernel->sendEvent(evt, this);
+				break;
+			}
+			default:
+				break;
+		}
+	}
 }
 
 auto Window::onStartup() -> void
@@ -120,27 +165,38 @@ auto Window::onStartup() -> void
 		return;
 	}
 
-	this->pimpl->renderer.handleEvent(
-		[this](aspire::render::EventWindow x)
-		{
-			switch(x.type)
-			{
-				case aspire::render::EventWindow::Type::Close:
-				{
-					Event e{Event::Type::Close};
-					this->pimpl->kernel->sendEvent(e, this);
-				}
-				break;
+	constexpr auto style = sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close;
+	const auto width = static_cast<unsigned int>(this->pimpl->width);
+	const auto height = static_cast<unsigned int>(this->pimpl->height);
+	this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style);
+	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
 
-				default:
-					break;
+	// Deactivate context to enable rendering on a different thread.
+	this->pimpl->renderer.setActive(false);
+
+	this->pimpl->renderThread = std::thread(
+		[this]
+		{
+			// Re-enable context to run on this graphics thread.
+			this->pimpl->renderer.setActive(true);
+
+			while(this->pimpl->stopToken == false)
+			{
+				{
+					std::scoped_lock lock(this->pimpl->renderMutex);
+					this->synchronize();
+				}
+
+				this->pimpl->renderer.clear(this->pimpl->clearColor);
+				this->pimpl->renderer.display();
 			}
 		});
+}
 
-	this->pimpl->renderer.setX(this->pimpl->x);
-	this->pimpl->renderer.setY(this->pimpl->y);
-	this->pimpl->renderer.setWidth(this->pimpl->width);
-	this->pimpl->renderer.setHeight(this->pimpl->height);
-	this->pimpl->renderer.setTitle(this->pimpl->title);
-	this->pimpl->renderer.create();
+auto Window::synchronize() -> void
+{
+	this->pimpl->clearColor.r = static_cast<sf::Uint8>(this->pimpl->color.r * 255);
+	this->pimpl->clearColor.g = static_cast<sf::Uint8>(this->pimpl->color.g * 255);
+	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * 255);
+	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * 255);
 }
