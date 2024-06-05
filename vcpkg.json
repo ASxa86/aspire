@@ -5,9 +5,7 @@
   "description": "AS personal integration and rendering engine",
   "homepage": "https://gitlab.com/asxa86/aspire",
   "dependencies": [
-    "glfw3",
     "gtest",
-    "glm",
-    "glad"
+    "sfml"
   ]
 }

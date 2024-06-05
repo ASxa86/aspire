@@ -5,7 +5,7 @@
 #include <aspire/render/export.hxx>
 #include <functional>
 #include <string>
-#include <glm/vec4.hpp>
+#include <array>
 
 namespace aspire::render
 {
@@ -36,8 +36,8 @@ namespace aspire::render
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
 
-		auto setClearColor(glm::vec4 x) noexcept -> void;
-		[[nodiscard]] auto getClearColor() const noexcept -> glm::vec4;
+		auto setClearColor(std::array<float, 4> x) noexcept -> void;
+		[[nodiscard]] auto getClearColor() const noexcept -> std::array<float, 4>;
 
 		auto addEvent(Event x) -> void;
 		auto handleEvent(std::function<void(EventWindow)> x) -> void;
