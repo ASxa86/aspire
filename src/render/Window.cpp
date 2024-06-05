@@ -1,8 +1,7 @@
 #include <aspire/render/Window.h>
-#include <glad/glad.h>
 
-#include <GLFW/glfw3.h>
 #include <aspire/core/PimplImpl.h>
+#include <SFML/Graphics.hpp>
 #include <array>
 #include <vector>
 
@@ -18,96 +17,55 @@ namespace
 		using Ts::operator()...;
 	};
 
-	auto GetWindow(GLFWwindow* x) -> Window*
+	auto ConvertEventSFtoAspire(Window* window, const sf::Event& x) -> void
 	{
-		// NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-		return reinterpret_cast<Window*>(glfwGetWindowUserPointer(x));
-	}
+		aspire::render::Event event;
 
-	auto CallbackWindowClose(GLFWwindow* glfw) -> void
-	{
-		auto* window = GetWindow(glfw);
-
-		EventWindow event;
-		event.type = EventWindow::Type::Close;
-		window->addEvent(event);
-	}
-
-	auto CallbackWindowResize(GLFWwindow* glfw, int width, int height) -> void
-	{
-		auto* window = GetWindow(glfw);
-
-		EventWindow event;
-		event.type = EventWindow::Type::Resize;
-		event.width = width;
-		event.height = height;
-		window->addEvent(event);
-	}
-
-	// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-	auto CallbackMousePos(GLFWwindow* glfw, double x, double y) -> void
-	{
-		auto* window = GetWindow(glfw);
-
-		EventMouse event;
-		event.x = x;
-		event.y = y;
-		event.type = EventMouse::Type::Move;
-		window->addEvent(event);
-	}
-
-	// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-	auto CallbackMouseButton(GLFWwindow* glfw, int button, int action, int /*unused*/) -> void
-	{
-		auto* window = GetWindow(glfw);
-
-		double x{};
-		double y{};
-		glfwGetCursorPos(glfw, &x, &y);
-
-		EventMouse event;
-		event.x = x;
-		event.y = y;
-
-		switch(button)
+		switch(x.type)
 		{
-			case GLFW_MOUSE_BUTTON_LEFT:
-				event.button = EventMouse::Button::Left;
-				break;
+			case sf::Event::EventType::Closed:
+			{
+				EventWindow evt;
+				evt.type = EventWindow::Type::Close;
+				evt.height = x.size.height;
+				evt.width = x.size.width;
+				event = evt;
+			}
+			break;
 
-			case GLFW_MOUSE_BUTTON_MIDDLE:
-				event.button = EventMouse::Button::Middle;
-				break;
-
-			case GLFW_MOUSE_BUTTON_RIGHT:
-				event.button = EventMouse::Button::Right;
-				break;
+			case sf::Event::EventType::MouseMoved:
+			{
+				EventMouse evt;
+				evt.type = EventMouse::Type::Move;
+				evt.x = x.mouseMove.x;
+				evt.y = x.mouseMove.y;
+				event = evt;
+			}
+			break;
 
 			default:
 				break;
 		}
 
-		switch(action)
+		// No value was assigned to the event variant so lets exit early.
+		if(event.index() == 0)
 		{
-			case GLFW_PRESS:
-				event.type = EventMouse::Type::Press;
-				break;
-
-			case GLFW_RELEASE:
-				event.type = EventMouse::Type::Release;
-				break;
-
-			default:
-				break;
+			return;
 		}
 
 		window->addEvent(event);
+	}
+
+	auto ConvertArrayToSFColor(std::array<float, 4> x) -> sf::Color
+	{
+		return {static_cast<sf::Uint8>(x[0] * 255), static_cast<sf::Uint8>(x[1] * 255), static_cast<sf::Uint8>(x[2] * 255),
+				static_cast<sf::Uint8>(x[3] * 255)};
 	}
 }
 
 struct Window::Impl
 {
-	GLFWwindow* window{};
+	sf::RenderWindow window{};
 
 	std::vector<Event> events;
 
@@ -117,7 +75,7 @@ struct Window::Impl
 	std::function<void(EventMouse)> handleEventMouse{[](auto) {}};
 
 	std::string title;
-	glm::vec4 clearColor{0.2f, 0.3f, 0.3f, 1.0f};
+	std::array<float, 4> clearColor{0.2f, 0.3f, 0.3f, 1.0f};
 	int x{};
 	int y{};
 	int width{};
@@ -178,12 +136,12 @@ auto Window::getWidth() const noexcept -> int
 	return this->pimpl->width;
 }
 
-auto Window::setClearColor(glm::vec4 x) noexcept -> void
+auto Window::setClearColor(std::array<float, 4> x) noexcept -> void
 {
 	this->pimpl->clearColor = x;
 }
 
-auto Window::getClearColor() const noexcept -> glm::vec4
+auto Window::getClearColor() const noexcept -> std::array<float, 4>
 {
 	return this->pimpl->clearColor;
 }
@@ -205,55 +163,19 @@ auto Window::handleEvent(std::function<void(EventMouse)> x) -> void
 
 auto Window::create() -> void
 {
-	if(glfwInit() == GLFW_FALSE)
-	{
-		return;
-	}
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	this->pimpl->window = glfwCreateWindow(this->pimpl->width, this->pimpl->height, this->pimpl->title.c_str(), nullptr, nullptr);
-
-	if(this->pimpl->window == nullptr)
-	{
-		glfwTerminate();
-		return;
-	}
-
-	glfwMakeContextCurrent(this->pimpl->window);
-
-	if(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == GL_FALSE)
-	{
-		return;
-	}
-
-	glfwSetWindowUserPointer(this->pimpl->window, this);
-	glfwSetWindowCloseCallback(this->pimpl->window, &CallbackWindowClose);
-	glfwSetWindowSizeCallback(this->pimpl->window, &CallbackWindowResize);
-	glfwSetCursorPosCallback(this->pimpl->window, &CallbackMousePos);
-	glfwSetMouseButtonCallback(this->pimpl->window, &CallbackMouseButton);
-
-	this->pimpl->valid = this->pimpl->window != nullptr;
-
-	// Release the context to give the Window::frame() invoker the opportunity to render on a different thread.
-	glfwMakeContextCurrent(nullptr);
+	constexpr auto style = sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize;
+	this->pimpl->window.create(sf::VideoMode{static_cast<unsigned int>(this->pimpl->width), static_cast<unsigned int>(this->pimpl->height)},
+							   this->pimpl->title, style);
 }
 
 auto Window::destroy() -> void
 {
-	if(this->valid())
-	{
-		glfwDestroyWindow(this->pimpl->window);
-	}
-
-	glfwTerminate();
+	this->pimpl->window.close();
 }
 
 auto Window::valid() noexcept -> bool
 {
-	return this->pimpl->valid;
+	return this->pimpl->window.isOpen();
 }
 
 auto Window::frame() -> void
@@ -266,91 +188,13 @@ auto Window::frame() -> void
 
 	this->pimpl->events.clear();
 
-	glfwMakeContextCurrent(this->pimpl->window);
+	this->pimpl->window.clear(ConvertArrayToSFColor(this->pimpl->clearColor));
 
-	glClearColor(this->pimpl->clearColor.r, this->pimpl->clearColor.g, this->pimpl->clearColor.b, this->pimpl->clearColor.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	this->pimpl->window.display();
 
-	// sort command buffer? Sort geometry by shader requirements?
-	// 
-	//
-	// Command Buffer
-	// Loop over queued commands, update buffer data, texture data, etc...
-	// queued commands may consist of glViewport, glDrawyArrays, glUseProgram, etc...
-	int fbWidth{};
-	int fbHeight{};
-	glfwGetFramebufferSize(this->pimpl->window, &fbWidth, &fbHeight);
-	glViewport(0, 0, fbWidth, fbHeight);
-
-	static unsigned int shaderProgram{};
-
-	if(shaderProgram == 0)
+	sf::Event e{};
+	while(this->pimpl->window.pollEvent(e))
 	{
-		// Use program
-		constexpr auto* vertexShader =
-			"#version 330 core\n"
-			"layout (location = 0) in vec3 aPos;\n"
-			"void main()\n"
-			"{\n"
-			"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-			"}\0";
-
-		unsigned int vtxSdr = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vtxSdr, 1, &vertexShader, nullptr);
-		glCompileShader(vtxSdr);
-
-		constexpr auto* fragmentShaderSource = R"(
-			#version 330 core
-			out vec4 FragColor;
-
-			void main()
-			{
-				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-			} 
-		)";
-
-		unsigned int fragmentShader;
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-		glCompileShader(fragmentShader);
-
-		shaderProgram = glCreateProgram();
-		glAttachShader(shaderProgram, vtxSdr);
-		glAttachShader(shaderProgram, fragmentShader);
-		glLinkProgram(shaderProgram);
-
-		glDeleteShader(vtxSdr);
-		glDeleteShader(fragmentShader);
+		ConvertEventSFtoAspire(this, e);
 	}
-
-	// Vertex Buffer
-	std::array vertices{-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
-
-	static unsigned int vao{};
-
-	if(vao == 0)
-	{
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-	}
-
-	static unsigned int vbo{};
-
-	if(vbo == 0)
-	{
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		// OnDirty
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-	}
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glUseProgram(shaderProgram);
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glfwSwapBuffers(this->pimpl->window);
-	glfwPollEvents();
 }
