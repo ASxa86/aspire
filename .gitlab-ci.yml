@@ -15,7 +15,7 @@ variables:
   NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe
 
 .get-dependencies: &get-dependencies
-  - apt install -y autoconf libtool
+  - apt install -y libx11-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libgl1-mesa-dev
 
 .get-vcpkg: &get-vcpkg
   # Get vcpkg
