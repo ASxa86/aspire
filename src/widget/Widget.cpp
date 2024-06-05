@@ -14,9 +14,9 @@ struct Widget::Impl
 	int height{};
 };
 
-Widget::Widget() : Object{}
+Widget::Widget()
 {
-	this->childAdded.connect(
+	this->onChildAdded(
 		[this](auto* x)
 		{
 			auto* widget = dynamic_cast<Widget*>(x);
@@ -29,7 +29,7 @@ Widget::Widget() : Object{}
 			this->pimpl->childWidgets.emplace_back(widget);
 		});
 
-	this->childRemoved.connect([this](auto* x) { std::erase(this->pimpl->childWidgets, x); });
+	this->onChildRemoved([this](auto* x) { std::erase(this->pimpl->childWidgets, x); });
 }
 
 Widget::~Widget() = default;

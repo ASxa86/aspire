@@ -58,13 +58,26 @@ namespace aspire::core
 		/// @return True if this object has been processed. Otherwise, false.
 		auto isStartup() -> bool;
 
-		sigslot::signal<Object*> childAdded;
-		sigslot::signal<Object*> childRemoved;
+		template <typename T>
+		auto onChildAdded(T x)
+		{
+			return this->childAdded.connect(std::forward<T>(x));
+		}
+
+		template <typename T>
+		auto onChildRemoved(T x)
+		{
+			return this->childRemoved.connect(std::forward<T>(x));
+		}
+
 
 	protected:
 		virtual auto onStartup() -> void;
 
 	private:
+		sigslot::signal<Object*> childAdded;
+		sigslot::signal<Object*> childRemoved;
+
 		struct Impl;
 		Pimpl<Impl> pimpl;
 	};
