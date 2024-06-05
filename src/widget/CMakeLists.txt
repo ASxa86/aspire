@@ -4,7 +4,12 @@ project_add_library(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
     ${PROJECT_INCLUDE_DIR}/aspire/widget/Widget.h
-    ${PROJECT_INCLUDE_DIR}/aspire/widget/Window.h
+    ${PROJECT_INCLUDE_DIR}/aspire/widget/Window.h  
+)
+
+target_sources(${PROJECT_NAME} PRIVATE
+    BatchRenderer.cpp
+    BatchRenderer.h
     Widget.cpp
     Window.cpp
 )
