@@ -2,6 +2,7 @@
 
 #include <aspire/core/Pimpl.h>
 #include <aspire/core/Service.h>
+#include <aspire/widget/Color.h>
 #include <aspire/widget/Widget.h>
 #include <aspire/widget/export.hxx>
 
@@ -35,6 +36,9 @@ namespace aspire::widget
 		auto setTitle(std::string_view x) -> void;
 		[[nodiscard]] auto getTitle() const -> std::string_view;
 
+		auto setColor(Color x) noexcept -> void;
+		[[nodiscard]] auto getColor() const noexcept -> Color;
+
 		auto setWidget(std::unique_ptr<Widget> x) -> void;
 		[[nodiscard]] auto getWidget() const -> Widget*;
 
@@ -44,6 +48,7 @@ namespace aspire::widget
 
 	protected:
 		auto onStartup() -> void override;
+		auto synchronize() -> void;
 
 	private:
 		struct Impl;
