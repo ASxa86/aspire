@@ -10,15 +10,15 @@ using aspire::widget::Window;
 
 struct Window::Impl
 {
-	sf::RenderWindow renderer{};
+	sf::RenderWindow renderer;
 	BatchRenderer batchRenderer{};
-	sf::Color clearColor{};
+	sf::Color clearColor;
 
 	std::unique_ptr<Widget> widget;
 	aspire::core::Kernel* kernel{};
 
 	std::string title;
-	Color color{.r = 0.2f, .g = 0.3f, .b = 0.3f, .a = 1.0f};
+	Color color{.r = 0.2F, .g = 0.3F, .b = 0.3F, .a = 1.0F};
 	int x{};
 	int y{};
 	int width{};
@@ -26,10 +26,7 @@ struct Window::Impl
 };
 
 Window::Window() = default;
-
-Window::~Window()
-{
-}
+Window::~Window() = default;
 
 auto Window::setX(int x) noexcept -> void
 {
@@ -171,10 +168,11 @@ auto Window::onStartup() -> void
 
 auto Window::update() -> void
 {
-	this->pimpl->clearColor.r = static_cast<sf::Uint8>(this->pimpl->color.r * 255);
-	this->pimpl->clearColor.g = static_cast<sf::Uint8>(this->pimpl->color.g * 255);
-	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * 255);
-	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * 255);
+	constexpr auto maxUint8 = std::numeric_limits<sf::Uint8>::max();
+	this->pimpl->clearColor.r = static_cast<sf::Uint8>(this->pimpl->color.r * maxUint8);
+	this->pimpl->clearColor.g = static_cast<sf::Uint8>(this->pimpl->color.g * maxUint8);
+	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * maxUint8);
+	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * maxUint8);
 
 	if(this->pimpl->widget == nullptr)
 	{

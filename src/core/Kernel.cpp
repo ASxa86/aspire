@@ -12,7 +12,7 @@ struct Kernel::Impl
 	std::vector<Service*> services;
 	std::vector<std::pair<std::unique_ptr<Event>, Object*>> events;
 	std::mutex mutexEvent;
-	std::chrono::steady_clock::time_point start{};
+	std::chrono::steady_clock::time_point start;
 	std::chrono::steady_clock::duration elapsed{};
 	bool running{false};
 };
