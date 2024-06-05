@@ -14,6 +14,9 @@ variables:
   CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.29.2-linux/cmake-3.29.2-linux-x86_64/bin/cmake
   NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe
 
+*get-dependencies: &get-dependencies
+  - apt install autoconf libtool
+
 .get-vcpkg: &get-vcpkg
   # Get vcpkg
   - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
@@ -31,6 +34,7 @@ lint-clang-tidy:
   tags:
     - saas-linux-medium-amd64
   script:
+    - *get-dependencies
     - *get-vcpkg
 
     # Configure Aspire
@@ -49,6 +53,7 @@ lint-clang-tidy:
   tags:
     - saas-linux-medium-amd64
   script:
+    - *get-dependencies
     - *get-vcpkg
 
     # Build Aspire
