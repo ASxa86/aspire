@@ -7,7 +7,8 @@ Checks: '-*,
   cppcoreguidelines-*,
   modernize-*,
   readability-*,
-  -readability-identifier-length
+  -readability-identifier-length,
+  -readability-simplify-boolean-expr
 '
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
