@@ -3,27 +3,12 @@
 #include <aspire/core/Kernel.h>
 #include <aspire/core/PimplImpl.h>
 #include <SFML/Graphics.hpp>
-#include <mutex>
-#include <thread>
 
 using aspire::core::Event;
 using aspire::widget::Window;
 
 struct Window::Impl
 {
-	~Impl()
-	{
-		this->stopToken = true;
-
-		if(this->renderThread.joinable() == true)
-		{
-			this->renderThread.join();
-		}
-	}
-
-	std::thread renderThread;
-	std::atomic<bool> stopToken{};
-	std::mutex renderMutex;
 	sf::RenderWindow renderer{};
 	sf::Color clearColor{};
 
@@ -134,8 +119,6 @@ auto Window::frame() -> void
 		return;
 	}
 
-	std::scoped_lock lock(this->pimpl->renderMutex);
-
 	sf::Event e{};
 	while(this->pimpl->renderer.pollEvent(e) == true)
 	{
@@ -159,6 +142,11 @@ auto Window::frame() -> void
 				break;
 		}
 	}
+
+	this->update();
+
+	this->pimpl->renderer.clear(this->pimpl->clearColor);
+	this->pimpl->renderer.display();
 }
 
 auto Window::onStartup() -> void
@@ -175,52 +163,27 @@ auto Window::onStartup() -> void
 	const auto height = static_cast<unsigned int>(this->pimpl->height);
 	this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style);
 	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
-
-	// Deactivate context to enable rendering on a different thread.
-	this->pimpl->renderer.setActive(false);
-
-	this->pimpl->renderThread = std::thread(
-		[this]
-		{
-			// Re-enable context to run on this graphics thread.
-			this->pimpl->renderer.setActive(true);
-
-			while(this->pimpl->stopToken == false)
-			{
-				{
-					std::scoped_lock lock(this->pimpl->renderMutex);
-					this->synchronize();
-				}
-
-				this->pimpl->renderer.clear(this->pimpl->clearColor);
-				this->pimpl->renderer.display();
-			}
-		});
 }
 
-auto Window::synchronize() -> void
+auto Window::update() -> void
 {
 	this->pimpl->clearColor.r = static_cast<sf::Uint8>(this->pimpl->color.r * 255);
 	this->pimpl->clearColor.g = static_cast<sf::Uint8>(this->pimpl->color.g * 255);
 	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * 255);
 	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * 255);
 
-	// this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
-	// Bug // Sizing needs to occur on main thread but the view is also computed which needs to occur on the render thread.
-	// this->pimpl->renderer.setSize({static_cast<unsigned int>(this->pimpl->width), static_cast<unsigned int>(this->pimpl->height)});
-
 	if(this->pimpl->widget == nullptr)
 	{
 		return;
 	}
 
-	this->synchronize(*this->pimpl->widget);
+	this->update(*this->pimpl->widget);
 }
 
-auto Window::synchronize(Widget& x) -> void
+auto Window::update(Widget& x) -> void
 {
 	for(auto* widget : x.childWidgets())
 	{
-		this->synchronize(*widget);
+		this->update(*widget);
 	}
 }

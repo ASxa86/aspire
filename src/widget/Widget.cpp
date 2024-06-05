@@ -79,7 +79,7 @@ auto Widget::childWidgets() const noexcept -> std::vector<Widget*>
 	return this->pimpl->childWidgets;
 }
 
-auto Widget::synchronize(aspire::scene::Node* /*unused*/) -> std::unique_ptr<aspire::scene::Node>
+auto Widget::update(aspire::scene::Node* /*unused*/) -> std::unique_ptr<aspire::scene::Node>
 {
 	return nullptr;
 }

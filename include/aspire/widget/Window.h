@@ -48,8 +48,8 @@ namespace aspire::widget
 
 	protected:
 		auto onStartup() -> void override;
-		auto synchronize() -> void;
-		auto synchronize(Widget& x) -> void;
+		auto update() -> void;
+		auto update(Widget& x) -> void;
 
 	private:
 		struct Impl;
