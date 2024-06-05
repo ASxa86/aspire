@@ -14,7 +14,7 @@ variables:
   CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.27.1-linux/cmake-3.27.1-linux-x86_64/bin/cmake
   NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe
 
-*get-dependencies: &get-dependencies
+.get-dependencies: &get-dependencies
   - apt install autoconf libtool
 
 .get-vcpkg: &get-vcpkg
