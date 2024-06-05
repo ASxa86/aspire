@@ -15,7 +15,7 @@ variables:
   NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe
 
 .get-dependencies: &get-dependencies
-  - apt install autoconf libtool
+  - apt install -y autoconf libtool
 
 .get-vcpkg: &get-vcpkg
   # Get vcpkg
