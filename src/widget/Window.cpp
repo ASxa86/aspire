@@ -3,6 +3,7 @@
 #include <aspire/core/Kernel.h>
 #include <aspire/core/PimplImpl.h>
 #include <SFML/Graphics.hpp>
+#include "BatchRenderer.h"
 
 using aspire::core::Event;
 using aspire::widget::Window;
@@ -10,6 +11,7 @@ using aspire::widget::Window;
 struct Window::Impl
 {
 	sf::RenderWindow renderer{};
+	BatchRenderer batchRenderer{};
 	sf::Color clearColor{};
 
 	std::unique_ptr<Widget> widget;
@@ -143,9 +145,11 @@ auto Window::frame() -> void
 		}
 	}
 
+	// Sort, batch, update nodes, etc...
 	this->update();
 
 	this->pimpl->renderer.clear(this->pimpl->clearColor);
+	this->pimpl->renderer.draw(this->pimpl->batchRenderer);
 	this->pimpl->renderer.display();
 }
 
@@ -178,6 +182,10 @@ auto Window::update() -> void
 	}
 
 	this->update(*this->pimpl->widget);
+
+	// I'll have an updated list of nodes.
+	// Sort and add to batch renderer.
+	// this->pimpl->batchRenderer.add(node);
 }
 
 auto Window::update(Widget& x) -> void
