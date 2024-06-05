@@ -2,6 +2,7 @@
 
 #include <aspire/core/Object.h>
 #include <aspire/core/Pimpl.h>
+#include <aspire/scene/Node.h>
 #include <aspire/widget/export.hxx>
 
 namespace aspire::widget
@@ -29,6 +30,14 @@ namespace aspire::widget
 
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
+
+		[[nodiscard]] auto childWidgets() const noexcept -> std::vector<Widget*>;
+
+		/// @brief This function is only save to call on the render thread and provides a way to synchronize the state of the widget with a scene
+		/// node.
+		/// @param x The scene node that corresponds to this widget. Nullptr if it doesn't exist.
+		/// @return The root node to represent this widget in the scene.
+		auto synchronize(aspire::scene::Node* x) -> std::unique_ptr<aspire::scene::Node>;
 
 	private:
 		struct Impl;

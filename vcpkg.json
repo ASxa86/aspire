@@ -6,6 +6,7 @@
   "homepage": "https://gitlab.com/asxa86/aspire",
   "dependencies": [
     "gtest",
-    "sfml"
+    "sfml",
+    "palsigslot"
   ]
 }

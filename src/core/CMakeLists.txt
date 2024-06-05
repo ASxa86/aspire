@@ -15,4 +15,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     Service.cpp
 )
 
+find_package(PalSigslot CONFIG REQUIRED)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    Pal::Sigslot
+)
+
 add_subdirectory(test)

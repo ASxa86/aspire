@@ -41,6 +41,8 @@ auto Object::addChild(std::unique_ptr<Object> x) -> void
 	x->pimpl->parent = this;
 	this->pimpl->children.emplace_back(std::move(x));
 
+	this->childAdded(temp);
+
 	// Once the object has been started, we need to invoke any new objects that get added dynamically after the fact.
 	if(this->isStartup() && !temp->isStartup())
 	{
@@ -65,6 +67,8 @@ auto Object::remove() -> std::unique_ptr<Object>
 	auto node = std::move(*beg);
 	this->pimpl->parent->pimpl->children.erase(beg, end);
 	node->pimpl->parent = nullptr;
+
+	this->childRemoved(node.get());
 
 	return node;
 }
