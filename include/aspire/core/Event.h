@@ -11,6 +11,7 @@ namespace aspire::core
 		enum class Type : int
 		{
 			Unknown,
+			Resize,
 			Close
 		};
 

@@ -136,9 +136,6 @@ auto Window::frame() -> void
 
 	std::scoped_lock lock(this->pimpl->renderMutex);
 
-	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
-	this->pimpl->renderer.setSize({static_cast<unsigned int>(this->pimpl->width), static_cast<unsigned int>(this->pimpl->height)});
-
 	sf::Event e{};
 	while(this->pimpl->renderer.pollEvent(e) == true)
 	{
@@ -148,8 +145,16 @@ auto Window::frame() -> void
 			{
 				Event evt{Event::Type::Close};
 				this->pimpl->kernel->sendEvent(evt, this);
-				break;
 			}
+			break;
+
+			case sf::Event::EventType::Resized:
+			{
+				Event evt{Event::Type::Resize};
+				this->pimpl->kernel->sendEvent(evt, this);
+			}
+			break;
+
 			default:
 				break;
 		}
@@ -199,4 +204,23 @@ auto Window::synchronize() -> void
 	this->pimpl->clearColor.g = static_cast<sf::Uint8>(this->pimpl->color.g * 255);
 	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * 255);
 	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * 255);
+
+	// this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
+	// Bug // Sizing needs to occur on main thread but the view is also computed which needs to occur on the render thread.
+	// this->pimpl->renderer.setSize({static_cast<unsigned int>(this->pimpl->width), static_cast<unsigned int>(this->pimpl->height)});
+
+	if(this->pimpl->widget == nullptr)
+	{
+		return;
+	}
+
+	this->synchronize(*this->pimpl->widget);
+}
+
+auto Window::synchronize(Widget& x) -> void
+{
+	for(auto* widget : x.childWidgets())
+	{
+		this->synchronize(*widget);
+	}
 }

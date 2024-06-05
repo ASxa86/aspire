@@ -4,6 +4,7 @@
 #include <aspire/core/Pimpl.h>
 #include <aspire/core/export.hxx>
 #include <memory>
+#include <sigslot/signal.hpp>
 #include <string_view>
 #include <vector>
 
@@ -56,6 +57,9 @@ namespace aspire::core
 		/// @brief Returns whether this object has processed its startup function.
 		/// @return True if this object has been processed. Otherwise, false.
 		auto isStartup() -> bool;
+
+		sigslot::signal<Object*> childAdded;
+		sigslot::signal<Object*> childRemoved;
 
 	protected:
 		virtual auto onStartup() -> void;

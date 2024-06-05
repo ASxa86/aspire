@@ -6,13 +6,32 @@ using aspire::widget::Widget;
 
 struct Widget::Impl
 {
+	std::vector<Widget*> childWidgets;
+
 	int x{};
 	int y{};
 	int width{};
 	int height{};
 };
 
-Widget::Widget() = default;
+Widget::Widget() : Object{}
+{
+	this->childAdded.connect(
+		[this](auto* x)
+		{
+			auto* widget = dynamic_cast<Widget*>(x);
+
+			if(widget == nullptr)
+			{
+				return;
+			}
+
+			this->pimpl->childWidgets.emplace_back(widget);
+		});
+
+	this->childRemoved.connect([this](auto* x) { std::erase(this->pimpl->childWidgets, x); });
+}
+
 Widget::~Widget() = default;
 
 auto Widget::setX(int x) noexcept -> void
@@ -53,4 +72,14 @@ auto Widget::setWidth(int x) noexcept -> void
 auto Widget::getWidth() const noexcept -> int
 {
 	return this->pimpl->width;
+}
+
+auto Widget::childWidgets() const noexcept -> std::vector<Widget*>
+{
+	return this->pimpl->childWidgets;
+}
+
+auto Widget::synchronize(aspire::scene::Node* /*unused*/) -> std::unique_ptr<aspire::scene::Node>
+{
+	return nullptr;
 }
