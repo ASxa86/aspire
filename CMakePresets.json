@@ -62,8 +62,8 @@
             "displayName": "Clang Debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
-                "CMAKE_C_COMPILER": "/usr/bin/clang-17",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-18",
+                "CMAKE_C_COMPILER": "/usr/bin/clang-18",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
