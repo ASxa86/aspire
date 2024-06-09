@@ -10,13 +10,13 @@ using aspire::scene::Window;
 struct Window::Impl
 {
 	sf::RenderWindow renderer;
-	sf::Color clearColor;
+	sf::Color clearColor{static_cast<sf::Uint8>(0.2F * 255U), static_cast<sf::Uint8>(0.3F * 255U), static_cast<sf::Uint8>(0.3F * 255U),
+						 static_cast<sf::Uint8>(1.0F * 255U)};
 
 	std::unique_ptr<Node> rootNode;
 	aspire::core::Kernel* kernel{};
 
 	std::string title;
-	Color color{.r = 0.2F, .g = 0.3F, .b = 0.3F, .a = 1.0F};
 	int x{};
 	int y{};
 	int width{};
@@ -86,14 +86,14 @@ auto Window::getTitle() const -> std::string_view
 	return this->pimpl->title;
 }
 
-auto Window::setColor(Color x) noexcept -> void
+auto Window::setColor(sf::Color x) noexcept -> void
 {
-	this->pimpl->color = x;
+	this->pimpl->clearColor = x;
 }
 
-auto Window::getColor() const noexcept -> Color
+auto Window::getColor() const noexcept -> sf::Color
 {
-	return this->pimpl->color;
+	return this->pimpl->clearColor;
 }
 
 auto Window::event(aspire::core::Event* x) -> void
@@ -144,6 +144,7 @@ auto Window::frame() -> void
 	this->update();
 
 	this->pimpl->renderer.clear(this->pimpl->clearColor);
+	this->pimpl->rootNode->draw(this->pimpl->renderer);
 	this->pimpl->renderer.display();
 }
 
@@ -156,21 +157,23 @@ auto Window::onStartup() -> void
 		return;
 	}
 
+	if(this->pimpl->rootNode == nullptr)
+	{
+		this->pimpl->kernel->quit();
+		return;
+	}
+
 	constexpr auto style = sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close;
 	const auto width = static_cast<unsigned int>(this->pimpl->width);
 	const auto height = static_cast<unsigned int>(this->pimpl->height);
-	this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style);
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 8;
+	this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style, settings);
 	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
 }
 
 auto Window::update() -> void
 {
-	constexpr auto maxUint8 = std::numeric_limits<sf::Uint8>::max();
-	this->pimpl->clearColor.r = static_cast<sf::Uint8>(this->pimpl->color.r * maxUint8);
-	this->pimpl->clearColor.g = static_cast<sf::Uint8>(this->pimpl->color.g * maxUint8);
-	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * maxUint8);
-	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * maxUint8);
-
 	if(this->pimpl->rootNode == nullptr)
 	{
 		return;

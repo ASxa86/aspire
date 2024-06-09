@@ -3,7 +3,7 @@ project(aspire-scene-test)
 project_add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
-    Node.test.cpp
+    Rectangle.test.cpp
     Window.test.cpp
 )
 
