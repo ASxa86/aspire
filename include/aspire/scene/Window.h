@@ -2,9 +2,9 @@
 
 #include <aspire/core/Pimpl.h>
 #include <aspire/core/Service.h>
-#include <aspire/scene/Color.h>
 #include <aspire/scene/Node.h>
 #include <aspire/scene/export.hxx>
+#include <SFML/Graphics/Color.hpp>
 
 namespace aspire::scene
 {
@@ -36,8 +36,8 @@ namespace aspire::scene
 		auto setTitle(std::string_view x) -> void;
 		[[nodiscard]] auto getTitle() const -> std::string_view;
 
-		auto setColor(Color x) noexcept -> void;
-		[[nodiscard]] auto getColor() const noexcept -> Color;
+		auto setColor(sf::Color x) noexcept -> void;
+		[[nodiscard]] auto getColor() const noexcept -> sf::Color;
 
 		auto setRootNode(std::unique_ptr<Node> x) -> void;
 		[[nodiscard]] auto getRootNode() const -> Node*;

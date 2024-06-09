@@ -2,6 +2,7 @@
 
 #include <aspire/core/PimplImpl.h>
 #include <chrono>
+#include <deque>
 #include <iostream>
 #include <mutex>
 #include <numeric>
@@ -42,15 +43,16 @@ auto Kernel::queueEvent(std::unique_ptr<Event> x, Object* receiver) -> void
 
 auto Kernel::run() -> int
 {
+	this->pimpl->running = true;
+
 	// Process all initialized objects.
 	this->startup();
 
-	this->pimpl->running = true;
 	this->pimpl->start = std::chrono::steady_clock::now();
 
-	std::vector<std::chrono::steady_clock::duration> frames;
+	std::deque<std::chrono::steady_clock::duration> frames;
 
-	while(this->pimpl->running)
+	while(this->pimpl->running == true)
 	{
 		const auto frameStart = std::chrono::steady_clock::now();
 
@@ -71,16 +73,24 @@ auto Kernel::run() -> int
 		}
 
 		frames.emplace_back(std::chrono::steady_clock::now() - frameStart);
+
+		if(frames.size() > 200)
+		{
+			frames.pop_front();
+		}
 	}
 
 	std::cout << "Frames: " << frames.size() << "\n";
 
-	const auto sum = std::accumulate(std::begin(frames), std::end(frames), std::chrono::steady_clock::duration::zero());
-	const auto avg = std::chrono::duration_cast<std::chrono::duration<double>>(sum).count() / static_cast<double>(frames.size());
-	const auto fps = 1.0 / avg;
+	if(frames.empty() == false)
+	{
+		const auto sum = std::accumulate(std::begin(frames), std::end(frames), std::chrono::steady_clock::duration::zero());
+		const auto avg = std::chrono::duration_cast<std::chrono::duration<double>>(sum).count() / static_cast<double>(frames.size());
+		const auto fps = 1.0 / avg;
 
-	std::cout << "Interval: " << avg << " s\n";
-	std::cout << "FPS: " << fps << " Hz\n";
+		std::cout << "Interval: " << avg << " s\n";
+		std::cout << "FPS: " << fps << " Hz\n";
+	}
 
 	return EXIT_SUCCESS;
 }

@@ -2,6 +2,7 @@
 
 #include <aspire/core/Object.h>
 #include <aspire/core/Pimpl.h>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <aspire/scene/export.hxx>
 
 namespace aspire::scene
@@ -18,21 +19,24 @@ namespace aspire::scene
 		Node(Node&&) noexcept = delete;
 		auto operator=(Node&&) noexcept = delete;
 
-		auto setX(int x) noexcept -> void;
-		[[nodiscard]] auto getX() const noexcept -> int;
+		auto setPosition(sf::Vector2f x) noexcept -> void;
+		[[nodiscard]] auto getPosition() const noexcept -> sf::Vector2f;
 
-		auto setY(int x) noexcept -> void;
-		[[nodiscard]] auto getY() const noexcept -> int;
+		auto setScale(sf::Vector2f x) noexcept -> void;
+		[[nodiscard]] auto getScale() const noexcept -> sf::Vector2f;
 
-		auto setHeight(int x) noexcept -> void;
-		[[nodiscard]] auto getHeight() const noexcept -> int;
-
-		auto setWidth(int x) noexcept -> void;
-		[[nodiscard]] auto getWidth() const noexcept -> int;
+		auto setRotation(float x) noexcept -> void;
+		[[nodiscard]] auto getRotation() const noexcept -> float;
 
 		[[nodiscard]] auto childNodes() const noexcept -> std::vector<Node*>;
 
+		[[nodiscard]] auto getTransformLocal() const noexcept -> sf::Transform;
+		[[nodiscard]] auto getTransformGlobal() const noexcept -> sf::Transform;
+
+		auto draw(sf::RenderTarget& target, sf::RenderStates states = {}) -> void;
+
 	private:
+		virtual auto onDraw(sf::RenderTarget& target, sf::RenderStates& states) -> void;
 		struct Impl;
 		Pimpl<Impl> pimpl;
 	};

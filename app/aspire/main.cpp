@@ -1,4 +1,5 @@
 #include <aspire/core/Kernel.h>
+#include <aspire/scene/Rectangle.h>
 #include <aspire/scene/Window.h>
 
 auto main() -> int
@@ -16,6 +17,18 @@ auto main() -> int
 	window->setWidth(defaultWidth);
 	window->setHeight(defaultHeight);
 	window->setTitle("Aspire");
+
+	auto rect = std::make_unique<aspire::scene::Rectangle>();
+	rect->setPosition({80, 80});
+	rect->setSize({64, 64});
+
+	auto subrect = std::make_unique<aspire::scene::Rectangle>();
+	subrect->setSize({16, 16});
+	subrect->setColor(sf::Color::Red);
+	subrect->setRotation(30);
+	rect->addChild(std::move(subrect));
+	window->setRootNode(std::move(rect));
+
 	kernel.addService(std::move(window));
 
 	return kernel.run();
