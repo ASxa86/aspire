@@ -18,7 +18,6 @@ find_package(SFML COMPONENTS graphics CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     aspire-core
-    aspire-scene
     sfml-graphics
 )
 

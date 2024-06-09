@@ -2,14 +2,14 @@
 
 #include <aspire/core/Pimpl.h>
 #include <aspire/core/Service.h>
-#include <aspire/widget/Color.h>
-#include <aspire/widget/Widget.h>
-#include <aspire/widget/export.hxx>
+#include <aspire/scene/Color.h>
+#include <aspire/scene/Node.h>
+#include <aspire/scene/export.hxx>
 
-namespace aspire::widget
+namespace aspire::scene
 {
 	/// @brief This class defines an application window.
-	class ASPIRE_WIDGET_EXPORT Window : public aspire::core::Service
+	class ASPIRE_SCENE_EXPORT Window : public aspire::core::Service
 	{
 	public:
 		Window();
@@ -39,8 +39,8 @@ namespace aspire::widget
 		auto setColor(Color x) noexcept -> void;
 		[[nodiscard]] auto getColor() const noexcept -> Color;
 
-		auto setWidget(std::unique_ptr<Widget> x) -> void;
-		[[nodiscard]] auto getWidget() const -> Widget*;
+		auto setRootNode(std::unique_ptr<Node> x) -> void;
+		[[nodiscard]] auto getRootNode() const -> Node*;
 
 		auto event(aspire::core::Event* x) -> void override;
 
@@ -49,7 +49,7 @@ namespace aspire::widget
 	protected:
 		auto onStartup() -> void override;
 		auto update() -> void;
-		auto update(Widget& x) -> void;
+		auto update(Node& x) -> void;
 
 	private:
 		struct Impl;

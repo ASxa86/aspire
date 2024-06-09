@@ -1,6 +1,6 @@
 #pragma once
 
-namespace aspire::widget
+namespace aspire::scene
 {
 	struct Color
 	{
