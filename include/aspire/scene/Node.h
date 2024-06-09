@@ -2,21 +2,21 @@
 
 #include <aspire/core/Object.h>
 #include <aspire/core/Pimpl.h>
-#include <aspire/widget/export.hxx>
+#include <aspire/scene/export.hxx>
 
-namespace aspire::widget
+namespace aspire::scene
 {
-	class ASPIRE_WIDGET_EXPORT Widget : public aspire::core::Object
+	class ASPIRE_SCENE_EXPORT Node : public aspire::core::Object
 	{
 	public:
-		Widget();
-		~Widget() override;
+		Node();
+		~Node() override;
 
-		Widget(const Widget&) = delete;
-		auto operator=(const Widget&) = delete;
+		Node(const Node&) = delete;
+		auto operator=(const Node&) = delete;
 
-		Widget(Widget&&) noexcept = delete;
-		auto operator=(Widget&&) noexcept = delete;
+		Node(Node&&) noexcept = delete;
+		auto operator=(Node&&) noexcept = delete;
 
 		auto setX(int x) noexcept -> void;
 		[[nodiscard]] auto getX() const noexcept -> int;
@@ -30,7 +30,7 @@ namespace aspire::widget
 		auto setWidth(int x) noexcept -> void;
 		[[nodiscard]] auto getWidth() const noexcept -> int;
 
-		[[nodiscard]] auto childWidgets() const noexcept -> std::vector<Widget*>;
+		[[nodiscard]] auto childNodes() const noexcept -> std::vector<Node*>;
 
 	private:
 		struct Impl;
