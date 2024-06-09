@@ -71,7 +71,7 @@
             "name": "msvc",
             "inherits": "default",
             "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build-msvc/",
+            "binaryDir": "${sourceDir}/build/",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",

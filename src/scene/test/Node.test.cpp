@@ -3,26 +3,30 @@
 
 using aspire::scene::Node;
 
-TEST(Node, addChild)
+TEST(Node, x)
 {
-	Node node;
-
-	node.addChild(std::make_unique<Node>());
-	EXPECT_FALSE(node.getChildren().empty());
+	Node Node;
+	Node.setX(std::numeric_limits<int>::max());
+	EXPECT_EQ(Node.getX(), std::numeric_limits<int>::max());
 }
 
-TEST(Node, remove)
+TEST(Node, y)
 {
-	Node node;
+	Node Node;
+	Node.setY(std::numeric_limits<int>::max());
+	EXPECT_EQ(Node.getY(), std::numeric_limits<int>::max());
+}
 
-	auto child = std::make_unique<Node>();
-	auto* childNode = child.get();
-	node.addChild(std::move(child));
-	EXPECT_FALSE(node.getChildren().empty());
-	EXPECT_EQ(childNode->getParent(), &node);
+TEST(Node, width)
+{
+	Node Node;
+	Node.setWidth(std::numeric_limits<int>::max());
+	EXPECT_EQ(Node.getWidth(), std::numeric_limits<int>::max());
+}
 
-	child = childNode->remove();
-	ASSERT_NE(child, nullptr);
-	EXPECT_EQ(child->getParent(), nullptr);
-	EXPECT_TRUE(node.getChildren().empty());
+TEST(Node, height)
+{
+	Node Node;
+	Node.setHeight(std::numeric_limits<int>::max());
+	EXPECT_EQ(Node.getHeight(), std::numeric_limits<int>::max());
 }

@@ -1,20 +1,18 @@
-#include <aspire/widget/Window.h>
+#include <aspire/scene/Window.h>
 
 #include <aspire/core/Kernel.h>
 #include <aspire/core/PimplImpl.h>
 #include <SFML/Graphics.hpp>
-#include "BatchRenderer.h"
 
 using aspire::core::Event;
-using aspire::widget::Window;
+using aspire::scene::Window;
 
 struct Window::Impl
 {
 	sf::RenderWindow renderer;
-	BatchRenderer batchRenderer{};
 	sf::Color clearColor;
 
-	std::unique_ptr<Widget> widget;
+	std::unique_ptr<Node> rootNode;
 	aspire::core::Kernel* kernel{};
 
 	std::string title;
@@ -68,14 +66,14 @@ auto Window::getWidth() const noexcept -> int
 	return this->pimpl->width;
 }
 
-auto Window::setWidget(std::unique_ptr<Widget> x) -> void
+auto Window::setRootNode(std::unique_ptr<Node> x) -> void
 {
-	this->pimpl->widget = std::move(x);
+	this->pimpl->rootNode = std::move(x);
 }
 
-auto Window::getWidget() const -> Widget*
+auto Window::getRootNode() const -> Node*
 {
-	return this->pimpl->widget.get();
+	return this->pimpl->rootNode.get();
 }
 
 auto Window::setTitle(std::string_view x) -> void
@@ -146,7 +144,6 @@ auto Window::frame() -> void
 	this->update();
 
 	this->pimpl->renderer.clear(this->pimpl->clearColor);
-	this->pimpl->renderer.draw(this->pimpl->batchRenderer);
 	this->pimpl->renderer.display();
 }
 
@@ -174,22 +171,18 @@ auto Window::update() -> void
 	this->pimpl->clearColor.b = static_cast<sf::Uint8>(this->pimpl->color.b * maxUint8);
 	this->pimpl->clearColor.a = static_cast<sf::Uint8>(this->pimpl->color.a * maxUint8);
 
-	if(this->pimpl->widget == nullptr)
+	if(this->pimpl->rootNode == nullptr)
 	{
 		return;
 	}
 
-	this->update(*this->pimpl->widget);
-
-	// I'll have an updated list of nodes.
-	// Sort and add to batch renderer.
-	// this->pimpl->batchRenderer.add(node);
+	this->update(*this->pimpl->rootNode);
 }
 
-auto Window::update(Widget& x) -> void
+auto Window::update(Node& x) -> void
 {
-	for(auto* widget : x.childWidgets())
+	for(auto* node : x.childNodes())
 	{
-		this->update(*widget);
+		this->update(*node);
 	}
 }

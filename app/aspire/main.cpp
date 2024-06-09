@@ -1,5 +1,5 @@
 #include <aspire/core/Kernel.h>
-#include <aspire/widget/Window.h>
+#include <aspire/scene/Window.h>
 
 auto main() -> int
 {
@@ -10,7 +10,7 @@ auto main() -> int
 
 	aspire::core::Kernel kernel;
 
-	auto window = std::make_unique<aspire::widget::Window>();
+	auto window = std::make_unique<aspire::scene::Window>();
 	window->setX(defaultX);
 	window->setY(defaultY);
 	window->setWidth(defaultWidth);
