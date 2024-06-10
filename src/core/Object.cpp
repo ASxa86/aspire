@@ -7,6 +7,10 @@ using aspire::core::Object;
 struct Object::Impl
 {
 	std::vector<std::unique_ptr<Object>> children;
+
+	sigslot::signal<Object*> childRemoved;
+	sigslot::signal<Object*> childAdded;
+
 	Object* parent{};
 	std::string name;
 	bool isStartup{false};
@@ -41,7 +45,7 @@ auto Object::addChild(std::unique_ptr<Object> x) -> void
 	x->pimpl->parent = this;
 	this->pimpl->children.emplace_back(std::move(x));
 
-	this->signalChildAdded(temp);
+	this->pimpl->childAdded(temp);
 
 	// Once the object has been started, we need to invoke any new objects that get added dynamically after the fact.
 	if(this->isStartup() && !temp->isStartup())
@@ -68,7 +72,7 @@ auto Object::remove() -> std::unique_ptr<Object>
 	this->pimpl->parent->pimpl->children.erase(beg, end);
 	node->pimpl->parent = nullptr;
 
-	this->signalChildRemoved(node.get());
+	this->pimpl->childRemoved(node.get());
 
 	return node;
 }
@@ -102,6 +106,16 @@ auto Object::startup() -> void
 auto Object::isStartup() -> bool
 {
 	return this->pimpl->isStartup;
+}
+
+auto Object::onChildAdded(std::move_only_function<void(Object*)> x) -> sigslot::connection
+{
+	return this->pimpl->childAdded.connect(std::move(x));
+}
+
+auto Object::onChildRemoved(std::move_only_function<void(Object*)> x) -> sigslot::connection
+{
+	return this->pimpl->childRemoved.connect(std::move(x));
 }
 
 auto Object::onStartup() -> void
