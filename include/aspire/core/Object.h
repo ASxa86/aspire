@@ -61,22 +61,21 @@ namespace aspire::core
 		template <typename T>
 		auto onChildAdded(T x)
 		{
-			return this->childAdded.connect(std::forward<T>(x));
+			return this->signalChildAdded.connect(std::forward<T>(x));
 		}
 
 		template <typename T>
 		auto onChildRemoved(T x)
 		{
-			return this->childRemoved.connect(std::forward<T>(x));
+			return this->signalChildRemoved.connect(std::forward<T>(x));
 		}
-
 
 	protected:
 		virtual auto onStartup() -> void;
 
 	private:
-		sigslot::signal<Object*> childAdded;
-		sigslot::signal<Object*> childRemoved;
+		sigslot::signal<Object*> signalChildAdded;
+		sigslot::signal<Object*> signalChildRemoved;
 
 		struct Impl;
 		Pimpl<Impl> pimpl;
