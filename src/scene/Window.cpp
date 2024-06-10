@@ -140,9 +140,6 @@ auto Window::frame() -> void
 		}
 	}
 
-	// Sort, batch, update nodes, etc...
-	this->update();
-
 	this->pimpl->renderer.clear(this->pimpl->clearColor);
 	this->pimpl->rootNode->draw(this->pimpl->renderer);
 	this->pimpl->renderer.display();
@@ -170,22 +167,4 @@ auto Window::onStartup() -> void
 	settings.antialiasingLevel = 8;
 	this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style, settings);
 	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
-}
-
-auto Window::update() -> void
-{
-	if(this->pimpl->rootNode == nullptr)
-	{
-		return;
-	}
-
-	this->update(*this->pimpl->rootNode);
-}
-
-auto Window::update(Node& x) -> void
-{
-	for(auto* node : x.childNodes())
-	{
-		this->update(*node);
-	}
 }

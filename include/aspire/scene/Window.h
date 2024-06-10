@@ -48,8 +48,6 @@ namespace aspire::scene
 
 	protected:
 		auto onStartup() -> void override;
-		auto update() -> void;
-		auto update(Node& x) -> void;
 
 	private:
 		struct Impl;
