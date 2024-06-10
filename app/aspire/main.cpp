@@ -17,6 +17,9 @@ auto main() -> int
 	window->setWidth(defaultWidth);
 	window->setHeight(defaultHeight);
 	window->setTitle("Aspire");
+	window->setColor(sf::Color::Green);
+
+	auto root = std::make_unique<aspire::scene::Node>();
 
 	auto rect = std::make_unique<aspire::scene::Rectangle>();
 	rect->setPosition({80, 80});
@@ -27,7 +30,9 @@ auto main() -> int
 	subrect->setColor(sf::Color::Red);
 	subrect->setRotation(30);
 	rect->addChild(std::move(subrect));
-	window->setRootNode(std::move(rect));
+
+	root->addChild(std::move(rect));
+	window->setRootNode(std::move(root));
 
 	kernel.addService(std::move(window));
 
