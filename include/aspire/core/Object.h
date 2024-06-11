@@ -3,6 +3,7 @@
 #include <aspire/core/Event.h>
 #include <aspire/core/Pimpl.h>
 #include <aspire/core/export.hxx>
+#include <functional>
 #include <memory>
 #include <sigslot/signal.hpp>
 #include <string_view>
@@ -58,12 +59,11 @@ namespace aspire::core
 		/// @return True if this object has been processed. Otherwise, false.
 		auto isStartup() -> bool;
 
-		auto onChildAdded(std::move_only_function<void(Object*)> x) -> sigslot::connection;
-		auto onChildRemoved(std::move_only_function<void(Object*)> x) -> sigslot::connection;
-
-	protected:
-		virtual auto onStartup() -> void;
-		auto kernel() -> Kernel&;
+		auto onChildAdded(std::function<void(Object*)> x) -> sigslot::connection;
+		auto onChildRemoved(std::function<void(Object*)> x) -> sigslot::connection;
+		auto onStartup(std::function<void()> x) -> sigslot::connection;
+		auto onFrame(std::function<void()> x) -> sigslot::connection;
+		auto onFrameFixed(std::function<void()> x) -> sigslot::connection;
 
 	private:
 		struct Impl;

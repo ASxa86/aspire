@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 using aspire::core::Event;
+using aspire::core::Kernel;
 using aspire::scene::Window;
 
 struct Window::Impl
@@ -14,7 +15,6 @@ struct Window::Impl
 						 static_cast<sf::Uint8>(1.0F * 255U)};
 
 	std::unique_ptr<Node> rootNode;
-	aspire::core::Kernel* kernel{};
 
 	std::string title;
 	int x{};
@@ -23,7 +23,30 @@ struct Window::Impl
 	int height{};
 };
 
-Window::Window() = default;
+Window::Window()
+{
+	// Connect on startup to preserve object order when processing frames.
+	this->onStartup(
+		[this]()
+		{
+			if(this->pimpl->rootNode == nullptr)
+			{
+				Kernel::Instance()->quit();
+				return;
+			}
+
+			this->onFrame([this]() { this->frame(); });
+
+			constexpr auto style = sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close;
+			const auto width = static_cast<unsigned int>(this->pimpl->width);
+			const auto height = static_cast<unsigned int>(this->pimpl->height);
+			sf::ContextSettings settings;
+			settings.antialiasingLevel = 4;
+			this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style, settings);
+			this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
+		});
+}
+
 Window::~Window() = default;
 
 auto Window::setX(int x) noexcept -> void
@@ -101,7 +124,7 @@ auto Window::event(aspire::core::Event* x) -> void
 	switch(x->type())
 	{
 		case aspire::core::Event::Type::Close:
-			this->pimpl->kernel->quit();
+			Kernel::Instance()->quit();
 			break;
 
 		default:
@@ -124,14 +147,14 @@ auto Window::frame() -> void
 			case sf::Event::EventType::Closed:
 			{
 				Event evt{Event::Type::Close};
-				this->pimpl->kernel->sendEvent(evt, this);
+				Kernel::Instance()->sendEvent(evt, this);
 			}
 			break;
 
 			case sf::Event::EventType::Resized:
 			{
 				Event evt{Event::Type::Resize};
-				this->pimpl->kernel->sendEvent(evt, this);
+				Kernel::Instance()->sendEvent(evt, this);
 			}
 			break;
 
@@ -143,28 +166,4 @@ auto Window::frame() -> void
 	this->pimpl->renderer.clear(this->pimpl->clearColor);
 	this->pimpl->rootNode->draw(this->pimpl->renderer);
 	this->pimpl->renderer.display();
-}
-
-auto Window::onStartup() -> void
-{
-	this->pimpl->kernel = dynamic_cast<aspire::core::Kernel*>(this->getParent());
-
-	if(this->pimpl->kernel == nullptr)
-	{
-		return;
-	}
-
-	if(this->pimpl->rootNode == nullptr)
-	{
-		this->pimpl->kernel->quit();
-		return;
-	}
-
-	constexpr auto style = sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close;
-	const auto width = static_cast<unsigned int>(this->pimpl->width);
-	const auto height = static_cast<unsigned int>(this->pimpl->height);
-	sf::ContextSettings settings;
-	settings.antialiasingLevel = 8;
-	this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style, settings);
-	this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
 }
