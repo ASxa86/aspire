@@ -17,6 +17,7 @@ struct Kernel::Impl
 	std::mutex mutexEvent;
 	std::chrono::steady_clock::time_point start;
 	std::chrono::steady_clock::duration elapsed{};
+	std::chrono::steady_clock::duration accumulate{};
 	static inline Kernel* Instance{nullptr};
 	bool running{false};
 };
@@ -78,7 +79,9 @@ auto Kernel::run() -> int
 	{
 		const auto frameStart = std::chrono::steady_clock::now();
 
-		this->pimpl->elapsed += std::chrono::steady_clock::now() - this->pimpl->start;
+		const auto elapsed = std::chrono::steady_clock::now() - this->pimpl->start;
+		this->pimpl->elapsed += elapsed;
+		this->pimpl->accumulate += elapsed;
 
 		{
 			std::scoped_lock lock(this->pimpl->mutexEvent);
@@ -89,7 +92,14 @@ auto Kernel::run() -> int
 			}
 		}
 
-		this->pimpl->frameFixed();
+		auto count = 0;
+
+		while(this->pimpl->accumulate > Kernel::FrameFixedRate && count < 5)
+		{
+			this->pimpl->accumulate -= Kernel::FrameFixedRate;
+			this->pimpl->frameFixed();
+			count++;
+		}
 
 		this->pimpl->frame();
 

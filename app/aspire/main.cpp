@@ -24,7 +24,7 @@ auto main() -> int
 	auto rect = std::make_unique<aspire::scene::Rectangle>();
 	rect->setPosition({80, 80});
 	rect->setSize({64, 64});
-	rect->onFrame(
+	rect->onFrameFixed(
 		[r = rect.get()]
 		{
 			auto pos = r->getPosition();
@@ -37,7 +37,7 @@ auto main() -> int
 	subrect->setColor(sf::Color::Red);
 	subrect->setRotation(30);
 
-	subrect->onFrame(
+	subrect->onFrameFixed(
 		[s = subrect.get()]
 		{
 			auto rot = s->getRotation();
