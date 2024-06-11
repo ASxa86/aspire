@@ -12,6 +12,9 @@ struct Rectangle::Impl
 	sf::Color color{sf::Color::White};
 };
 
+Rectangle::Rectangle() = default;
+Rectangle::~Rectangle() = default;
+
 auto Rectangle::setSize(sf::Vector2f x) noexcept -> void
 {
 	this->pimpl->size = x;

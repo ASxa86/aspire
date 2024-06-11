@@ -1,15 +1,15 @@
 #pragma once
 
+#include <aspire/core/Object.h>
 #include <aspire/core/Pimpl.h>
-#include <aspire/core/Service.h>
 #include <aspire/scene/Node.h>
-#include <aspire/scene/export.hxx>
 #include <SFML/Graphics/Color.hpp>
+#include <aspire/scene/export.hxx>
 
 namespace aspire::scene
 {
 	/// @brief This class defines an application window.
-	class ASPIRE_SCENE_EXPORT Window : public aspire::core::Service
+	class ASPIRE_SCENE_EXPORT Window : public aspire::core::Object
 	{
 	public:
 		Window();
@@ -44,10 +44,7 @@ namespace aspire::scene
 
 		auto event(aspire::core::Event* x) -> void override;
 
-		auto frame() -> void override;
-
-	protected:
-		auto onStartup() -> void override;
+		auto frame() -> void;
 
 	private:
 		struct Impl;

@@ -7,6 +7,9 @@ namespace aspire::scene
 	class ASPIRE_SCENE_EXPORT Rectangle : public Node
 	{
 	public:
+		Rectangle();
+		~Rectangle() override;
+
 		auto setSize(sf::Vector2f x) noexcept -> void;
 		[[nodiscard]] auto getSize() const noexcept -> sf::Vector2f;
 

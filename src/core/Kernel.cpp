@@ -8,25 +8,37 @@
 #include <numeric>
 
 using aspire::core::Kernel;
-using aspire::core::Service;
 
 struct Kernel::Impl
 {
-	std::vector<Service*> services;
+	sigslot::signal<> frame;
+	sigslot::signal<> frameFixed;
 	std::vector<std::pair<std::unique_ptr<Event>, Object*>> events;
 	std::mutex mutexEvent;
 	std::chrono::steady_clock::time_point start;
 	std::chrono::steady_clock::duration elapsed{};
+	static inline Kernel* Instance{nullptr};
 	bool running{false};
 };
 
-Kernel::Kernel() = default;
-Kernel::~Kernel() = default;
-
-auto Kernel::addService(std::unique_ptr<Service> x) -> void
+Kernel* Kernel::Instance()
 {
-	this->pimpl->services.emplace_back(x.get());
-	this->addChild(std::move(x));
+	return Kernel::Impl::Instance;
+}
+
+Kernel::Kernel()
+{
+	if(Kernel::Impl::Instance != nullptr)
+	{
+		return;
+	}
+
+	Kernel::Impl::Instance = this;
+}
+
+Kernel::~Kernel()
+{
+	Kernel::Impl::Instance = nullptr;
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
@@ -39,6 +51,16 @@ auto Kernel::queueEvent(std::unique_ptr<Event> x, Object* receiver) -> void
 {
 	std::scoped_lock lock(this->pimpl->mutexEvent);
 	this->pimpl->events.emplace_back(std::move(x), receiver);
+}
+
+auto Kernel::onFrame(std::function<void()> x) -> sigslot::connection
+{
+	return this->pimpl->frame.connect(std::move(x));
+}
+
+auto Kernel::onFrameFixed(std::function<void()> x) -> sigslot::connection
+{
+	return this->pimpl->frameFixed.connect(std::move(x));
 }
 
 auto Kernel::run() -> int
@@ -67,14 +89,13 @@ auto Kernel::run() -> int
 			}
 		}
 
-		for(auto* service : this->pimpl->services)
-		{
-			service->frame();
-		}
+		this->pimpl->frameFixed();
+
+		this->pimpl->frame();
 
 		frames.emplace_back(std::chrono::steady_clock::now() - frameStart);
 
-		if(frames.size() > 200)
+		if(frames.size() > 1000)
 		{
 			frames.pop_front();
 		}

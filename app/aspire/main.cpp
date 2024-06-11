@@ -24,17 +24,33 @@ auto main() -> int
 	auto rect = std::make_unique<aspire::scene::Rectangle>();
 	rect->setPosition({80, 80});
 	rect->setSize({64, 64});
+	rect->onFrame(
+		[r = rect.get()]
+		{
+			auto pos = r->getPosition();
+			pos.x += 0.001;
+			r->setPosition(pos);
+		});
 
 	auto subrect = std::make_unique<aspire::scene::Rectangle>();
 	subrect->setSize({16, 16});
 	subrect->setColor(sf::Color::Red);
 	subrect->setRotation(30);
+
+	subrect->onFrame(
+		[s = subrect.get()]
+		{
+			auto rot = s->getRotation();
+			rot += 0.01;
+			s->setRotation(rot);
+		});
+
 	rect->addChild(std::move(subrect));
 
 	root->addChild(std::move(rect));
 	window->setRootNode(std::move(root));
 
-	kernel.addService(std::move(window));
+	kernel.addChild(std::move(window));
 
 	return kernel.run();
 }

@@ -1,3 +1,4 @@
+#include <aspire/core/Kernel.h>
 #include <aspire/core/Object.h>
 #include <aspire/core/PimplImpl.h>
 #include <algorithm>
@@ -10,6 +11,7 @@ struct Object::Impl
 
 	sigslot::signal<Object*> childRemoved;
 	sigslot::signal<Object*> childAdded;
+	sigslot::signal<> startup;
 
 	Object* parent{};
 	std::string name;
@@ -98,7 +100,7 @@ auto Object::startup() -> void
 		child->startup();
 	}
 
-	this->onStartup();
+	this->pimpl->startup();
 
 	this->pimpl->isStartup = true;
 }
@@ -108,16 +110,27 @@ auto Object::isStartup() -> bool
 	return this->pimpl->isStartup;
 }
 
-auto Object::onChildAdded(std::move_only_function<void(Object*)> x) -> sigslot::connection
+auto Object::onChildAdded(std::function<void(Object*)> x) -> sigslot::connection
 {
 	return this->pimpl->childAdded.connect(std::move(x));
 }
 
-auto Object::onChildRemoved(std::move_only_function<void(Object*)> x) -> sigslot::connection
+auto Object::onChildRemoved(std::function<void(Object*)> x) -> sigslot::connection
 {
 	return this->pimpl->childRemoved.connect(std::move(x));
 }
 
-auto Object::onStartup() -> void
+auto Object::onStartup(std::function<void()> x) -> sigslot::connection
 {
+	return this->pimpl->startup.connect(std::move(x));
+}
+
+auto Object::onFrame(std::function<void()> x) -> sigslot::connection
+{
+	return Kernel::Instance()->onFrame(std::move(x));
+}
+
+auto Object::onFrameFixed(std::function<void()> x) -> sigslot::connection
+{
+	return Kernel::Instance()->onFrameFixed(std::move(x));
 }

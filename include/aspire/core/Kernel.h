@@ -2,7 +2,6 @@
 
 #include <aspire/core/Object.h>
 #include <aspire/core/Pimpl.h>
-#include <aspire/core/Service.h>
 #include <aspire/core/export.hxx>
 
 namespace aspire::core
@@ -10,6 +9,8 @@ namespace aspire::core
 	class ASPIRE_CORE_EXPORT Kernel : public Object
 	{
 	public:
+		static auto Instance() -> Kernel*;
+
 		Kernel();
 		~Kernel() override;
 
@@ -19,10 +20,10 @@ namespace aspire::core
 		Kernel(Kernel&&) noexcept = delete;
 		auto operator=(Kernel&&) noexcept = delete;
 
-		auto addService(std::unique_ptr<Service> x) -> void;
-
 		auto sendEvent(Event& x, Object* receiver) -> void;
 		auto queueEvent(std::unique_ptr<Event> x, Object* receiver) -> void;
+		auto onFrame(std::function<void()> x) -> sigslot::connection;
+		auto onFrameFixed(std::function<void()> x) -> sigslot::connection;
 
 		auto run() -> int;
 		auto quit() -> void;
