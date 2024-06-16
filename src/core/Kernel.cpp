@@ -82,6 +82,7 @@ auto Kernel::run() -> int
 		const auto elapsed = std::chrono::steady_clock::now() - this->pimpl->start;
 		this->pimpl->elapsed += elapsed;
 		this->pimpl->accumulate += elapsed;
+		this->pimpl->start = frameStart;
 
 		{
 			std::scoped_lock lock(this->pimpl->mutexEvent);
@@ -94,7 +95,7 @@ auto Kernel::run() -> int
 
 		auto count = 0;
 
-		while(this->pimpl->accumulate > Kernel::FrameFixedRate && count < 5)
+		while(this->pimpl->accumulate >= Kernel::FrameFixedRate && count < 5)
 		{
 			this->pimpl->accumulate -= Kernel::FrameFixedRate;
 			this->pimpl->frameFixed();

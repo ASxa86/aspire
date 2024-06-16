@@ -9,7 +9,7 @@ namespace aspire::core
 	class ASPIRE_CORE_EXPORT Kernel : public Object
 	{
 	public:
-		static constexpr std::chrono::milliseconds FrameFixedRate{100};
+		static constexpr std::chrono::milliseconds FrameFixedRate{10};
 		static auto Instance() -> Kernel*;
 
 		Kernel();

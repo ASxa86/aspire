@@ -43,6 +43,7 @@ Window::Window()
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 4;
 			this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style, settings);
+			this->pimpl->renderer.setFramerateLimit(0);
 			this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});
 		});
 }
