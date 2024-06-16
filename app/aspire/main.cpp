@@ -28,7 +28,7 @@ auto main() -> int
 		[r = rect.get()]
 		{
 			auto pos = r->getPosition();
-			pos.x += 0.001;
+			pos.x += 0.01;
 			r->setPosition(pos);
 		});
 
@@ -37,7 +37,7 @@ auto main() -> int
 	subrect->setColor(sf::Color::Red);
 	subrect->setRotation(30);
 
-	subrect->onFrameFixed(
+	subrect->onFrame(
 		[s = subrect.get()]
 		{
 			auto rot = s->getRotation();
@@ -50,6 +50,7 @@ auto main() -> int
 	root->addChild(std::move(rect));
 	window->setRootNode(std::move(root));
 
+	// Add the window last to ensure frame processing occurs last.
 	kernel.addChild(std::move(window));
 
 	return kernel.run();
