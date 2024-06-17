@@ -79,7 +79,7 @@ auto Kernel::run() -> int
 	{
 		const auto frameStart = std::chrono::steady_clock::now();
 
-		const auto elapsed = std::chrono::steady_clock::now() - this->pimpl->start;
+		const auto elapsed = frameStart - this->pimpl->start;
 		this->pimpl->elapsed += elapsed;
 		this->pimpl->accumulate += elapsed;
 		this->pimpl->start = frameStart;
@@ -104,7 +104,7 @@ auto Kernel::run() -> int
 
 		this->pimpl->frame();
 
-		frames.emplace_back(std::chrono::steady_clock::now() - frameStart);
+		frames.emplace_back(elapsed);
 
 		if(frames.size() > 1000)
 		{
