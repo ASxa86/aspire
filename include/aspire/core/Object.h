@@ -42,7 +42,7 @@ namespace aspire::core
 
 		/// @brief Get the owning parent of this object.
 		/// @return The pointer to the owning parent. Nullptr if this object does not have a parent.
-		[[nodiscard]] auto getParent() const -> Object*;
+		[[nodiscard]] auto parent() const -> Object*;
 
 		/// @brief Add the given object to this object as a child. Claiming ownership of the child object.
 		/// @param x The object to be added to this object.
@@ -66,7 +66,7 @@ namespace aspire::core
 
 		/// @brief Get the, read-only, list of child objects.
 		/// @return The list of children owned by this object.
-		[[nodiscard]] auto getChildren() const -> const std::vector<std::unique_ptr<Object>>&;
+		[[nodiscard]] auto children() const -> const std::vector<std::unique_ptr<Object>>&;
 
 		/// @brief Override to handle any event this object has received.
 		/// @param x The event to be handled.

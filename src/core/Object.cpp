@@ -31,7 +31,7 @@ auto Object::getName() const -> std::string_view
 	return this->pimpl->name;
 }
 
-auto Object::getParent() const -> Object*
+auto Object::parent() const -> Object*
 {
 	return this->pimpl->parent;
 }
@@ -79,7 +79,7 @@ auto Object::remove() -> std::unique_ptr<Object>
 	return node;
 }
 
-auto Object::getChildren() const -> const std::vector<std::unique_ptr<Object>>&
+auto Object::children() const -> const std::vector<std::unique_ptr<Object>>&
 {
 	return this->pimpl->children;
 }
