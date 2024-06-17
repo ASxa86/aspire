@@ -1,6 +1,7 @@
 #include <aspire/core/Kernel.h>
 #include <aspire/scene/Rectangle.h>
 #include <aspire/scene/Window.h>
+#include "Paddle.h"
 
 auto main() -> int
 {
@@ -17,33 +18,18 @@ auto main() -> int
 	window->setWidth(defaultWidth);
 	window->setHeight(defaultHeight);
 	window->setTitle("Aspire");
-	window->setColor(sf::Color::Green);
+	window->setColor(sf::Color::Black);
 
 	auto root = std::make_unique<aspire::scene::Node>();
 
-	auto rect = root->createChild<aspire::scene::Rectangle>();
-	rect->setPosition({80, 80});
-	rect->setSize({64, 64});
-	rect->onFrameFixed(
-		[rect]
-		{
-			auto pos = rect->getPosition();
-			pos.x += 0.01;
-			rect->setPosition(pos);
-		});
+	Paddle player{*root};
+	player.setPosition({150, defaultHeight / 2.0});
+	player.setSize({50, 150});
 
-	auto subrect = rect->createChild<aspire::scene::Rectangle>();
-	subrect->setSize({16, 16});
-	subrect->setColor(sf::Color::Red);
-	subrect->setRotation(30);
+	Paddle paddle{*root};
 
-	subrect->onFrame(
-		[subrect]
-		{
-			auto rot = subrect->getRotation();
-			rot += 0.01;
-			subrect->setRotation(rot);
-		});
+	paddle.setPosition({defaultWidth - 150, defaultHeight / 2.0});
+	paddle.setSize({50, 150});
 
 	window->setRootNode(std::move(root));
 
