@@ -9,6 +9,12 @@ namespace aspire::core
 	class ASPIRE_CORE_EXPORT Kernel : public Object
 	{
 	public:
+		enum class FrameGroup : sigslot::group_id
+		{
+			Service,
+			Object
+		};
+
 		static constexpr std::chrono::milliseconds FrameFixedRate{10};
 		static auto Instance() -> Kernel*;
 
@@ -23,8 +29,8 @@ namespace aspire::core
 
 		auto sendEvent(Event& x, Object* receiver) -> void;
 		auto queueEvent(std::unique_ptr<Event> x, Object* receiver) -> void;
-		auto onFrame(std::function<void()> x) -> sigslot::connection;
-		auto onFrameFixed(std::function<void()> x) -> sigslot::connection;
+		auto onFrame(std::function<void()> x, FrameGroup group) -> sigslot::connection;
+		auto onFrameFixed(std::function<void()> x, FrameGroup group) -> sigslot::connection;
 
 		auto run() -> int;
 		auto quit() -> void;
