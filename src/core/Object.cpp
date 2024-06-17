@@ -125,12 +125,12 @@ auto Object::onStartup(std::function<void()> x) -> sigslot::connection
 	return this->pimpl->startup.connect(std::move(x));
 }
 
-auto Object::onFrame(std::function<void()> x) -> sigslot::connection
+auto Object::onFrame(std::function<void()> x) const -> sigslot::connection
 {
-	return Kernel::Instance()->onFrame(std::move(x));
+	return Kernel::Instance()->onFrame(std::move(x), Kernel::FrameGroup::Object);
 }
 
-auto Object::onFrameFixed(std::function<void()> x) -> sigslot::connection
+auto Object::onFrameFixed(std::function<void()> x) const -> sigslot::connection
 {
-	return Kernel::Instance()->onFrameFixed(std::move(x));
+	return Kernel::Instance()->onFrameFixed(std::move(x), Kernel::FrameGroup::Object);
 }

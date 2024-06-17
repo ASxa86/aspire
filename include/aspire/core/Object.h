@@ -82,8 +82,8 @@ namespace aspire::core
 		auto onChildAdded(std::function<void(Object*)> x) -> sigslot::connection;
 		auto onChildRemoved(std::function<void(Object*)> x) -> sigslot::connection;
 		auto onStartup(std::function<void()> x) -> sigslot::connection;
-		auto onFrame(std::function<void()> x) -> sigslot::connection;
-		auto onFrameFixed(std::function<void()> x) -> sigslot::connection;
+		auto onFrame(std::function<void()> x) const -> sigslot::connection;
+		auto onFrameFixed(std::function<void()> x) const -> sigslot::connection;
 
 	private:
 		struct Impl;
