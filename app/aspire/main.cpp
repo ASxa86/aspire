@@ -21,33 +21,30 @@ auto main() -> int
 
 	auto root = std::make_unique<aspire::scene::Node>();
 
-	auto rect = std::make_unique<aspire::scene::Rectangle>();
+	auto rect = root->createChild<aspire::scene::Rectangle>();
 	rect->setPosition({80, 80});
 	rect->setSize({64, 64});
 	rect->onFrameFixed(
-		[r = rect.get()]
+		[rect]
 		{
-			auto pos = r->getPosition();
+			auto pos = rect->getPosition();
 			pos.x += 0.01;
-			r->setPosition(pos);
+			rect->setPosition(pos);
 		});
 
-	auto subrect = std::make_unique<aspire::scene::Rectangle>();
+	auto subrect = rect->createChild<aspire::scene::Rectangle>();
 	subrect->setSize({16, 16});
 	subrect->setColor(sf::Color::Red);
 	subrect->setRotation(30);
 
 	subrect->onFrame(
-		[s = subrect.get()]
+		[subrect]
 		{
-			auto rot = s->getRotation();
+			auto rot = subrect->getRotation();
 			rot += 0.01;
-			s->setRotation(rot);
+			subrect->setRotation(rot);
 		});
 
-	rect->addChild(std::move(subrect));
-
-	root->addChild(std::move(rect));
 	window->setRootNode(std::move(root));
 
 	// Add the window last to ensure frame processing occurs last.

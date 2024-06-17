@@ -11,6 +11,14 @@
 
 namespace aspire::core
 {
+	class Object;
+
+	namespace concepts
+	{
+		template <typename T>
+		concept Object = std::is_base_of<aspire::core::Object, T>::value == true;
+	}
+
 	/// @brief This class defines the base object and how general memory manage will be handled within aspire.
 	class ASPIRE_CORE_EXPORT Object
 	{
@@ -39,6 +47,18 @@ namespace aspire::core
 		/// @brief Add the given object to this object as a child. Claiming ownership of the child object.
 		/// @param x The object to be added to this object.
 		auto addChild(std::unique_ptr<Object> x) -> void;
+
+		/// @brief Create the given object type as a child of this object and then returns the pointer to the allocated object.
+		/// @tparam T The object type to create.
+		/// @return The pointer to the allocated object.
+		template <concepts::Object T>
+		auto createChild()
+		{
+			auto child = std::make_unique<T>();
+			auto temp = child.get();
+			this->addChild(std::move(child));
+			return temp;
+		}
 
 		/// @brief Remove this object from its parent.
 		/// @return The pointer to this object handing ownership over to the caller.
