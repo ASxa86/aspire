@@ -11,16 +11,15 @@ using aspire::scene::Window;
 struct Window::Impl
 {
 	sf::RenderWindow renderer;
-	sf::Color clearColor{static_cast<sf::Uint8>(0.2F * 255U), static_cast<sf::Uint8>(0.3F * 255U), static_cast<sf::Uint8>(0.3F * 255U),
-						 static_cast<sf::Uint8>(1.0F * 255U)};
+	sf::Color clearColor{Window::DefaultColor};
 
 	std::unique_ptr<Node> rootNode;
 
-	std::string title;
-	int x{};
-	int y{};
-	int width{};
-	int height{};
+	std::string title{Window::DefaultTitle};
+	int x{Window::DefaultX};
+	int y{Window::DefaultY};
+	int width{Window::DefaultWidth};
+	int height{Window::DefaultHeight};
 };
 
 Window::Window()
@@ -35,13 +34,13 @@ Window::Window()
 				return;
 			}
 
-			this->onFrame([this]() { this->frame(); });
+			Kernel::Instance()->onFrame(Kernel::FrameGroup::Render, [this] { this->frame(); });
 
 			constexpr auto style = sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close;
 			const auto width = static_cast<unsigned int>(this->pimpl->width);
 			const auto height = static_cast<unsigned int>(this->pimpl->height);
 			sf::ContextSettings settings;
-			settings.antialiasingLevel = 4;
+			// settings.antialiasingLevel = 4;
 			this->pimpl->renderer.create(sf::VideoMode{width, height}, this->pimpl->title, style, settings);
 			this->pimpl->renderer.setFramerateLimit(0);
 			this->pimpl->renderer.setPosition({this->pimpl->x, this->pimpl->y});

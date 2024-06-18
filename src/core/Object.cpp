@@ -127,10 +127,10 @@ auto Object::onStartup(std::function<void()> x) -> sigslot::connection
 
 auto Object::onFrame(std::function<void()> x) const -> sigslot::connection
 {
-	return Kernel::Instance()->onFrame(std::move(x), Kernel::FrameGroup::Object);
+	return Kernel::Instance()->onFrame(Kernel::FrameGroup::Object, std::move(x));
 }
 
 auto Object::onFrameFixed(std::function<void()> x) const -> sigslot::connection
 {
-	return Kernel::Instance()->onFrameFixed(std::move(x), Kernel::FrameGroup::Object);
+	return Kernel::Instance()->onFrameFixed(Kernel::FrameGroup::Object, std::move(x));
 }

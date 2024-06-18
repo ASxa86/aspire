@@ -12,6 +12,14 @@ namespace aspire::scene
 	class ASPIRE_SCENE_EXPORT Window : public aspire::core::Object
 	{
 	public:
+		static constexpr auto DefaultX{80};
+		static constexpr auto DefaultY{80};
+		static constexpr auto DefaultWidth{1280};
+		static constexpr auto DefaultHeight{720};
+		static constexpr auto DefaultTitle{"aspire"};
+		inline static const sf::Color DefaultColor{static_cast<sf::Uint8>(0.2F * 255U), static_cast<sf::Uint8>(0.3F * 255U),
+												   static_cast<sf::Uint8>(0.3F * 255U), static_cast<sf::Uint8>(1.0F * 255U)};
+
 		Window();
 		~Window() override;
 
