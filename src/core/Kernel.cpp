@@ -54,12 +54,12 @@ auto Kernel::queueEvent(std::unique_ptr<Event> x, Object* receiver) -> void
 	this->pimpl->events.emplace_back(std::move(x), receiver);
 }
 
-auto Kernel::onFrame(std::function<void()> x, FrameGroup group) -> sigslot::connection
+auto Kernel::onFrame(FrameGroup group, std::function<void()> x) -> sigslot::connection
 {
 	return this->pimpl->frame.connect(std::move(x), static_cast<sigslot::group_id>(group));
 }
 
-auto Kernel::onFrameFixed(std::function<void()> x, FrameGroup group) -> sigslot::connection
+auto Kernel::onFrameFixed(FrameGroup group, std::function<void()> x) -> sigslot::connection
 {
 	return this->pimpl->frameFixed.connect(std::move(x), static_cast<sigslot::group_id>(group));
 }
