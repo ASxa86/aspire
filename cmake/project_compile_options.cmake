@@ -15,7 +15,7 @@ function(project_compile_common)
 
 		if(BUILD_ENABLE_MSAN)
 			target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=memory -fno-omit-frame-pointer -fsanitize=memory-track-origins=2)
-			target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory)			
+			target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory)
 		endif()
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		# using GCC
@@ -77,13 +77,7 @@ endfunction()
 function(project_compile_exe)
 	project_compile_common()
 
-	if(MSVC)
-		# Define the output directory as the working directory for visual studio debugging.
-		set(WORKING_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>)
-		set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${WORKING_DIR})
-	endif()
-
-	set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+	set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
 
 	if(BUILD_ENABLED_HARDENED)
 		if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")

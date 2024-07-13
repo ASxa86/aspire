@@ -10,15 +10,8 @@
                 "VCPKG_FEATURE_FLAGS": "-compilertracking"
             },
             "cacheVariables": {
-                "CMAKE_CXX_STANDARD": "23",
-                "CMAKE_DEBUG_POSTFIX": "d",
-                "CMAKE_RELEASE_POSTFIX": "",
-                "CMAKE_RELWITHDEBINFO_POSTFIX": "rd",
-                "CMAKE_MINSIZEREL_POSTFIX": "s",
-                "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
-                "CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
-                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/bin",
-                "CMAKE_COMPILE_WARNING_AS_ERROR": true
+                "CMAKE_COMPILE_WARNING_AS_ERROR": true,
+                "VCPKG_APPLOCAL_DEPS": false
             }
         },
         {
@@ -32,8 +25,7 @@
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic-release",
-                "VCPKG_APPLOCAL_DEPS": false
+                "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic-release"
             }
         },
         {
@@ -48,12 +40,10 @@
         },
         {
             "name": "gcc-release",
-            "inherits": "linux",
+            "inherits": "gcc-debug",
             "displayName": "GCC Release",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_C_COMPILER": "gcc"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
@@ -90,8 +80,7 @@
                 "BUILD_ENABLE_HARDENED": false,
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_C_COMPILER": "clang",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx-release",
-                "VCPKG_APPLOCAL_DEPS": false
+                "VCPKG_TARGET_TRIPLET": "arm64-osx-release"
             }
         },
         {
@@ -117,11 +106,7 @@
                 "ANDROID_SDK_ROOT": "$env{ANDROID_HOME}",
                 "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME",
                 "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
-                "ANDROID_PLATFORM": "33",
-                "CMAKE_DEBUG_POSTFIX": "",
-                "CMAKE_RELEASE_POSTFIX": "",
-                "CMAKE_RELWITHDEBINFO_POSTFIX": "",
-                "CMAKE_MINSIZEREL_POSTFIX": ""
+                "ANDROID_PLATFORM": "33"
             }
         },
         {
