@@ -80,7 +80,7 @@
                 "BUILD_ENABLE_HARDENED": false,
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_C_COMPILER": "clang",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx-release"
+                "VCPKG_TARGET_TRIPLET": "arm64-osx-dynamic-release"
             }
         },
         {

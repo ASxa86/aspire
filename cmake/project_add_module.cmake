@@ -45,7 +45,7 @@ function(project_add_module)
     # )
 
     project_gen_export()
-    project_install_target()
+    # project_install_target()
 
     if(BUILD_TESTS AND EXISTS test)
         add_subdirectory(test)
