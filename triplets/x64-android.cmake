@@ -1,12 +1,7 @@
-# These ports were not playing nice when compiling as dynamic.
-set(STATIC_PORTS
-    harfbuzz
-    libb2
-)
+set(VCPKG_LIBRARY_LINKAGE static)
 
-if(PORT IN_LIST STATIC_PORTS)
-    set(VCPKG_LIBRARY_LINKAGE static)
-else()
+# Only use Qt as shared libraries.
+if(${PORT} MATCHES "qt")
     set(VCPKG_LIBRARY_LINKAGE dynamic)
 endif()
 

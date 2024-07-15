@@ -3,10 +3,12 @@ function(project_add_module)
     string(REPLACE "-" "/" MODULE_FOLDER_NAME ${PROJECT_NAME})
     string(REPLACE "-" "." MODULE_URI_NAME ${PROJECT_NAME})
 
-    if(BUILD_SHARED_LIBS)
-        set(PROJECT_QML_LINKAGE SHARED)
-    else()
-        set(PROJECT_QML_LINKAGE STATIC)
+    if(NOT TARGET ${PROJECT_NAME})
+        if(BUILD_SHARED_LIBS)
+            set(PROJECT_QML_LINKAGE SHARED)
+        else()
+            set(PROJECT_QML_LINKAGE STATIC)
+        endif()
     endif()
 
     qt_add_qml_module(${PROJECT_NAME}

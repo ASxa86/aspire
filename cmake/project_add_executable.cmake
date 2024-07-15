@@ -2,7 +2,17 @@ function(project_add_executable)
     if(APPLE)
         set(PROJECT_PLATFORM MACOSX_BUNDLE)
     endif()
-    qt_add_executable(${ARGV} ${PROJECT_PLATFORM})
+
+	string(REPLACE "-" "." MODULE_NAME ${PROJECT_NAME})
+
+    qt_add_executable(${PROJECT_NAME} ${PROJECT_PLATFORM})
+    qt_add_qml_module(${PROJECT_NAME}
+        URI qml.${PROJECT_NAME}
+        VERSION 1.0
+        RESOURCE_PREFIX /
+        ${ARGV}
+    )
+
     project_compile_exe()
 
     install(TARGETS ${PROJECT_NAME}
@@ -12,12 +22,11 @@ function(project_add_executable)
 
     qt_generate_deploy_qml_app_script(
         TARGET ${PROJECT_NAME}
-        OUTPUT_SCRIPT target_install
+        OUTPUT_SCRIPT deploy_script
         MACOS_BUNDLE_POST_BUILD
     )
 
-    message(STATUS "SCRIPT: ${target_install}")
-    install(SCRIPT ${target_install})
+    install(SCRIPT ${deploy_script})
 
     if(BUILD_TESTS AND EXISTS test)
         add_subdirectory(test)
@@ -33,7 +42,7 @@ function(project_add_executable)
             set(PROJECT_VCPKG_ROOT ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}$<$<CONFIG:Debug>:/debug>)
         endif()
 
-        set(PROJECT_IMPORT_DIR ${CMAKE_BINARY_DIR}/module ${PROJECT_VCPKG_ROOT}/Qt6/qml)
+        set(PROJECT_IMPORT_DIR ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/module ${PROJECT_VCPKG_ROOT}/Qt6/qml)
         set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;${PROJECT_VCPKG_ROOT}/bin\nQML_IMPORT_PATH=${PROJECT_IMPORT_DIR}\nQT_PLUGIN_PATH=${PROJECT_VCPKG_ROOT}/Qt6/plugins")
     endif()
 endfunction()

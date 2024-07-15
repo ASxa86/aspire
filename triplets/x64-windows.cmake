@@ -7,7 +7,3 @@ if(${PORT} MATCHES "qt")
     set(VCPKG_LIBRARY_LINKAGE dynamic)
 endif()
 
-set(VCPKG_CMAKE_SYSTEM_NAME Linux)
-
-set(VCPKG_FIXUP_ELF_RPATH ON)
-set(VCPKG_BUILD_TYPE release)

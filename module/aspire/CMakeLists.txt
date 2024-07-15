@@ -8,7 +8,9 @@ project_add_module(
         FrameMetrics.h
         Meters.cpp
         Meters.h
-    DEPENDENCIES
+    QML_FILES
+        Square.qml
+    IMPORTS
         QtQuick
 )
 
