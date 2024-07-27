@@ -25,13 +25,15 @@
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-linux-dynamic-release"
+                "VCPKG_TARGET_TRIPLET": "x64-linux-aspire",
+                "VCPKG_HOST_TRIPLET": "x64-linux-aspire"
             }
         },
         {
             "name": "gcc-debug",
             "inherits": "linux",
             "displayName": "GCC Debug",
+            "binaryDir": "${sourceDir}/build-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "g++",
@@ -42,6 +44,7 @@
             "name": "gcc-release",
             "inherits": "gcc-debug",
             "displayName": "GCC Release",
+            "binaryDir": "${sourceDir}/build-release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -50,6 +53,7 @@
             "name": "clang-debug",
             "inherits": "linux",
             "displayName": "Clang Debug",
+            "binaryDir": "${sourceDir}/build-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++-17",
@@ -64,6 +68,37 @@
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-windows-aspire",
+                "VCPKG_HOST_TRIPLET": "x64-windows-aspire"
+            }
+        },
+        {
+            "name": "msvc-debug",
+            "inherits": "msvc",
+            "binaryDir": "${sourceDir}/build-debug",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "Debug"
+            }
+        },
+        {
+            "name": "msvc-relwithdebinfo",
+            "inherits": "msvc",
+            "binaryDir": "${sourceDir}/build-relwithdebinfo",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "RelWithDebInfo",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "msvc-release",
+            "inherits": "msvc",
+            "binaryDir": "${sourceDir}/build-release",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Release",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "Release"
             }
         },
         {
@@ -80,12 +115,15 @@
                 "BUILD_ENABLE_HARDENED": false,
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_C_COMPILER": "clang",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx-dynamic-release"
+                "VCPKG_TARGET_TRIPLET": "arm64-osx-aspire",
+                "VCPKG_HOST_TRIPLET": "arm64-osx-aspire"
             }
         },
         {
             "name": "osx-debug",
             "inherits": "osx",
+            "displayName": "OSX Debug",
+            "binaryDir": "${sourceDir}/build-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
@@ -93,6 +131,8 @@
         {
             "name": "osx-release",
             "inherits": "osx",
+            "displayName": "OSX Release",
+            "binaryDir": "${sourceDir}/build-release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -138,6 +178,7 @@
             "displayName": "Android arm64",
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "arm64-android",
+                "VCPKG_HOST_TRIPLET": "arm64-android",
                 "ANDROID_ABI": "arm64-v8a"
             }
         },
@@ -173,17 +214,17 @@
         },
         {
             "name": "msvc-debug",
-            "configurePreset": "msvc",
+            "configurePreset": "msvc-debug",
             "configuration": "Debug"
         },
         {
             "name": "msvc-release",
-            "configurePreset": "msvc",
+            "configurePreset": "msvc-release",
             "configuration": "Release"
         },
         {
             "name": "msvc-relwithdebinfo",
-            "configurePreset": "msvc",
+            "configurePreset": "msvc-relwithdebinfo",
             "configuration": "RelWithDebInfo"
         },
         {
