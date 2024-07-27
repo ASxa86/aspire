@@ -2,6 +2,7 @@ function(project_compile_common)
 	if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		# using Clang
 		target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
+		target_compile_options(${PROJECT_NAME} PRIVATE -Wno-gnu-zero-variadic-macro-arguments)
 		
 		if(BUILD_ENABLE_TSAN)
 			target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=thread)
