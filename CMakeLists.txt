@@ -17,7 +17,6 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/installed)
 set(PROJECT_ROOT_NAME aspire)
 project(${PROJECT_ROOT_NAME})
 
-option(BUILD_SHARED_LIBS "Enable building ${PROJECT_NAME} as shared libraries." ON)
 option(BUILD_ENABLE_HARDENED "Enable hardened compiler options" ON)
 option(BUILD_TESTS "Enable building ${PROJECT_NAME} test applications." OFF)
 

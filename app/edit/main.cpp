@@ -11,8 +11,8 @@ int main(int argc, char** argv)
 	window.setWidth(1280);
 	window.setHeight(720);
 	window.setTitle("Aspire Edit");
-
-	window.loadFromModule("qml.aspire-edit", "Main");
+	window.engine()->addImportPath(":/");
+	window.setSource(QUrl{"qrc:/aspire/edit/Main.qml"});
 	window.show();
 
 	return QGuiApplication::exec();

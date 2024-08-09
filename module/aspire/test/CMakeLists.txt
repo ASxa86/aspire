@@ -1,6 +1,8 @@
 project(aspire-test)
 
-project_add_executable(${PROJECT_NAME})
+add_executable(${PROJECT_NAME})
+
+project_compile_exe()
 
 target_sources(${PROJECT_NAME} PRIVATE
     main.cpp

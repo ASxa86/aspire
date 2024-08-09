@@ -17,3 +17,5 @@ project_add_module(
 target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt::Quick
 )
+
+add_subdirectory(test)
