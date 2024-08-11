@@ -1,9 +1,9 @@
 function(project_add_executable target)
 	string(REPLACE "-" "." MODULE_NAME ${target})
 
-    qt_add_executable(${target} MACOSX_BUNDLE)
+    qt_add_executable(${target} WIN32 MACOSX_BUNDLE)
 
-    if(EXISTS Main.qml)
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Main.qml)
         qt_add_qml_module(${target}
             URI ${MODULE_NAME}
             RESOURCE_PREFIX /

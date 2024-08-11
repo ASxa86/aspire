@@ -241,12 +241,12 @@
         },
         {
             "name": "x64-windows-debug",
-            "configurePreset": "msvc-debug",
+            "configurePreset": "x64-windows-debug",
             "configuration": "Debug"
         },
         {
             "name": "x64-windows-release",
-            "configurePreset": "msvc-release",
+            "configurePreset": "x64-windows-release",
             "configuration": "Release"
         },
         {
