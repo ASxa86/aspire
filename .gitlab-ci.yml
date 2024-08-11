@@ -11,8 +11,8 @@ variables:
   NUGET_NAME: gitlab
   VCPKG_VERSION: 2024.07.12
   VCPKG_BINARY_SOURCES: "clear;nuget,${NUGET_NAME},readwrite"
-  CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.29.0-linux/cmake-3.29.0-linux-x86_64/bin/cmake
-  NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe
+  CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.29.2-linux/cmake-3.29.2-linux-x86_64/bin/cmake
+  NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe
 
 .get-vcpkg: &get-vcpkg
   # Get vcpkg
@@ -50,10 +50,10 @@ build-clang-tidy:
   stage: build
   needs: []
   tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
+    - saas-linux-medium-amd64
+    # - shelley
+    # - docker
+    # - large
   script:
     - *get-vcpkg
 
