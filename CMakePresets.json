@@ -61,31 +61,29 @@
             }
         },
         {
-            "name": "msvc",
+            "name": "windows",
             "inherits": "default",
             "generator": "Visual Studio 17 2022",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
-            },
+            }
+        },
+        {
+            "name": "x64-windows-debug",
+            "inherits": "windows",
+            "binaryDir": "${sourceDir}/build-debug",
             "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "Debug",
                 "VCPKG_TARGET_TRIPLET": "x64-windows-aspire",
                 "VCPKG_HOST_TRIPLET": "x64-windows-aspire"
             }
         },
         {
-            "name": "msvc-debug",
-            "inherits": "msvc",
-            "binaryDir": "${sourceDir}/build-debug",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "Debug",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "Debug"
-            }
-        },
-        {
-            "name": "msvc-relwithdebinfo",
-            "inherits": "msvc",
+            "name": "x64-windows-relwithdebinfo",
+            "inherits": "x64-windows-debug",
             "binaryDir": "${sourceDir}/build-relwithdebinfo",
             "cacheVariables": {
                 "CMAKE_CONFIGURATION_TYPES": "RelWithDebInfo",
@@ -93,8 +91,37 @@
             }
         },
         {
-            "name": "msvc-release",
-            "inherits": "msvc",
+            "name": "x64-windows-release",
+            "inherits": "x64-windows-debug",
+            "binaryDir": "${sourceDir}/build-release",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Release",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "Release"
+            }
+        },
+        {
+            "name": "arm64-windows-debug",
+            "inherits": "windows",
+            "binaryDir": "${sourceDir}/build-debug",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "Debug",
+                "VCPKG_TARGET_TRIPLET": "arm64-windows-aspire",
+                "VCPKG_HOST_TRIPLET": "arm64-windows-aspire"
+            }
+        },
+        {
+            "name": "arm64-windows-relwithdebinfo",
+            "inherits": "arm64-windows-debug",
+            "binaryDir": "${sourceDir}/build-relwithdebinfo",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "RelWithDebInfo",
+                "CMAKE_TRY_COMPILE_CONFIGURATION": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "arm64-windows-release",
+            "inherits": "arm64-windows-debug",
             "binaryDir": "${sourceDir}/build-release",
             "cacheVariables": {
                 "CMAKE_CONFIGURATION_TYPES": "Release",
@@ -213,18 +240,33 @@
             "configurePreset": "clang-debug"
         },
         {
-            "name": "msvc-debug",
+            "name": "x64-windows-debug",
             "configurePreset": "msvc-debug",
             "configuration": "Debug"
         },
         {
-            "name": "msvc-release",
+            "name": "x64-windows-release",
             "configurePreset": "msvc-release",
             "configuration": "Release"
         },
         {
-            "name": "msvc-relwithdebinfo",
-            "configurePreset": "msvc-relwithdebinfo",
+            "name": "x64-windows-relwithdebinfo",
+            "configurePreset": "x64-windows-relwithdebinfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "arm64-windows-debug",
+            "configurePreset": "arm64-windows-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "arm64-windows-release",
+            "configurePreset": "arm64-windows-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "arm64-windows-relwithdebinfo",
+            "configurePreset": "arm64-windows-relwithdebinfo",
             "configuration": "RelWithDebInfo"
         },
         {
