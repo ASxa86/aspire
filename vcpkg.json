@@ -10,7 +10,8 @@
       "default-features": false,
       "features": [
         "png",
-        "opengl"
+        "opengl",
+        "gui"
       ]
     },
     {
