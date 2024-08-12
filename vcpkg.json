@@ -8,17 +8,33 @@
     {
       "name": "qtbase",
       "default-features": false,
+      "host": true,
       "features": [
-        "png",
-        {
-          "name": "egl",
-          "platform": "android"
-        },
-        {
-          "name": "opengl",
-          "platform": "android"
-        }
+        "png"
       ]
+    },
+    {
+      "name": "qtbase",
+      "default-features": false,
+      "host": true,
+      "features": [
+        "egl",
+        "fontconfig",
+        "xcb",
+        "xcb-xlib",
+        "xrender"
+      ],
+      "platform": "linux"
+    },
+    {
+      "name": "qtbase",
+      "default-features": false,
+      "host": true,
+      "features": [
+        "egl",
+        "gles2"
+      ],
+      "platform": "android"
     },
     "qtdeclarative",
     "gtest"
