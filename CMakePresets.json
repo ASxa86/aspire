@@ -190,6 +190,7 @@
         {
             "name": "android-x64-debug",
             "inherits": "android-x64",
+            "binaryDir": "${sourceDir}/build-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
@@ -197,6 +198,7 @@
         {
             "name": "android-x64-release",
             "inherits": "android-x64",
+            "binaryDir": "${sourceDir}/build-release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -215,6 +217,7 @@
             "name": "android-arm64-debug",
             "inherits": "android-arm64-v8a",
             "displayName": "Android Arm64 (Debug)",
+            "binaryDir": "${sourceDir}/build-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
@@ -223,6 +226,7 @@
             "name": "android-arm64-release",
             "inherits": "android-arm64-v8a",
             "displayName": "Android Arm64 (Release)",
+            "binaryDir": "${sourceDir}/build-release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
