@@ -17,7 +17,7 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/installed)
 set(PROJECT_ROOT_NAME aspire)
 project(${PROJECT_ROOT_NAME})
 
-option(BUILD_ENABLE_HARDENED "Enable hardened compiler options" ON)
+option(BUILD_ENABLE_HARDENED "Enable hardened compiler options" OFF)
 option(BUILD_TESTS "Enable building ${PROJECT_NAME} test applications." OFF)
 
 set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)

@@ -7,13 +7,6 @@ Rectangle {
     border.width: 4
     border.color: "grey"
 
-    Text {
-        anchors.centerIn: parent
-        text: Aspire.meters(30).toString()
-        color: "white"
-        font.pixelSize: 50
-    }
-
     Square {
         id: square
         x: 300
@@ -25,5 +18,18 @@ Rectangle {
 
             drag.target: square
         }
+    }
+
+    FrameMetrics {
+        id: metrics
+
+        thread: FrameMetrics.Thread.Render
+    }
+
+    Text {
+        anchors.centerIn: parent
+        text: metrics.fpsRolling.toFixed(2)
+        color: "white"
+        font.pixelSize: 50
     }
 }
