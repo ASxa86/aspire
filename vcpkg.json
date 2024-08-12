@@ -9,7 +9,8 @@
       "name": "qtbase",
       "default-features": false,
       "features": [
-        "png"
+        "png",
+        "opengl"
       ]
     },
     {
