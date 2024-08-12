@@ -36,6 +36,19 @@
     },
     {
       "name": "qtbase",
+      "host": true,
+      "default-features": false,
+      "features": [
+        "egl",
+        "fontconfig",
+        "xcb",
+        "xcb-xlib",
+        "xrender"
+      ],
+      "platform": "linux"
+    },
+    {
+      "name": "qtbase",
       "default-features": false,
       "features": [
         "egl",
