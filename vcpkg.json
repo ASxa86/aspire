@@ -29,6 +29,7 @@
       "name": "qtbase",
       "default-features": false,
       "features": [
+        "egl",
         "gles2"
       ],
       "platform": "android"
