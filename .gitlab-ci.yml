@@ -18,8 +18,8 @@ variables:
   # Get vcpkg
   - git clone https://github.com/microsoft/vcpkg.git --depth 1 --branch ${VCPKG_VERSION}
   - ./vcpkg/bootstrap-vcpkg.sh
-  - ./vcpkg/vcpkg fetch nuget
-  - ./vcpkg/vcpkg fetch cmake
+  - ./vcpkg/vcpkg fetch nuget --x-wait-for-lock
+  - ./vcpkg/vcpkg fetch cmake --x-wait-for-lock
 
   # Configure NuGet
   - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
