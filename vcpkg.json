@@ -9,7 +9,11 @@
       "name": "qtbase",
       "default-features": false,
       "features": [
-        "png"
+        "png",
+        {
+          "name": "egl",
+          "platform": "android"
+        }
       ]
     },
     "qtdeclarative",
