@@ -5,57 +5,7 @@
   "description": "QtQuick Game Engine",
   "homepage": "https://gitlab.com/amshelley86/aspire",
   "dependencies": [
-    {
-      "name": "qtbase",
-      "default-features": false,
-      "features": [
-        "png",
-        "opengl"
-      ]
-    },
-    {
-      "name": "qtbase",
-      "host": true,
-      "default-features": false,
-      "features": [
-        "png",
-        "opengl"
-      ]
-    },
-    {
-      "name": "qtbase",
-      "default-features": false,
-      "features": [
-        "egl",
-        "fontconfig",
-        "xcb",
-        "xcb-xlib",
-        "xrender"
-      ],
-      "platform": "linux"
-    },
-    {
-      "name": "qtbase",
-      "host": true,
-      "default-features": false,
-      "features": [
-        "egl",
-        "fontconfig",
-        "xcb",
-        "xcb-xlib",
-        "xrender"
-      ],
-      "platform": "linux"
-    },
-    {
-      "name": "qtbase",
-      "default-features": false,
-      "features": [
-        "egl",
-        "gles2"
-      ],
-      "platform": "android"
-    },
+    "qtbase",
     "qtdeclarative",
     "gtest"
   ]
