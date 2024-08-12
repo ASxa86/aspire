@@ -8,15 +8,23 @@
     {
       "name": "qtbase",
       "default-features": false,
-      "host": true,
       "features": [
-        "png"
+        "png",
+        "opengl"
+      ]
+    },
+    {
+      "name": "qtbase",
+      "host": true,
+      "default-features": false,
+      "features": [
+        "png",
+        "opengl"
       ]
     },
     {
       "name": "qtbase",
       "default-features": false,
-      "host": true,
       "features": [
         "egl",
         "fontconfig",
@@ -29,7 +37,6 @@
     {
       "name": "qtbase",
       "default-features": false,
-      "host": true,
       "features": [
         "egl",
         "gles2"
