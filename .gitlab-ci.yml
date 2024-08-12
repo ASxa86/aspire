@@ -29,10 +29,10 @@ build-clang-tidy:
   stage: build
   needs: []
   tags:
-    - saas-linux-medium-amd64
-    # - shelley
-    # - docker
-    # - large
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
   script:
     - *get-vcpkg
 
@@ -50,10 +50,10 @@ build-clang-tidy:
   stage: build
   needs: []
   tags:
-    - saas-linux-medium-amd64
-    # - shelley
-    # - docker
-    # - large
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
   script:
     - *get-vcpkg
 
