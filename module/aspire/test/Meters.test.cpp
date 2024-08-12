@@ -5,6 +5,6 @@ using aspire::Meters;
 
 TEST(Meters, toDouble)
 {
-	Meters meters{std::numeric_limits<double>::max()};
+	const Meters meters{std::numeric_limits<double>::max()};
 	EXPECT_DOUBLE_EQ(meters.toDouble(), std::numeric_limits<double>::max());
 }

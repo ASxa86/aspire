@@ -4,12 +4,14 @@
 
 int main(int argc, char** argv)
 {
-	QGuiApplication app{argc, argv};
+	const QGuiApplication app{argc, argv};
 
 	QQuickView window{};
 
-	window.setWidth(1280);
-	window.setHeight(720);
+	constexpr auto width{1280};
+	constexpr auto height{720};
+	window.setWidth(width);
+	window.setHeight(height);
 	window.setTitle("Aspire Edit");
 	window.engine()->addImportPath(":/");
 	window.setSource(QUrl{"qrc:/aspire/edit/Main.qml"});
