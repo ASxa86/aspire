@@ -10,14 +10,11 @@ fi
 ./vcpkg/vcpkg fetch nuget
 ./vcpkg/vcpkg fetch cmake
 
-echo "mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source $NUGET_SOURCE -name $NUGET_NAME -username $GITLAB_USER -password $GITLAB_USER_TOKEN"
-mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe sources add -source $NUGET_SOURCE -name $NUGET_NAME -username $GITLAB_USER -password $GITLAB_USER_TOKEN
-
-echo "mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe config -set maxHttpRequestsPerSource=64"
-mono ./vcpkg/downloads/tools/nuget-6.2.1-linux/nuget.exe config -set maxHttpRequestsPerSource=64
+echo "mono ./vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe sources add -source $NUGET_SOURCE -name $NUGET_NAME -username $GITLAB_USER -password $GITLAB_USER_TOKEN"
+mono ./vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe sources add -source $NUGET_SOURCE -name $NUGET_NAME -username $GITLAB_USER -password $GITLAB_USER_TOKEN
 
 sdkmanager "emulator"
-sdkmanager "system-images;android-33;google_apis;x86_64"
+sdkmanager "system-images;android-34;google_apis;x86_64"
 apt install -y libpulse-dev
 
 if [ ! -d "$WORKSPACE_DIR/avd" ]; then
