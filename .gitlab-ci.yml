@@ -48,8 +48,7 @@ get-sonar-binaries:
     - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
   only:
     - merge_requests
-    - master
-    - develop
+    - main
 
 lint-clang-tidy:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
@@ -138,5 +137,4 @@ build-gcc-debug-sonar:
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json
   only:
     - merge_requests
-    - master
-    - develop
+    - main
