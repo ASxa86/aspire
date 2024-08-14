@@ -33,6 +33,11 @@ get-sonar-binaries:
     paths:
       - build-wrapper/
       - sonar-scanner/
+  tags:
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
   script:
     # Download sonar-scanner
     - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.1.0.4477-linux-x64.zip'
@@ -118,6 +123,11 @@ build-gcc-debug-sonar:
     paths:
       - build-wrapper/
       - sonar-scanner/
+  tags:
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
   variables:
     CMAKE_PRESET: gcc-debug
   script:
