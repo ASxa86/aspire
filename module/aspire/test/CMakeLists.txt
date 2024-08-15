@@ -15,3 +15,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     GTest::gtest
     aspire
 )
+
+gtest_discover_tests(${PROJECT_NAME}
+    XML_OUTPUT_DIR ${CMAKE_BINARY_DIR}/Testing
+)
