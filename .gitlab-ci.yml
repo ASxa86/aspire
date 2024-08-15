@@ -142,4 +142,4 @@ test-clang-debug:
     - large
   script:
     - *get-vcpkg
-    - ${CMAKE_COMMAND} --build --preset clang-debug --target run_tests
+    - ${CMAKE_COMMAND} --build --preset clang-debug --target test
