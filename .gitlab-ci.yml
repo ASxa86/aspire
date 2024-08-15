@@ -89,6 +89,7 @@ build-android-armg64-debug:
     CMAKE_PRESET: android-arm64-debug
 
 build-gcc-debug-sonar:
+  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   tags:
     # - saas-linux-medium-amd64
