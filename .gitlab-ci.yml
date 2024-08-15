@@ -129,9 +129,6 @@ build-gcc-debug-sonar:
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
     # Run the sonar-scanner in the same stage as the build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json
-  only:
-    - merge_requests
-    - main
 
 test-clang-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
