@@ -60,11 +60,11 @@ lint-clang-tidy:
     # Build Aspire
     - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
     - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
-  artifacts:
-    when: on_failure
-    paths:
-      - vcpkg/buildtrees/**/*.txt
-      - vcpkg/buildtrees/**/*.log
+  # artifacts:
+  #   when: on_failure
+  #   paths:
+  #     - vcpkg/buildtrees/**/*.txt
+  #     - vcpkg/buildtrees/**/*.log
 
 build-clang-debug:
   extends: .build-base
