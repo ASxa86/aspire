@@ -93,6 +93,8 @@ build-android-x64-debug:
     expire_in: 1 day
     paths:
       - build-debug
+    exclude:
+      - build-debug/vcpkg_installed/*
 
 build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
@@ -103,6 +105,8 @@ build-android-armg64-debug:
     expire_in: 1 day
     paths:
       - build-debug
+    exclude:
+      - build-debug/vcpkg_installed/*
 
 build-gcc-debug-sonar:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
