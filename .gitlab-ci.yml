@@ -24,32 +24,6 @@ variables:
   # Configure NuGet
   - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
 
-get-sonar-binaries:
-  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
-  stage: .pre
-  cache:
-    policy: push
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - build-wrapper/
-      - sonar-scanner/
-  tags:
-    # - saas-linux-medium-amd64
-    - shelley
-    - docker
-    - large
-  script:
-    # Download sonar-scanner
-    - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.1.0.4477-linux-x64.zip'
-    - unzip -o sonar-scanner.zip
-    - mv sonar-scanner-6.1.0.4477-linux-x64 sonar-scanner
-    # Download build-wrapper
-    - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
-    - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
-  only:
-    - merge_requests
-    - main
-
 lint-clang-tidy:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: lint
@@ -116,12 +90,6 @@ build-android-armg64-debug:
 
 build-gcc-debug-sonar:
   stage: build
-  cache:
-    policy: pull-push
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - build-wrapper/
-      - sonar-scanner/
   tags:
     # - saas-linux-medium-amd64
     - shelley
@@ -130,8 +98,15 @@ build-gcc-debug-sonar:
   variables:
     CMAKE_PRESET: gcc-debug
   script:
-    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
+    # Download sonar-scanner
+    - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.1.0.4477-linux-x64.zip'
+    - unzip -o sonar-scanner.zip
+    - mv sonar-scanner-6.1.0.4477-linux-x64 sonar-scanner
+    # Download build-wrapper
+    - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
+    - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
     # Run the build inside the build wrapper
+    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
     # Run the sonar-scanner in the same stage as the build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json
