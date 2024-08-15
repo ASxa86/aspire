@@ -91,6 +91,7 @@ build-android-armg64-debug:
 build-gcc-debug-sonar:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
+  needs: []
   tags:
     # - saas-linux-medium-amd64
     - shelley
@@ -107,6 +108,7 @@ build-gcc-debug-sonar:
     - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
     - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
     # Run the build inside the build wrapper
+    - *get-vcpkg
     - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
     # Run the sonar-scanner in the same stage as the build
