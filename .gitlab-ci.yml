@@ -60,33 +60,53 @@ lint-clang-tidy:
     # Build Aspire
     - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
     - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
-  artifacts:
-    when: on_failure
-    paths:
-      - vcpkg/buildtrees/**/*.txt
-      - vcpkg/buildtrees/**/*.log
+  # artifacts:
+  #   when: on_failure
+  #   paths:
+  #     - vcpkg/buildtrees/**/*.txt
+  #     - vcpkg/buildtrees/**/*.log
 
 build-clang-debug:
   extends: .build-base
   variables:
     CMAKE_PRESET: clang-debug
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - build-debug
 
 build-gcc-release:
   extends: .build-base
   variables:
     CMAKE_PRESET: gcc-release
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - build-release
 
 build-android-x64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
     CMAKE_PRESET: android-x64-debug
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - build-debug
+    exclude:
+      - build-debug/vcpkg_installed/**/*
 
 build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
     CMAKE_PRESET: android-arm64-debug
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - build-debug
+    exclude:
+      - build-debug/vcpkg_installed/**/*
 
 build-gcc-debug-sonar:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
@@ -113,6 +133,17 @@ build-gcc-debug-sonar:
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
     # Run the sonar-scanner in the same stage as the build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json
-  only:
-    - merge_requests
-    - main
+
+test-clang-debug:
+  image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
+  stage: test
+  needs:
+    - build-clang-debug
+  tags:
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
+  script:
+    - *get-vcpkg
+    - ${CMAKE_COMMAND} --build --preset clang-debug --target test

@@ -18,4 +18,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt::Quick
 )
 
-add_subdirectory(test)
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()

@@ -174,7 +174,8 @@
                 "ANDROID_SDK_ROOT": "$env{ANDROID_HOME}",
                 "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME",
                 "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
-                "ANDROID_PLATFORM": "34"
+                "ANDROID_PLATFORM": "34",
+                "BUILD_TESTING": "OFF"
             }
         },
         {
