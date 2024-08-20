@@ -9,6 +9,7 @@ project_add_module(
         Meters.cpp
         Meters.h
     QML_FILES
+        Counter.qml
         Square.qml
     IMPORTS
         QtQuick

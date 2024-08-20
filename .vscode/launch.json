@@ -5,100 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch Shapes Debug",
+            "name": "(Windows) Aspire Edit Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/Debug/shapes.exe",
+            "program": "${workspaceFolder}/build-debug/installed/bin/aspire-edit.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/bin/Debug",
-            "environment": [
-                {
-                    "name": "QML_IMPORT_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/Qt6/qml"
-                },
-                {
-                    "name": "QT_PLUGIN_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/Qt6/plugins"
-                },
-                {
-                    "name": "PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/bin"
-                }
-            ],
+            "cwd": "${workspaceFolder}/build-debug/installed/bin",
             "console": "externalTerminal"
         },
         {
-            "name": "(Windows) Launch Release",
+            "name": "(Windows) Aspire EDH Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/Release/shapes.exe",
+            "program": "${workspaceFolder}/build-debug/installed/bin/aspire-edh.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/bin/Release",
-            "environment": [
-                {
-                    "name": "QML_IMPORT_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/qml"
-                },
-                {
-                    "name": "QT_PLUGIN_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/plugins"
-                },
-                {
-                    "name": "PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/bin"
-                }
-            ],
+            "cwd": "${workspaceFolder}/build-debug/installed/bin",
             "console": "externalTerminal"
-        },
-        {
-            "name": "(Windows) Launch RelWithDebInfo",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/bin/RelWithDebInfo/shapes.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/bin/RelWithDebInfo",
-            "environment": [
-                {
-                    "name": "QML_IMPORT_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/qml"
-                },
-                {
-                    "name": "QT_PLUGIN_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/Qt6/plugins"
-                },
-                {
-                    "name": "PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/bin"
-                }
-            ],
-            "console": "externalTerminal"
-        },
-        {
-            "name": "(Windows) Launch EDHStats Debug",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/bin/Debug/edhstats.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/bin/Debug",
-            "environment": [
-                {
-                    "name": "QML_IMPORT_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/Qt6/qml"
-                },
-                {
-                    "name": "QT_PLUGIN_PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/Qt6/plugins"
-                },
-                {
-                    "name": "PATH",
-                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows/debug/bin"
-                }
-            ],
-            "console": "externalTerminal"
-        },
+        }
     ]
 }
