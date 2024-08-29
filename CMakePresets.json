@@ -5,6 +5,7 @@
             "name": "use-vcpkg-ninja",
             "hidden": true,
             "generator": "Ninja",
+            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "CMAKE_COMPILE_WARNING_AS_ERROR": "ON"
@@ -59,11 +60,6 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_C_COMPILER": "cl"
             }
-        },
-        {
-            "name": "use-vcpkg",
-            "hidden": true,
-            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
         {
             "name": "use-vcpkg-triplet-x64-linux",
@@ -184,7 +180,7 @@
                 "default-build-dir",
                 "build-debug",
                 "use-vcpkg-triplet-x64-linux",
-                "use-vcpkg-triplet-arm64-linux"
+                "use-vcpkg-triplet-arm64-android"
             ]
         },
         {
@@ -194,9 +190,9 @@
                 "use-gcc",
                 "default-linux",
                 "default-build-dir",
-                "build-releases",
+                "build-release",
                 "use-vcpkg-triplet-x64-linux",
-                "use-vcpkg-triplet-arm64-linux"
+                "use-vcpkg-triplet-arm64-android"
             ]
         },
         {
@@ -319,10 +315,6 @@
         {
             "name": "windows-msvc-android-debug",
             "configurePreset": "windows-msvc-android-debug"
-        },
-        {
-            "name": "windows-msvc-android-relwithdebinfo",
-            "configurePreset": "windows-msvc-android-relwithdebinfo"
         },
         {
             "name": "windows-msvc-android-release",

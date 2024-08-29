@@ -3,7 +3,7 @@
     "remoteEnv": {
         "NUGET_NAME": "gitlab",
         "NUGET_SOURCE": "https://gitlab.com/api/v4/projects/51467465/packages/nuget/index.json",
-        "VCPKG_VERSION": "2024.07.12",
+        "VCPKG_VERSION": "2024.08.23",
         "VCPKG_ROOT": "${containerWorkspaceFolder}/vcpkg",
         "VCPKG_BINARY_SOURCES": "clear;nuget,gitlab,readwrite",
         "GITLAB_USER": "${localEnv:GITLAB_USER}",
