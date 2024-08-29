@@ -2,69 +2,112 @@
     "version": 6,
     "configurePresets": [
         {
-            "name": "default",
-            "displayName": "Default",
-            "binaryDir": "${sourceDir}/build/",
-            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-            "environment": {
-                "VCPKG_FEATURE_FLAGS": "-compilertracking"
-            },
+            "name": "use-vcpkg-ninja",
+            "hidden": true,
+            "generator": "Ninja",
             "cacheVariables": {
-                "CMAKE_COMPILE_WARNING_AS_ERROR": true,
-                "VCPKG_APPLOCAL_DEPS": false
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_COMPILE_WARNING_AS_ERROR": "ON"
             }
         },
         {
-            "name": "linux",
-            "inherits": "default",
-            "displayName": "Linux Default",
-            "generator": "Unix Makefiles",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
+            "name": "default-build-dir",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build"
+        },
+        {
+            "name": "build-debug",
+            "hidden": true,
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-linux-aspire",
-                "VCPKG_HOST_TRIPLET": "x64-linux-aspire"
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "gcc-debug",
-            "inherits": "linux",
-            "displayName": "GCC Debug",
-            "binaryDir": "${sourceDir}/build-debug",
+            "name": "build-relwithdebinfo",
+            "hidden": true,
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_C_COMPILER": "gcc"
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
         },
         {
-            "name": "gcc-release",
-            "inherits": "gcc-debug",
-            "displayName": "GCC Release",
-            "binaryDir": "${sourceDir}/build-release",
+            "name": "build-release",
+            "hidden": true,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
-            "name": "clang-debug",
-            "inherits": "linux",
-            "displayName": "Clang Debug",
-            "binaryDir": "${sourceDir}/build-debug",
+            "name": "use-clang",
+            "hidden": true,
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-18",
-                "CMAKE_C_COMPILER": "/usr/bin/clang-18",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "clang"
             }
         },
         {
-            "name": "windows",
-            "inherits": "default",
-            "generator": "Visual Studio 17 2022",
+            "name": "use-gcc",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_C_COMPILER": "gcc"
+            }
+        },
+        {
+            "name": "use-msvc",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_C_COMPILER": "cl"
+            }
+        },
+        {
+            "name": "use-vcpkg",
+            "hidden": true,
+            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        },
+        {
+            "name": "use-vcpkg-triplet-x64-linux",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_HOST_TRIPLET": "x64-linux-release",
+                "VCPKG_TARGET_TRIPLET": "x64-linux-release"
+            }
+        },
+        {
+            "name": "use-vcpkg-triplet-x64-windows",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_HOST_TRIPLET": "x64-windows-release",
+                "VCPKG_TARGET_TRIPLET": "x64-windows-release"
+            }
+        },
+        {
+            "name": "use-vcpkg-triplet-arm64-osx",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_HOST_TRIPLET": "arm64-osx-release",
+                "VCPKG_TARGET_TRIPLET": "arm64-osx-release"
+            }
+        },
+        {
+            "name": "use-vcpkg-triplet-x64-android",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-android"
+            }
+        },
+        {
+            "name": "use-vcpkg-triplet-arm64-android",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
+                "VCPKG_TARGET_TRIPLET": "arm64-android"
+            }
+        },
+        {
+            "name": "default-windows",
+            "hidden": true,
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -72,209 +115,218 @@
             }
         },
         {
-            "name": "x64-windows-debug",
-            "inherits": "windows",
-            "binaryDir": "${sourceDir}/build-debug",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "Debug",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "Debug",
-                "VCPKG_TARGET_TRIPLET": "x64-windows-aspire",
-                "VCPKG_HOST_TRIPLET": "x64-windows-aspire"
+            "name": "default-linux",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
             }
         },
         {
-            "name": "x64-windows-relwithdebinfo",
-            "inherits": "x64-windows-debug",
-            "binaryDir": "${sourceDir}/build-relwithdebinfo",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "RelWithDebInfo",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "RelWithDebInfo"
-            }
-        },
-        {
-            "name": "x64-windows-release",
-            "inherits": "x64-windows-debug",
-            "binaryDir": "${sourceDir}/build-release",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "Release",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "Release"
-            }
-        },
-        {
-            "name": "arm64-windows-debug",
-            "inherits": "windows",
-            "binaryDir": "${sourceDir}/build-debug",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "Debug",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "Debug",
-                "VCPKG_TARGET_TRIPLET": "arm64-windows-aspire",
-                "VCPKG_HOST_TRIPLET": "arm64-windows-aspire"
-            }
-        },
-        {
-            "name": "arm64-windows-relwithdebinfo",
-            "inherits": "arm64-windows-debug",
-            "binaryDir": "${sourceDir}/build-relwithdebinfo",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "RelWithDebInfo",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "RelWithDebInfo"
-            }
-        },
-        {
-            "name": "arm64-windows-release",
-            "inherits": "arm64-windows-debug",
-            "binaryDir": "${sourceDir}/build-release",
-            "cacheVariables": {
-                "CMAKE_CONFIGURATION_TYPES": "Release",
-                "CMAKE_TRY_COMPILE_CONFIGURATION": "Release"
-            }
-        },
-        {
-            "name": "osx",
-            "inherits": "default",
-            "generator": "Unix Makefiles",
+            "name": "default-osx",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Darwin"
-            },
-            "cacheVariables": {
-                "BUILD_SHARED_LIBS": false,
-                "BUILD_ENABLE_HARDENED": false,
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_C_COMPILER": "clang",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx-aspire",
-                "VCPKG_HOST_TRIPLET": "arm64-osx-aspire"
             }
+        },
+        {
+            "name": "linux-gcc-debug",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-gcc",
+                "default-linux",
+                "default-build-dir",
+                "build-debug",
+                "use-vcpkg-triplet-x64-linux"
+            ]
+        },
+        {
+            "name": "linux-gcc-release",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-gcc",
+                "default-linux",
+                "default-build-dir",
+                "build-release",
+                "use-vcpkg-triplet-x64-linux"
+            ]
+        },
+        {
+            "name": "linux-clang-debug",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-clang",
+                "default-linux",
+                "default-build-dir",
+                "build-debug",
+                "use-vcpkg-triplet-x64-linux"
+            ]
+        },
+        {
+            "name": "linux-clang-release",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-clang",
+                "default-linux",
+                "default-build-dir",
+                "build-release",
+                "use-vcpkg-triplet-x64-linux"
+            ]
+        },
+        {
+            "name": "linux-android-debug",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-gcc",
+                "default-linux",
+                "default-build-dir",
+                "build-debug",
+                "use-vcpkg-triplet-x64-linux",
+                "use-vcpkg-triplet-arm64-linux"
+            ]
+        },
+        {
+            "name": "linux-android-release",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-gcc",
+                "default-linux",
+                "default-build-dir",
+                "build-releases",
+                "use-vcpkg-triplet-x64-linux",
+                "use-vcpkg-triplet-arm64-linux"
+            ]
+        },
+        {
+            "name": "windows-msvc-debug",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-msvc",
+                "default-windows",
+                "default-build-dir",
+                "build-debug",
+                "use-vcpkg-triplet-x64-windows"
+            ]
+        },
+        {
+            "name": "windows-msvc-relwithdebinfo",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-msvc",
+                "default-windows",
+                "default-build-dir",
+                "build-relwithdebinfo",
+                "use-vcpkg-triplet-x64-windows"
+            ]
+        },
+        {
+            "name": "windows-msvc-release",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-msvc",
+                "default-windows",
+                "default-build-dir",
+                "build-release",
+                "use-vcpkg-triplet-x64-windows"
+            ]
+        },
+        {
+            "name": "windows-msvc-android-debug",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-msvc",
+                "default-windows",
+                "default-build-dir",
+                "build-debug",
+                "use-vcpkg-triplet-x64-windows",
+                "use-vcpkg-triplet-x64-android"
+            ]
+        },
+        {
+            "name": "windows-msvc-android-release",
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-msvc",
+                "default-windows",
+                "default-build-dir",
+                "build-release",
+                "use-vcpkg-triplet-x64-windows",
+                "use-vcpkg-triplet-x64-android"
+            ]
         },
         {
             "name": "osx-debug",
-            "inherits": "osx",
-            "displayName": "OSX Debug",
-            "binaryDir": "${sourceDir}/build-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-clang",
+                "default-osx",
+                "default-build-dir",
+                "build-debug",
+                "use-vcpkg-triplet-arm64-osx"
+            ]
         },
         {
             "name": "osx-release",
-            "inherits": "osx",
-            "displayName": "OSX Release",
-            "binaryDir": "${sourceDir}/build-release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "android",
-            "inherits": "linux",
-            "cacheVariables": {
-                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
-                "ANDROID_STL": "c++_shared",
-                "ANDROID_SDK_ROOT": "$env{ANDROID_HOME}",
-                "VCPKG_KEEP_ENV_VARS": "ANDROID_HOME;ANDROID_NDK_HOME",
-                "VCPKG_INSTALL_OPTIONS": "--allow-unsupported",
-                "ANDROID_PLATFORM": "34",
-                "BUILD_TESTING": "OFF"
-            }
-        },
-        {
-            "name": "android-x64",
-            "inherits": "android",
-            "displayName": "Android x64",
-            "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-android-aspire",
-                "VCPKG_HOST_TRIPLET": "x64-linux-aspire",
-                "ANDROID_ABI": "x86_64"
-            }
-        },
-        {
-            "name": "android-x64-debug",
-            "inherits": "android-x64",
-            "binaryDir": "${sourceDir}/build-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "android-x64-release",
-            "inherits": "android-x64",
-            "binaryDir": "${sourceDir}/build-release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "android-arm64-v8a",
-            "inherits": "android",
-            "displayName": "Android arm64",
-            "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "arm64-android-aspire",
-                "VCPKG_HOST_TRIPLET": "x64-linux-aspire",
-                "ANDROID_ABI": "arm64-v8a"
-            }
-        },
-        {
-            "name": "android-arm64-debug",
-            "inherits": "android-arm64-v8a",
-            "displayName": "Android Arm64 (Debug)",
-            "binaryDir": "${sourceDir}/build-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "android-arm64-release",
-            "inherits": "android-arm64-v8a",
-            "displayName": "Android Arm64 (Release)",
-            "binaryDir": "${sourceDir}/build-release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
+            "inherits": [
+                "use-vcpkg-ninja",
+                "use-clang",
+                "default-osx",
+                "default-build-dir",
+                "build-release",
+                "use-vcpkg-triplet-arm64-osx"
+            ]
         }
     ],
     "buildPresets": [
         {
-            "name": "gcc-debug",
-            "configurePreset": "gcc-debug"
+            "name": "linux-gcc-debug",
+            "configurePreset": "linux-gcc-debug"
         },
         {
-            "name": "gcc-release",
-            "configurePreset": "gcc-release"
+            "name": "linux-gcc-release",
+            "configurePreset": "linux-gcc-release"
         },
         {
-            "name": "clang-debug",
-            "configurePreset": "clang-debug"
+            "name": "linux-clang-debug",
+            "configurePreset": "linux-clang-debug"
         },
         {
-            "name": "x64-windows-debug",
-            "configurePreset": "x64-windows-debug",
-            "configuration": "Debug"
+            "name": "linux-clang-release",
+            "configurePreset": "linux-clang-release"
         },
         {
-            "name": "x64-windows-release",
-            "configurePreset": "x64-windows-release",
-            "configuration": "Release"
+            "name": "linux-android-debug",
+            "configurePreset": "linux-android-debug"
         },
         {
-            "name": "x64-windows-relwithdebinfo",
-            "configurePreset": "x64-windows-relwithdebinfo",
-            "configuration": "RelWithDebInfo"
+            "name": "linux-android-release",
+            "configurePreset": "linux-android-release"
         },
         {
-            "name": "arm64-windows-debug",
-            "configurePreset": "arm64-windows-debug",
-            "configuration": "Debug"
+            "name": "windows-msvc-debug",
+            "configurePreset": "windows-msvc-debug"
         },
         {
-            "name": "arm64-windows-release",
-            "configurePreset": "arm64-windows-release",
-            "configuration": "Release"
+            "name": "windows-msvc-relwithdebinfo",
+            "configurePreset": "windows-msvc-relwithdebinfo"
         },
         {
-            "name": "arm64-windows-relwithdebinfo",
-            "configurePreset": "arm64-windows-relwithdebinfo",
-            "configuration": "RelWithDebInfo"
+            "name": "windows-msvc-release",
+            "configurePreset": "windows-msvc-release"
+        },
+        {
+            "name": "windows-msvc-android-debug",
+            "configurePreset": "windows-msvc-android-debug"
+        },
+        {
+            "name": "windows-msvc-android-relwithdebinfo",
+            "configurePreset": "windows-msvc-android-relwithdebinfo"
+        },
+        {
+            "name": "windows-msvc-android-release",
+            "configurePreset": "windows-msvc-android-release"
         },
         {
             "name": "osx-debug",
@@ -283,22 +335,6 @@
         {
             "name": "osx-release",
             "configurePreset": "osx-release"
-        },
-        {
-            "name": "android-x64-debug",
-            "configurePreset": "android-x64-debug"
-        },
-        {
-            "name": "android-x64-release",
-            "configurePreset": "android-x64-release"
-        },
-        {
-            "name": "android-arm64-debug",
-            "configurePreset": "android-arm64-debug"
-        },
-        {
-            "name": "android-arm64-release",
-            "configurePreset": "android-arm64-release"
         }
     ]
 }
