@@ -5,7 +5,7 @@ Rectangle {
 
     property int value: 0
 
-    border.color: "red"
+    border.color: "black"
     border.width: 2
     color: Qt.rgba(0.5, 0.5, 0.5, 0.5)
 

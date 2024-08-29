@@ -5,7 +5,7 @@ Rectangle {
     width: 1280
     height: 720
     anchors.fill: parent
-    color: "blue"
+    color: "black"
     border.width: 4
     border.color: "grey"
 
