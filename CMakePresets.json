@@ -73,8 +73,8 @@
             "name": "use-vcpkg-triplet-x64-windows",
             "hidden": true,
             "cacheVariables": {
-                "VCPKG_HOST_TRIPLET": "x64-windows-release",
-                "VCPKG_TARGET_TRIPLET": "x64-windows-release"
+                "VCPKG_HOST_TRIPLET": "x64-windows",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
             }
         },
         {
