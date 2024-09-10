@@ -122,8 +122,6 @@ function(project_compile_exe)
 		set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${WORKING_DIR})
 	endif()
 
-	set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-
 	if(BUILD_ENABLED_HARDENED)
 		if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 			# using Clang

@@ -6,7 +6,8 @@
   "homepage": "https://gitlab.com/asxa86/aspire",
   "dependencies": [
     "gtest",
+    "glm",
     "sdl2",
-    "boost-signals2"
+    "palsigslot"
   ]
 }
