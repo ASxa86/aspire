@@ -1,12 +1,12 @@
 {
   "name": "aspire",
-  "version-string": "2024.4.23",
+  "version-string": "2024.9.10",
   "port-version": 1,
   "description": "AS personal integration and rendering engine",
   "homepage": "https://gitlab.com/asxa86/aspire",
   "dependencies": [
     "gtest",
-    "sfml",
-    "palsigslot"
+    "sdl2",
+    "boost-signals2"
   ]
 }
