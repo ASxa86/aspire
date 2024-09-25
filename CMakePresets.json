@@ -1,277 +1,183 @@
 {
     "version": 6,
+    "include": [
+        "cmake/preset/config-arm64-android.json",
+        "cmake/preset/config-arm64-osx.json",
+        "cmake/preset/config-debug.json",
+        "cmake/preset/config-release.json",
+        "cmake/preset/config-relwithdebinfo.json",
+        "cmake/preset/config-x64-android.json",
+        "cmake/preset/config-x64-linux.json",
+        "cmake/preset/config-x64-windows.json",
+        "cmake/preset/default-build-dir.json",
+        "cmake/preset/default-linux.json",
+        "cmake/preset/default-osx.json",
+        "cmake/preset/default-windows.json",
+        "cmake/preset/use-clang.json",
+        "cmake/preset/use-gcc.json",
+        "cmake/preset/use-msvc.json",
+        "cmake/preset/use-ninja.json",
+        "cmake/preset/use-vcpkg.json"
+    ],
     "configurePresets": [
-        {
-            "name": "use-vcpkg-ninja",
-            "hidden": true,
-            "generator": "Ninja",
-            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-            "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_COMPILE_WARNING_AS_ERROR": "ON"
-            }
-        },
-        {
-            "name": "default-build-dir",
-            "hidden": true,
-            "binaryDir": "${sourceDir}/build"
-        },
-        {
-            "name": "build-debug",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "build-relwithdebinfo",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-            }
-        },
-        {
-            "name": "build-release",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "use-clang",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_C_COMPILER": "clang"
-            }
-        },
-        {
-            "name": "use-gcc",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_C_COMPILER": "gcc"
-            }
-        },
-        {
-            "name": "use-msvc",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "cl",
-                "CMAKE_C_COMPILER": "cl"
-            }
-        },
-        {
-            "name": "use-vcpkg-triplet-x64-linux",
-            "hidden": true,
-            "cacheVariables": {
-                "VCPKG_HOST_TRIPLET": "x64-linux-release",
-                "VCPKG_TARGET_TRIPLET": "x64-linux-release"
-            }
-        },
-        {
-            "name": "use-vcpkg-triplet-x64-windows",
-            "hidden": true,
-            "cacheVariables": {
-                "VCPKG_HOST_TRIPLET": "x64-windows",
-                "VCPKG_TARGET_TRIPLET": "x64-windows"
-            }
-        },
-        {
-            "name": "use-vcpkg-triplet-arm64-osx",
-            "hidden": true,
-            "cacheVariables": {
-                "VCPKG_HOST_TRIPLET": "arm64-osx-release",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx-release"
-            }
-        },
-        {
-            "name": "use-vcpkg-triplet-x64-android",
-            "hidden": true,
-            "cacheVariables": {
-                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
-                "VCPKG_TARGET_TRIPLET": "x64-android"
-            }
-        },
-        {
-            "name": "use-vcpkg-triplet-arm64-android",
-            "hidden": true,
-            "cacheVariables": {
-                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/toolchains/android.cmake",
-                "VCPKG_TARGET_TRIPLET": "arm64-android"
-            }
-        },
-        {
-            "name": "default-windows",
-            "hidden": true,
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            }
-        },
-        {
-            "name": "default-linux",
-            "hidden": true,
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            }
-        },
-        {
-            "name": "default-osx",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Darwin"
-            }
-        },
         {
             "name": "linux-gcc-debug",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-gcc",
-                "default-linux",
+                "config-debug",
+                "config-x64-linux",
                 "default-build-dir",
-                "build-debug",
-                "use-vcpkg-triplet-x64-linux"
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "linux-gcc-release",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-gcc",
-                "default-linux",
+                "config-release",
+                "config-x64-linux",
                 "default-build-dir",
-                "build-release",
-                "use-vcpkg-triplet-x64-linux"
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "linux-clang-debug",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-clang",
-                "default-linux",
+                "config-debug",
+                "config-x64-linux",
                 "default-build-dir",
-                "build-debug",
-                "use-vcpkg-triplet-x64-linux"
+                "default-linux",
+                "use-clang",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "linux-clang-release",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-clang",
-                "default-linux",
+                "config-release",
+                "config-x64-linux",
                 "default-build-dir",
-                "build-release",
-                "use-vcpkg-triplet-x64-linux"
+                "default-linux",
+                "use-clang",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "linux-android-debug",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-gcc",
-                "default-linux",
+                "config-debug",
+                "config-x64-linux",
+                "config-arm64-android",
                 "default-build-dir",
-                "build-debug",
-                "use-vcpkg-triplet-x64-linux",
-                "use-vcpkg-triplet-arm64-android"
+                "default-linux",
+                "use-clang",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "linux-android-release",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-gcc",
-                "default-linux",
+                "config-release",
+                "config-x64-linux",
+                "config-arm64-android",
                 "default-build-dir",
-                "build-release",
-                "use-vcpkg-triplet-x64-linux",
-                "use-vcpkg-triplet-arm64-android"
+                "default-linux",
+                "use-clang",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "windows-msvc-debug",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-msvc",
-                "default-windows",
+                "config-release",
+                "config-x64-windows",
                 "default-build-dir",
-                "build-debug",
-                "use-vcpkg-triplet-x64-windows"
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "windows-msvc-relwithdebinfo",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-msvc",
-                "default-windows",
+                "config-relwithdebinfo",
+                "config-x64-windows",
                 "default-build-dir",
-                "build-relwithdebinfo",
-                "use-vcpkg-triplet-x64-windows"
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "windows-msvc-release",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-msvc",
-                "default-windows",
+                "config-release",
+                "config-x64-windows",
                 "default-build-dir",
-                "build-release",
-                "use-vcpkg-triplet-x64-windows"
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "windows-msvc-android-debug",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-msvc",
-                "default-windows",
+                "config-debug",
+                "config-x64-android",
+                "config-x64-windows",
                 "default-build-dir",
-                "build-debug",
-                "use-vcpkg-triplet-x64-windows",
-                "use-vcpkg-triplet-x64-android"
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "windows-msvc-android-release",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-msvc",
-                "default-windows",
+                "config-release",
+                "config-x64-android",
+                "config-x64-windows",
                 "default-build-dir",
-                "build-release",
-                "use-vcpkg-triplet-x64-windows",
-                "use-vcpkg-triplet-x64-android"
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "osx-debug",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-clang",
-                "default-osx",
+                "config-debug",
+                "config-arm64-osx",
                 "default-build-dir",
-                "build-debug",
-                "use-vcpkg-triplet-arm64-osx"
+                "default-osx",
+                "use-clang",
+                "use-ninja",
+                "use-vcpkg"
             ]
         },
         {
             "name": "osx-release",
             "inherits": [
-                "use-vcpkg-ninja",
-                "use-clang",
-                "default-osx",
+                "config-release",
+                "config-arm64-osx",
                 "default-build-dir",
-                "build-release",
-                "use-vcpkg-triplet-arm64-osx"
+                "default-osx",
+                "use-clang",
+                "use-ninja",
+                "use-vcpkg"
             ]
         }
     ],
