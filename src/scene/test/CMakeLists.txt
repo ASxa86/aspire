@@ -3,8 +3,7 @@ project(aspire-scene-test)
 project_add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
-    Rectangle.test.cpp
-    Window.test.cpp
+    Node.test.cpp
 )
 
 enable_testing()
