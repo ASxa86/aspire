@@ -8,7 +8,7 @@ struct Node::Impl
 {
 	auto insertChild(Node* p, std::size_t x, std::unique_ptr<Node> node) -> void
 	{
-		this->parent = p;
+		node->pimpl->parent = p;
 		this->children.emplace(std::begin(this->children) + x, std::move(node));
 	}
 
@@ -62,7 +62,12 @@ auto Node::addChild(std::unique_ptr<Node> x) -> void
 
 auto Node::remove() -> void
 {
-	std::erase_if(this->pimpl->parent->pimpl->children, [this](auto&& node) { return node.get() == this; });
+	if(this->parent() == nullptr)
+	{
+		return;
+	}
+
+	std::erase_if(this->parent()->pimpl->children, [this](auto&& node) { return node.get() == this; });
 }
 
 auto Node::dirty(aspire::core::EnumMask<Dirty> x) noexcept -> void
