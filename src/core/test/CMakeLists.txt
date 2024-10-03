@@ -3,6 +3,7 @@ project(aspire-core-test)
 project_add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
+    EnumMask.test.cpp
     Object.test.cpp
 )
 
