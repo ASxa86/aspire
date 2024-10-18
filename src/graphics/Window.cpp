@@ -59,6 +59,31 @@ auto Window::clear(Color x) const noexcept -> void
 	SDL_RenderClear(this->pimpl->renderer);
 }
 
+// auto Window::draw(const Drawable& x) noexcept -> void
+//{
+//	x.draw(*this);
+// }
+
+auto Window::draw(const std::vector<Vertex>& x) -> void
+{
+	if(std::empty(x) == true)
+	{
+		return;
+	}
+
+	// Playing a dangerous game here...
+	const auto xyData = reinterpret_cast<const float*>(x.data());
+	constexpr auto xyStride = sizeof(Vertex::color) + sizeof(Vertex::texCoords);
+
+	const auto colorData = reinterpret_cast<const SDL_Color*>(x.data() + sizeof(Vertex::position));
+	constexpr auto colorStride = sizeof(Vertex::texCoords) + sizeof(Vertex::position);
+
+	const auto uvData = reinterpret_cast<const float*>(x.data() + sizeof(Vertex::color));
+	constexpr auto uvStride = sizeof(Vertex::position) + sizeof(Vertex::color);
+
+	SDL_RenderGeometryRaw(this->pimpl->renderer, nullptr, xyData, xyStride, colorData, colorStride, uvData, uvStride, x.size(), nullptr, 0, 0);
+}
+
 auto Window::display() const noexcept -> void
 {
 	SDL_RenderPresent(this->pimpl->renderer);
