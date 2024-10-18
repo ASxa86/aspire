@@ -8,12 +8,11 @@ include(GNUInstallDirs)
 include(cmake/project_compile_options.cmake)
 include(cmake/project_add_library.cmake)
 include(cmake/project_add_executable.cmake)
-include(cmake/project_add_module.cmake)
 include(cmake/project_gen_export.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/installed)
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 
 set(PROJECT_ROOT_NAME aspire)
 project(${PROJECT_ROOT_NAME})
@@ -30,7 +29,7 @@ include_directories(${PROJECT_INCLUDE_DIR})
 # Define build directory includes as system to avoid tools like clang-tidy from scanning them.
 include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-add_subdirectory(app)
+add_subdirectory(example)
 add_subdirectory(src)
 
 # set(PROJECT_CONFIG_VERSION ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_ROOT_NAME}-config-version.cmake)
