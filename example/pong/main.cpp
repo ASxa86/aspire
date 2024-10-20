@@ -18,12 +18,12 @@ auto main() -> int
 	std::vector<aspire::Vertex> vertices;
 
 	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 0.0F}, .color = aspire::Color::White});
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 1.0F, .y = 0.0F}, .color = aspire::Color::White});
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 1.0F, .y = 1.0F}, .color = aspire::Color::White});
-
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 0.0F}, .color = aspire::Color::White});
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 1.0F, .y = 1.0F}, .color = aspire::Color::White});
 	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 1.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 1.0F, .y = 0.0F}, .color = aspire::Color::White});
+
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 1.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 1.0F, .y = 1.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 1.0F, .y = 0.0F}, .color = aspire::Color::White});
 
 	while(window.open() == true)
 	{

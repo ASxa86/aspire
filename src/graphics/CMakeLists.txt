@@ -10,8 +10,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     Window.cpp
 )
 
-find_package(SDL2 CONFIG REQUIRED)
+find_package(SDL3 CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    SDL2::SDL2
+    SDL3::SDL3
 )

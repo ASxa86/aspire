@@ -7,10 +7,10 @@
   "dependencies": [
     "gtest",
     "glm",
-    "sdl2",
-    "sdl2-image",
-    "sdl2-ttf",
-    "sdl2-mixer",
+    "sdl3",
+    "sdl3-image",
+    "sdl3-ttf",
+    "sdl3-mixer",
     "expected-lite",
     "magic-enum"
   ]

@@ -72,16 +72,9 @@ auto Window::draw(const std::vector<Vertex>& x) -> void
 	}
 
 	// Playing a dangerous game here...
-	const auto xyData = reinterpret_cast<const float*>(x.data());
-	constexpr auto xyStride = sizeof(Vertex::color) + sizeof(Vertex::texCoords);
-
-	const auto colorData = reinterpret_cast<const SDL_Color*>(x.data() + sizeof(Vertex::position));
-	constexpr auto colorStride = sizeof(Vertex::texCoords) + sizeof(Vertex::position);
-
-	const auto uvData = reinterpret_cast<const float*>(x.data() + sizeof(Vertex::color));
-	constexpr auto uvStride = sizeof(Vertex::position) + sizeof(Vertex::color);
-
-	SDL_RenderGeometryRaw(this->pimpl->renderer, nullptr, xyData, xyStride, colorData, colorStride, uvData, uvStride, x.size(), nullptr, 0, 0);
+	const auto* vertices = reinterpret_cast<const SDL_Vertex*>(x.data());
+	SDL_RenderSetScale(this->pimpl->renderer, 100.0F, 100.0F);
+	SDL_RenderGeometry(this->pimpl->renderer, nullptr, vertices, static_cast<int>(x.size()), nullptr, 0);
 }
 
 auto Window::display() const noexcept -> void

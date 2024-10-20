@@ -14,6 +14,6 @@ namespace aspire
 	{
 		Vec2 position{};
 		Color color{};
-		Vec2 texCoords{};
+		Vec2 texCoords{1.0F, 1.0F};
 	};
 }
