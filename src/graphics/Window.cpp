@@ -1,6 +1,6 @@
 #include <aspire/graphics/Window.h>
 
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 #include <aspire/core/PimplImpl.h>
 
 using aspire::Window;
@@ -25,9 +25,9 @@ struct Window::Impl
 
 Window::Window()
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	this->pimpl->window = SDL_CreateWindow("aspire", 80, 80, 1280, 720, 0);
-	this->pimpl->renderer = SDL_CreateRenderer(this->pimpl->window, -1, 0);
+	SDL_Init(SDL_INIT_EVENTS);
+	this->pimpl->window = SDL_CreateWindow("aspire", 1280, 720, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+	this->pimpl->renderer = SDL_CreateRenderer(this->pimpl->window, nullptr);
 	this->pimpl->open = this->pimpl->window != nullptr && this->pimpl->renderer != nullptr;
 }
 
@@ -73,7 +73,6 @@ auto Window::draw(const std::vector<Vertex>& x) -> void
 
 	// Playing a dangerous game here...
 	const auto* vertices = reinterpret_cast<const SDL_Vertex*>(x.data());
-	SDL_RenderSetScale(this->pimpl->renderer, 100.0F, 100.0F);
 	SDL_RenderGeometry(this->pimpl->renderer, nullptr, vertices, static_cast<int>(x.size()), nullptr, 0);
 }
 
@@ -90,27 +89,17 @@ auto Window::processEvents() const noexcept -> void
 	{
 		switch(sdlEvent.type)
 		{
-			case SDL_WINDOWEVENT:
+			case SDL_EventType::SDL_EVENT_WINDOW_CLOSE_REQUESTED:
 			{
 				EventWindow evtWindow;
 
-				switch(sdlEvent.window.type)
-				{
-					case SDL_WINDOWEVENT_CLOSE:
-					{
-						evtWindow.type = EventWindow::Type::Close;
-						event = evtWindow;
-						break;
-					}
-
-					default:
-						break;
-				}
+				evtWindow.type = EventWindow::Type::Close;
+				event = evtWindow;
 
 				break;
 			}
 
-			case SDL_QUIT:
+			case SDL_EventType::SDL_EVENT_QUIT:
 			{
 				EventWindow evtWindow;
 				evtWindow.type = EventWindow::Type::Close;

@@ -9,20 +9,20 @@ namespace aspire
 		static const Color Red;
 		static const Color Green;
 		static const Color Blue;
-		static const Color Black;
 		static const Color White;
+		static const Color Black;
+		static const Color Transparent;
 
-		std::uint8_t red{};
-		std::uint8_t green{};
-		std::uint8_t blue{};
-		std::uint8_t alpha{std::numeric_limits<std::uint8_t>::max()};
+		float red{};
+		float green{};
+		float blue{};
+		float alpha{1.0F};
 	};
 
-	inline constexpr Color Color::Red{.red = std::numeric_limits<std::uint8_t>::max()};
-	inline constexpr Color Color::Green{.green = std::numeric_limits<std::uint8_t>::max()};
-	inline constexpr Color Color::Blue{.blue = std::numeric_limits<std::uint8_t>::max()};
-	inline constexpr Color Color::White{.red = std::numeric_limits<std::uint8_t>::max(),
-										.green = std::numeric_limits<std::uint8_t>::max(),
-										.blue = std::numeric_limits<std::uint8_t>::max()};
+	inline constexpr Color Color::Red{.red = 1.0F};
+	inline constexpr Color Color::Green{.green = 1.0F};
+	inline constexpr Color Color::Blue{.blue = 1.0F};
+	inline constexpr Color Color::White{.red = 1.0F, .green = 1.0F, .blue = 1.0F};
 	inline constexpr Color Color::Black{};
+	inline constexpr Color Color::Transparent{.alpha = 0.0F};
 }
