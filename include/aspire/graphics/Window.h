@@ -33,10 +33,10 @@ namespace aspire
 		auto open() const noexcept -> bool;
 		auto close() noexcept -> void;
 		auto processEvents() const noexcept -> void;
-		auto clear(Color x = Color::Black) const noexcept -> void;
+		auto clear(Color x = Color::Black) noexcept -> void;
 		// auto draw(const Drawable& x) noexcept -> void;
 		auto draw(const std::vector<Vertex>& x) -> void;
-		auto display() const noexcept -> void;
+		auto display() noexcept -> void;
 
 		auto onEvent(std::function<void(EventWindow)> x) noexcept -> void;
 

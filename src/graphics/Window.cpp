@@ -1,5 +1,6 @@
 #include <aspire/graphics/Window.h>
 
+#define SDL_ENABLE_OLD_NAMES
 #include <SDL3/SDL.h>
 #include <aspire/core/PimplImpl.h>
 
@@ -19,21 +20,28 @@ struct Window::Impl
 {
 	std::function<void(EventWindow)> onEventWindow{[](auto) {}};
 	SDL_Window* window{};
-	SDL_Renderer* renderer{};
+	SDL_GPUDevice* device{};
+	SDL_GPUCommandBuffer* command{};
+	SDL_GPUTexture* swapchain{};
+	SDL_GPURenderPass* renderPass{};
+	Uint32 width = 1280;
+	Uint32 height = 720;
 	bool open{false};
 };
 
 Window::Window()
 {
-	SDL_Init(SDL_INIT_EVENTS);
-	this->pimpl->window = SDL_CreateWindow("aspire", 1280, 720, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-	this->pimpl->renderer = SDL_CreateRenderer(this->pimpl->window, nullptr);
-	this->pimpl->open = this->pimpl->window != nullptr && this->pimpl->renderer != nullptr;
+	SDL_Init(SDL_INIT_VIDEO);
+	this->pimpl->device = SDL_CreateGPUDevice(SDL_GPUShaderFormat{SDL_GPU_SHADERFORMAT_SPIRV}, false, nullptr);
+	this->pimpl->window = SDL_CreateWindow("aspire", this->pimpl->width, this->pimpl->height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
+	this->pimpl->open = SDL_ClaimWindowForGPUDevice(this->pimpl->device, this->pimpl->window);
 }
 
 Window::~Window()
 {
+	SDL_ReleaseWindowFromGPUDevice(this->pimpl->device, this->pimpl->window);
 	SDL_DestroyWindow(this->pimpl->window);
+	SDL_DestroyGPUDevice(this->pimpl->device);
 	SDL_Quit();
 }
 
@@ -47,16 +55,19 @@ auto Window::close() noexcept -> void
 	this->pimpl->open = false;
 }
 
-auto Window::clear(Color x) const noexcept -> void
+auto Window::clear(Color x) noexcept -> void
 {
-	constexpr auto u8max = std::numeric_limits<Uint8>::max();
-	const auto red = static_cast<Uint8>(x.red * u8max);
-	const auto green = static_cast<Uint8>(x.green * u8max);
-	const auto blue = static_cast<Uint8>(x.blue * u8max);
-	const auto alpha = static_cast<Uint8>(x.alpha * u8max);
+	this->pimpl->command = SDL_AcquireGPUCommandBuffer(this->pimpl->device);
+	this->pimpl->open &=
+		SDL_AcquireGPUSwapchainTexture(this->pimpl->command, this->pimpl->window, &this->pimpl->swapchain, &this->pimpl->width, &this->pimpl->height);
 
-	SDL_SetRenderDrawColor(this->pimpl->renderer, red, green, blue, alpha);
-	SDL_RenderClear(this->pimpl->renderer);
+	SDL_GPUColorTargetInfo color{};
+	color.clear_color = SDL_FColor{.r = x.red, .g = x.green, .b = x.blue, .a = x.alpha};
+	color.load_op = SDL_GPU_LOADOP_CLEAR;
+	color.store_op = SDL_GPU_STOREOP_STORE;
+	color.texture = this->pimpl->swapchain;
+
+	this->pimpl->renderPass = SDL_BeginGPURenderPass(this->pimpl->command, &color, 1, nullptr);
 }
 
 // auto Window::draw(const Drawable& x) noexcept -> void
@@ -66,19 +77,25 @@ auto Window::clear(Color x) const noexcept -> void
 
 auto Window::draw(const std::vector<Vertex>& x) -> void
 {
-	if(std::empty(x) == true)
+	if(std::empty(x) == true || this->pimpl->renderPass == nullptr)
 	{
 		return;
 	}
 
-	// Playing a dangerous game here...
-	const auto* vertices = reinterpret_cast<const SDL_Vertex*>(x.data());
-	SDL_RenderGeometry(this->pimpl->renderer, nullptr, vertices, static_cast<int>(x.size()), nullptr, 0);
+	SDL_GPUViewport viewport{};
+	viewport.x = 0;
+	viewport.y = 0;
+	viewport.w = 1280;
+	viewport.h = 720;
+	viewport.min_depth = 0.0F;
+	viewport.max_depth = 1.0F;
+	SDL_SetGPUViewport(this->pimpl->renderPass, &viewport);
 }
 
-auto Window::display() const noexcept -> void
+auto Window::display() noexcept -> void
 {
-	SDL_RenderPresent(this->pimpl->renderer);
+	SDL_EndGPURenderPass(this->pimpl->renderPass);
+	SDL_SubmitGPUCommandBuffer(this->pimpl->command);
 }
 
 auto Window::processEvents() const noexcept -> void

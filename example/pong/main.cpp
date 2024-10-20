@@ -17,18 +17,18 @@ auto main() -> int
 
 	std::vector<aspire::Vertex> vertices;
 
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 0.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 0.0F}, .color = aspire::Color::Red});
 	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 10.0F}, .color = aspire::Color::White});
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 10.0F, .y = 0.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 10.0F, .y = 0.0F}, .color = aspire::Color::Blue});
 
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 10.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 0.0F, .y = 10.0F}, .color = aspire::Color::Red});
 	vertices.emplace_back(aspire::Vertex{.position = {.x = 10.0F, .y = 10.0F}, .color = aspire::Color::White});
-	vertices.emplace_back(aspire::Vertex{.position = {.x = 10.0F, .y = 0.0F}, .color = aspire::Color::White});
+	vertices.emplace_back(aspire::Vertex{.position = {.x = 10.0F, .y = 0.0F}, .color = aspire::Color::Blue});
 
 	while(window.open() == true)
 	{
 		window.processEvents();
-		window.clear();
+		window.clear(aspire::Color::Red);
 		window.draw(vertices);
 		window.display();
 	}

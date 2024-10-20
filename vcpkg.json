@@ -7,6 +7,12 @@
   "dependencies": [
     "gtest",
     "glm",
+    {
+      "name": "sdl3",
+      "features": [
+        "vulkan"
+      ]
+    },
     "sdl3",
     "sdl3-image",
     "sdl3-ttf",
