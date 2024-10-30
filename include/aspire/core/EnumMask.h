@@ -11,6 +11,8 @@ namespace aspire::core
 	public:
 		using UnderlyingType = std::underlying_type_t<T>;
 
+		EnumMask() = default;
+
 		explicit EnumMask(std::initializer_list<T> x)
 		{
 			for(auto e : x)

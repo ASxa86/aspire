@@ -1,6 +1,7 @@
 #pragma once
 
 #include <aspire/core/Pimpl.h>
+#include <aspire/core/EnumMask.h>
 #include <aspire/graphics/Color.h>
 #include <aspire/graphics/Event.h>
 #include <aspire/graphics/Vertex.h>
@@ -27,7 +28,7 @@ namespace aspire
 			Metal = 0x20000000
 		};
 
-		Window();
+		Window(int width, int height, aspire::core::EnumMask<Hints> hints = {});
 		~Window();
 
 		auto open() const noexcept -> bool;

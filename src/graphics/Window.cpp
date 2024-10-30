@@ -18,23 +18,34 @@ namespace
 
 struct Window::Impl
 {
+	Impl(int w, int h) : width{static_cast<Uint32>(w)}, height{static_cast<Uint32>(h)}
+	{
+	}
+
 	std::function<void(EventWindow)> onEventWindow{[](auto) {}};
 	SDL_Window* window{};
 	SDL_GPUDevice* device{};
 	SDL_GPUCommandBuffer* command{};
 	SDL_GPUTexture* swapchain{};
 	SDL_GPURenderPass* renderPass{};
-	Uint32 width = 1280;
-	Uint32 height = 720;
+	Uint32 width{};
+	Uint32 height{};
 	bool open{false};
 };
 
-Window::Window()
+Window::Window(int width, int height, aspire::core::EnumMask<Hints> hints) : pimpl{width, height}
 {
-	SDL_Init(SDL_INIT_VIDEO);
+	this->pimpl->open = SDL_Init(SDL_INIT_VIDEO);
 	this->pimpl->device = SDL_CreateGPUDevice(SDL_GPUShaderFormat{SDL_GPU_SHADERFORMAT_SPIRV}, false, nullptr);
-	this->pimpl->window = SDL_CreateWindow("aspire", this->pimpl->width, this->pimpl->height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
-	this->pimpl->open = SDL_ClaimWindowForGPUDevice(this->pimpl->device, this->pimpl->window);
+
+	auto sdlHints = SDL_WindowFlags{};
+	sdlHints |= hints.test(Window::Hints::Resizeable) == true ? SDL_WINDOW_RESIZABLE : 0;
+	sdlHints |= hints.test(Window::Hints::Vulkan) == true ? SDL_WINDOW_VULKAN : 0;
+	sdlHints |= hints.test(Window::Hints::Borderless) == true ? SDL_WINDOW_BORDERLESS : 0;
+	sdlHints |= hints.test(Window::Hints::OpenGL) == true ? SDL_WINDOW_OPENGL : 0;
+
+	this->pimpl->window = SDL_CreateWindow("aspire", this->pimpl->width, this->pimpl->height, sdlHints);
+	this->pimpl->open &= SDL_ClaimWindowForGPUDevice(this->pimpl->device, this->pimpl->window);
 }
 
 Window::~Window()
@@ -85,8 +96,8 @@ auto Window::draw(const std::vector<Vertex>& x) -> void
 	SDL_GPUViewport viewport{};
 	viewport.x = 0;
 	viewport.y = 0;
-	viewport.w = 1280;
-	viewport.h = 720;
+	viewport.w = static_cast<float>(this->pimpl->width);
+	viewport.h = static_cast<float>(this->pimpl->height);
 	viewport.min_depth = 0.0F;
 	viewport.max_depth = 1.0F;
 	SDL_SetGPUViewport(this->pimpl->renderPass, &viewport);
@@ -100,7 +111,8 @@ auto Window::display() noexcept -> void
 
 auto Window::processEvents() const noexcept -> void
 {
-	Event event;
+	std::optional<Event> event;
+
 	SDL_Event sdlEvent{};
 	while(SDL_PollEvent(&sdlEvent) != 0)
 	{
@@ -108,9 +120,7 @@ auto Window::processEvents() const noexcept -> void
 		{
 			case SDL_EventType::SDL_EVENT_WINDOW_CLOSE_REQUESTED:
 			{
-				EventWindow evtWindow;
-
-				evtWindow.type = EventWindow::Type::Close;
+				EventWindow evtWindow{.type = EventWindow::Type::Close};
 				event = evtWindow;
 
 				break;
@@ -118,8 +128,7 @@ auto Window::processEvents() const noexcept -> void
 
 			case SDL_EventType::SDL_EVENT_QUIT:
 			{
-				EventWindow evtWindow;
-				evtWindow.type = EventWindow::Type::Close;
+				EventWindow evtWindow{.type = EventWindow::Type::Close};
 				event = evtWindow;
 				break;
 			}
@@ -128,7 +137,10 @@ auto Window::processEvents() const noexcept -> void
 				break;
 		}
 
-		std::visit(EventHandler{[](auto) {}, this->pimpl->onEventWindow}, event);
+		if(event.has_value() == true)
+		{
+			std::visit(EventHandler{[](auto) {}, this->pimpl->onEventWindow}, event.value());
+		}
 	}
 }
 

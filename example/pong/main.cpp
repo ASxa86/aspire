@@ -4,10 +4,10 @@ using aspire::Window;
 
 auto main() -> int
 {
-	Window window;
+	Window window{1280, 720, aspire::core::EnumMask<Window::Hints>{Window::Hints::Resizeable}};
 
 	window.onEvent(
-		[&window](aspire::EventWindow x)
+		[&window](const aspire::EventWindow& x)
 		{
 			if(x.type == aspire::EventWindow::Type::Close)
 			{
