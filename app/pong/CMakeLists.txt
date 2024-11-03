@@ -1,6 +1,6 @@
 project(pong)
 
-qt_add_executable(${PROJECT_NAME}
+qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     main.cpp
 )
 
