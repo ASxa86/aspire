@@ -1,0 +1,13 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "config-arm64-windows",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_HOST_TRIPLET": "arm64-windows-aspire",
+                "VCPKG_TARGET_TRIPLET": "arm64-windows-aspire"
+            }
+        }
+    ]
+}

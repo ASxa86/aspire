@@ -3,6 +3,7 @@
     "include": [
         "cmake/preset/config-arm64-android.json",
         "cmake/preset/config-arm64-osx.json",
+        "cmake/preset/config-arm64-windows.json",
         "cmake/preset/config-debug.json",
         "cmake/preset/config-release.json",
         "cmake/preset/config-relwithdebinfo.json",
@@ -21,7 +22,7 @@
     ],
     "configurePresets": [
         {
-            "name": "windows-msvc-debug",
+            "name": "x64-windows-msvc-debug",
             "inherits": [
                 "config-debug",
                 "config-x64-windows",
@@ -33,7 +34,7 @@
             ]
         },
         {
-            "name": "windows-msvc-relwithdebinfo",
+            "name": "x64-windows-msvc-relwithdebinfo",
             "inherits": [
                 "config-relwithdebinfo",
                 "config-x64-windows",
@@ -45,10 +46,46 @@
             ]
         },
         {
-            "name": "windows-msvc-release",
+            "name": "x64-windows-msvc-release",
             "inherits": [
                 "config-release",
                 "config-x64-windows",
+                "default-build-dir",
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-windows-msvc-debug",
+            "inherits": [
+                "config-debug",
+                "config-arm64-windows",
+                "default-build-dir",
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-windows-msvc-relwithdebinfo",
+            "inherits": [
+                "config-relwithdebinfo",
+                "config-arm64-windows",
+                "default-build-dir",
+                "default-windows",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-windows-msvc-release",
+            "inherits": [
+                "config-release",
+                "config-arm64-windows",
                 "default-build-dir",
                 "default-windows",
                 "use-msvc",
@@ -59,16 +96,28 @@
     ],
     "buildPresets": [
         {
-            "name": "windows-msvc-debug",
-            "configurePreset": "windows-msvc-debug"
+            "name": "x64-windows-msvc-debug",
+            "configurePreset": "x64-windows-msvc-debug"
         },
         {
-            "name": "windows-msvc-relwithdebinfo",
-            "configurePreset": "windows-msvc-relwithdebinfo"
+            "name": "x64-windows-msvc-relwithdebinfo",
+            "configurePreset": "x64-windows-msvc-relwithdebinfo"
         },
         {
-            "name": "windows-msvc-release",
-            "configurePreset": "windows-msvc-release"
+            "name": "x64-windows-msvc-release",
+            "configurePreset": "x64-windows-msvc-release"
+        },
+        {
+            "name": "arm64-windows-msvc-debug",
+            "configurePreset": "arm64-windows-msvc-debug"
+        },
+        {
+            "name": "arm64-windows-msvc-relwithdebinfo",
+            "configurePreset": "arm64-windows-msvc-relwithdebinfo"
+        },
+        {
+            "name": "arm64-windows-msvc-release",
+            "configurePreset": "arm64-windows-msvc-release"
         }
     ]
 }
