@@ -116,6 +116,30 @@
                 "use-ninja",
                 "use-vcpkg"
             ]
+        },
+        {
+            "name": "x64-linux-gcc-debug",
+            "inherits": [
+                "config-debug",
+                "config-x64-linux",
+                "default-build-dir",
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "x64-linux-gcc-release",
+            "inherits": [
+                "config-release",
+                "config-x64-linux",
+                "default-build-dir",
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
         }
     ],
     "buildPresets": [
@@ -150,6 +174,14 @@
         {
             "name": "arm64-osx-clang-release",
             "configurePreset": "arm64-osx-clang-release"
+        },
+        {
+            "name": "x64-linux-gcc-debug",
+            "configurePreset": "x64-linux-gcc-debug"
+        },
+        {
+            "name": "x64-linux-gcc-release",
+            "configurePreset": "x64-linux-gcc-release"
         }
     ]
 }
