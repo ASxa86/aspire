@@ -1,21 +1,16 @@
 cmake_minimum_required(VERSION 3.27)
-enable_language(CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-include(GenerateExportHeader)
-include(CMakePackageConfigHelpers)
-include(GNUInstallDirs)
-# include(cmake/project_compile_options.cmake)
-# include(cmake/project_add_library.cmake)
-# include(cmake/project_add_executable.cmake)
-# include(cmake/project_add_module.cmake)
-# include(cmake/project_gen_export.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/installed)
 
 project(aspire)
 
+enable_language(CXX)
+
+include(GenerateExportHeader)
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
 include(CTest)
 include(GoogleTest)
 
