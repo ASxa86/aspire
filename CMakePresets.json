@@ -140,6 +140,30 @@
                 "use-ninja",
                 "use-vcpkg"
             ]
+        },
+        {
+            "name": "x64-android-gcc-debug",
+            "inherits": [
+                "config-debug",
+                "config-x64-android",
+                "default-build-dir",
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "x64-android-gcc-release",
+            "inherits": [
+                "config-release",
+                "config-x64-android",
+                "default-build-dir",
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
         }
     ],
     "buildPresets": [
@@ -182,6 +206,14 @@
         {
             "name": "x64-linux-gcc-release",
             "configurePreset": "x64-linux-gcc-release"
+        },
+        {
+            "name": "x64-android-gcc-debug",
+            "configurePreset": "x64-android-gcc-debug"
+        },
+        {
+            "name": "x64-android-gcc-release",
+            "configurePreset": "x64-android-gcc-release"
         }
     ]
 }
