@@ -8,6 +8,11 @@
     {
       "name": "qtbase",
       "default-features": false,
+      "host": true
+    },
+    {
+      "name": "qtbase",
+      "default-features": false,
       "features": [
         "png",
         "opengl"
