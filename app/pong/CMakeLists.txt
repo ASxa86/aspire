@@ -5,7 +5,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 )
 
 qt_add_qml_module(${PROJECT_NAME}
-    URI app.pong
+    URI app.${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
         Main.qml
