@@ -142,7 +142,7 @@
             ]
         },
         {
-            "name": "x64-android-gcc-debug",
+            "name": "x64-android-debug",
             "inherits": [
                 "config-debug",
                 "config-x64-android",
@@ -154,10 +154,34 @@
             ]
         },
         {
-            "name": "x64-android-gcc-release",
+            "name": "x64-android-release",
             "inherits": [
                 "config-release",
                 "config-x64-android",
+                "default-build-dir",
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-android-debug",
+            "inherits": [
+                "config-debug",
+                "config-arm64-android",
+                "default-build-dir",
+                "default-linux",
+                "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-android-release",
+            "inherits": [
+                "config-release",
+                "config-arm64-android",
                 "default-build-dir",
                 "default-linux",
                 "use-gcc",
@@ -208,12 +232,20 @@
             "configurePreset": "x64-linux-gcc-release"
         },
         {
-            "name": "x64-android-gcc-debug",
-            "configurePreset": "x64-android-gcc-debug"
+            "name": "x64-android-debug",
+            "configurePreset": "x64-android-debug"
         },
         {
-            "name": "x64-android-gcc-release",
-            "configurePreset": "x64-android-gcc-release"
+            "name": "x64-android-release",
+            "configurePreset": "x64-android-release"
+        },
+        {
+            "name": "arm64-android-debug",
+            "configurePreset": "arm64-android-debug"
+        },
+        {
+            "name": "arm64-android-release",
+            "configurePreset": "arm64-android-release"
         }
     ]
 }

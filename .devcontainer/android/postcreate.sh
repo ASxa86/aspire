@@ -15,7 +15,7 @@ echo "mono ./vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe sources add -sou
 mono ./vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe sources add -source $NUGET_SOURCE -name $NUGET_NAME -username $GITLAB_USER -password $GITLAB_USER_TOKEN
 
 sdkmanager "emulator"
-sdkmanager "system-images;android-34;google_apis;x86_64"
+sdkmanager "system-images;android-34;google_apis;x86_64;arm64-v8a"
 apt install -y libpulse-dev
 
 if [ ! -d "$WORKSPACE_DIR/avd" ]; then
