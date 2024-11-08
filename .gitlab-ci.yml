@@ -37,10 +37,10 @@ lint-clang-tidy:
     - *get-vcpkg
 
     # Configure Aspire
-    - ${CMAKE_COMMAND} --preset clang-debug
+    - ${CMAKE_COMMAND} --preset x64-linux-gcc-debug
 
     # Build to force generate moc files.
-    - ${CMAKE_COMMAND} --build --preset clang-debug
+    - ${CMAKE_COMMAND} --build --preset x64-linux-gcc-debug
 
     # Run Clang Tidy
     - find module/ app/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-18 -p build-debug
@@ -66,10 +66,10 @@ lint-clang-tidy:
   #     - vcpkg/buildtrees/**/*.txt
   #     - vcpkg/buildtrees/**/*.log
 
-build-clang-debug:
+build-gcc-debug:
   extends: .build-base
   variables:
-    CMAKE_PRESET: clang-debug
+    CMAKE_PRESET: x64-linux-gcc-debug
   artifacts:
     expire_in: 1 day
     paths:
@@ -78,7 +78,7 @@ build-clang-debug:
 build-gcc-release:
   extends: .build-base
   variables:
-    CMAKE_PRESET: gcc-release
+    CMAKE_PRESET: x64-linux-gcc-release
   artifacts:
     expire_in: 1 day
     paths:
@@ -88,7 +88,7 @@ build-android-x64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
-    CMAKE_PRESET: android-x64-debug
+    CMAKE_PRESET: x64-android-debug
   artifacts:
     expire_in: 1 day
     paths:
@@ -100,7 +100,7 @@ build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
-    CMAKE_PRESET: android-arm64-debug
+    CMAKE_PRESET: arm64-android-debug
   artifacts:
     expire_in: 1 day
     paths:
@@ -118,7 +118,7 @@ build-gcc-debug-sonar:
     - docker
     - large
   variables:
-    CMAKE_PRESET: gcc-debug
+    CMAKE_PRESET: x64-linux-gcc-debug
   script:
     # Download sonar-scanner
     - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.1.0.4477-linux-x64.zip'
@@ -134,11 +134,11 @@ build-gcc-debug-sonar:
     # Run the sonar-scanner in the same stage as the build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json
 
-test-clang-debug:
+test-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: test
   needs:
-    - build-clang-debug
+    - build-gcc-debug
   tags:
     # - saas-linux-medium-amd64
     - shelley
@@ -146,4 +146,4 @@ test-clang-debug:
     - large
   script:
     - *get-vcpkg
-    - ${CMAKE_COMMAND} --build --preset clang-debug --target test
+    - ${CMAKE_COMMAND} --build --preset x64-linux-gcc-debug --target test
