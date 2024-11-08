@@ -67,48 +67,35 @@ lint-clang-tidy:
   #   paths:
   #     - vcpkg/buildtrees/**/*.txt
   #     - vcpkg/buildtrees/**/*.log
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - build
+    exclude:
+      - build/vcpkg_installed/**/*
 
 build-gcc-debug:
   extends: .build-base
   variables:
     CMAKE_PRESET: x64-linux-gcc-debug
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build
 
 build-gcc-release:
   extends: .build-base
   variables:
     CMAKE_PRESET: x64-linux-gcc-release
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build-release
 
 build-android-x64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
     CMAKE_PRESET: x64-android-debug
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build
-    exclude:
-      - build/vcpkg_installed/**/*
+
 
 build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
     CMAKE_PRESET: arm64-android-debug
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build
-    exclude:
-      - build/vcpkg_installed/**/*
 
 build-gcc-debug-sonar:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
