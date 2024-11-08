@@ -9,9 +9,9 @@ default:
 variables:
   NUGET_SOURCE: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
   NUGET_NAME: gitlab
-  VCPKG_VERSION: 2024.07.12
+  VCPKG_VERSION: 2024.10.21
   VCPKG_BINARY_SOURCES: "clear;nuget,${NUGET_NAME},readwrite"
-  CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.29.2-linux/cmake-3.29.2-linux-x86_64/bin/cmake
+  CMAKE_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/cmake-3.30.1-linux/cmake-3.30.1-linux-x86_64/bin/cmake
   NUGET_COMMAND: ${CI_PROJECT_DIR}/vcpkg/downloads/tools/nuget-6.10.0-linux/nuget.exe
 
 .get-vcpkg: &get-vcpkg
@@ -20,6 +20,8 @@ variables:
   - ./vcpkg/bootstrap-vcpkg.sh
   - ./vcpkg/vcpkg fetch nuget --x-wait-for-lock
   - ./vcpkg/vcpkg fetch cmake --x-wait-for-lock
+  - ./vcpkg/vcpkg fetch ninja --x-wait-for-lock
+  - export PATH=$PATH:${CI_PROJECT_DIR}/vcpkg/downloads/tools/ninja-1.11.1-linux
 
   # Configure NuGet
   - mono ${NUGET_COMMAND} sources add -source ${NUGET_SOURCE} -name ${NUGET_NAME} -username gitlab-ci-token -password $CI_JOB_TOKEN
@@ -37,13 +39,13 @@ lint-clang-tidy:
     - *get-vcpkg
 
     # Configure Aspire
-    - ${CMAKE_COMMAND} --preset clang-debug
+    - ${CMAKE_COMMAND} --preset x64-linux-gcc-debug
 
     # Build to force generate moc files.
-    - ${CMAKE_COMMAND} --build --preset clang-debug
+    - ${CMAKE_COMMAND} --build --preset x64-linux-gcc-debug
 
     # Run Clang Tidy
-    - find module/ app/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-18 -p build-debug
+    - find app/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-18 -p build
 
 .build-base:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
@@ -65,48 +67,35 @@ lint-clang-tidy:
   #   paths:
   #     - vcpkg/buildtrees/**/*.txt
   #     - vcpkg/buildtrees/**/*.log
-
-build-clang-debug:
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: clang-debug
   artifacts:
     expire_in: 1 day
     paths:
-      - build-debug
+      - build
+    exclude:
+      - build/vcpkg_installed/**/*
+
+build-gcc-debug:
+  extends: .build-base
+  variables:
+    CMAKE_PRESET: x64-linux-gcc-debug
 
 build-gcc-release:
   extends: .build-base
   variables:
-    CMAKE_PRESET: gcc-release
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build-release
+    CMAKE_PRESET: x64-linux-gcc-release
 
 build-android-x64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
-    CMAKE_PRESET: android-x64-debug
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build-debug
-    exclude:
-      - build-debug/vcpkg_installed/**/*
+    CMAKE_PRESET: x64-android-debug
+
 
 build-android-armg64-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
   extends: .build-base
   variables:
-    CMAKE_PRESET: android-arm64-debug
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - build-debug
-    exclude:
-      - build-debug/vcpkg_installed/**/*
+    CMAKE_PRESET: arm64-android-debug
 
 build-gcc-debug-sonar:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
@@ -118,7 +107,7 @@ build-gcc-debug-sonar:
     - docker
     - large
   variables:
-    CMAKE_PRESET: gcc-debug
+    CMAKE_PRESET: x64-linux-gcc-debug
   script:
     # Download sonar-scanner
     - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.1.0.4477-linux-x64.zip'
@@ -134,11 +123,11 @@ build-gcc-debug-sonar:
     # Run the sonar-scanner in the same stage as the build
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.compile-commands=bw-output/compile_commands.json
 
-test-clang-debug:
+test-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: test
   needs:
-    - build-clang-debug
+    - build-gcc-debug
   tags:
     # - saas-linux-medium-amd64
     - shelley
@@ -146,4 +135,4 @@ test-clang-debug:
     - large
   script:
     - *get-vcpkg
-    - ${CMAKE_COMMAND} --build --preset clang-debug --target test
+    - ${CMAKE_COMMAND} --build --preset x64-linux-gcc-debug --target test
