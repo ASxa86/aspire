@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 
 	QQmlApplicationEngine engine;
 	QObject::connect(
-		&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [](const auto& url) { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
+		&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
 	engine.loadFromModule("app.pong", "Main");
 
 	return QGuiApplication::exec();
