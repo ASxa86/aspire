@@ -2,12 +2,15 @@
     "version": 6,
     "configurePresets": [
         {
-            "name": "default-windows",
+            "name": "host-x64-linux",
             "hidden": true,
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
-                "rhs": "Windows"
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "VCPKG_HOST_TRIPLET": "x64-linux-aspire"
             }
         }
     ]

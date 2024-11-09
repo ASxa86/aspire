@@ -1,19 +1,19 @@
 {
     "version": 6,
     "include": [
-        "cmake/preset/config-arm64-android.json",
-        "cmake/preset/config-arm64-osx.json",
-        "cmake/preset/config-arm64-windows.json",
+        "cmake/preset/config-build-dir.json",
         "cmake/preset/config-debug.json",
         "cmake/preset/config-release.json",
         "cmake/preset/config-relwithdebinfo.json",
-        "cmake/preset/config-x64-android.json",
-        "cmake/preset/config-x64-linux.json",
-        "cmake/preset/config-x64-windows.json",
-        "cmake/preset/default-build-dir.json",
-        "cmake/preset/default-linux.json",
-        "cmake/preset/default-osx.json",
-        "cmake/preset/default-windows.json",
+        "cmake/preset/host-arm64-osx.json",
+        "cmake/preset/host-arm64-windows.json",
+        "cmake/preset/host-x64-linux.json",
+        "cmake/preset/host-x64-windows.json",
+        "cmake/preset/target-arm64-android.json",
+        "cmake/preset/target-arm64-windows.json",
+        "cmake/preset/target-x64-android.json",
+        "cmake/preset/target-x64-linux.json",
+        "cmake/preset/target-x64-windows.json",
         "cmake/preset/use-clang.json",
         "cmake/preset/use-gcc.json",
         "cmake/preset/use-msvc.json",
@@ -24,10 +24,10 @@
         {
             "name": "x64-windows-msvc-debug",
             "inherits": [
+                "host-x64-windows",
+                "target-x64-windows",
                 "config-debug",
-                "config-x64-windows",
-                "default-build-dir",
-                "default-windows",
+                "config-build-dir",
                 "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
@@ -36,10 +36,10 @@
         {
             "name": "x64-windows-msvc-relwithdebinfo",
             "inherits": [
+                "host-x64-windows",
+                "target-x64-windows",
                 "config-relwithdebinfo",
-                "config-x64-windows",
-                "default-build-dir",
-                "default-windows",
+                "config-build-dir",
                 "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
@@ -48,10 +48,10 @@
         {
             "name": "x64-windows-msvc-release",
             "inherits": [
+                "host-x64-windows",
+                "target-x64-windows",
                 "config-release",
-                "config-x64-windows",
-                "default-build-dir",
-                "default-windows",
+                "config-build-dir",
                 "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
@@ -60,10 +60,10 @@
         {
             "name": "arm64-windows-msvc-debug",
             "inherits": [
+                "host-arm64-windows",
+                "target-arm64-windows",
                 "config-debug",
-                "config-arm64-windows",
-                "default-build-dir",
-                "default-windows",
+                "config-build-dir",
                 "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
@@ -72,10 +72,10 @@
         {
             "name": "arm64-windows-msvc-relwithdebinfo",
             "inherits": [
+                "host-arm64-windows",
+                "target-arm64-windows",
                 "config-relwithdebinfo",
-                "config-arm64-windows",
-                "default-build-dir",
-                "default-windows",
+                "config-build-dir",
                 "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
@@ -84,10 +84,10 @@
         {
             "name": "arm64-windows-msvc-release",
             "inherits": [
+                "host-arm64-windows",
+                "target-arm64-windows",
                 "config-release",
-                "config-arm64-windows",
-                "default-build-dir",
-                "default-windows",
+                "config-build-dir",
                 "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
@@ -96,10 +96,9 @@
         {
             "name": "arm64-osx-clang-debug",
             "inherits": [
+                "host-arm64-osx",
                 "config-debug",
-                "config-arm64-osx",
-                "default-build-dir",
-                "default-osx",
+                "config-build-dir",
                 "use-clang",
                 "use-ninja",
                 "use-vcpkg"
@@ -108,10 +107,9 @@
         {
             "name": "arm64-osx-clang-release",
             "inherits": [
+                "host-arm64-osx",
                 "config-release",
-                "config-arm64-osx",
-                "default-build-dir",
-                "default-osx",
+                "config-build-dir",
                 "use-clang",
                 "use-ninja",
                 "use-vcpkg"
@@ -120,10 +118,10 @@
         {
             "name": "x64-linux-gcc-debug",
             "inherits": [
+                "host-x64-linux",
+                "target-x64-linux",
                 "config-debug",
-                "config-x64-linux",
-                "default-build-dir",
-                "default-linux",
+                "config-build-dir",
                 "use-gcc",
                 "use-ninja",
                 "use-vcpkg"
@@ -132,10 +130,10 @@
         {
             "name": "x64-linux-gcc-release",
             "inherits": [
+                "host-x64-linux",
+                "target-x64-linux",
                 "config-release",
-                "config-x64-linux",
-                "default-build-dir",
-                "default-linux",
+                "config-build-dir",
                 "use-gcc",
                 "use-ninja",
                 "use-vcpkg"
@@ -144,10 +142,10 @@
         {
             "name": "x64-android-debug",
             "inherits": [
+                "host-x64-linux",
+                "target-x64-android",
                 "config-debug",
-                "config-x64-android",
-                "default-build-dir",
-                "default-linux",
+                "config-build-dir",
                 "use-gcc",
                 "use-ninja",
                 "use-vcpkg"
@@ -156,10 +154,10 @@
         {
             "name": "x64-android-release",
             "inherits": [
+                "host-x64-linux",
+                "target-x64-android",
                 "config-release",
-                "config-x64-android",
-                "default-build-dir",
-                "default-linux",
+                "config-build-dir",
                 "use-gcc",
                 "use-ninja",
                 "use-vcpkg"
@@ -168,10 +166,10 @@
         {
             "name": "arm64-android-debug",
             "inherits": [
+                "host-x64-linux",
+                "target-arm64-android",
                 "config-debug",
-                "config-arm64-android",
-                "default-build-dir",
-                "default-linux",
+                "config-build-dir",
                 "use-gcc",
                 "use-ninja",
                 "use-vcpkg"
@@ -180,11 +178,35 @@
         {
             "name": "arm64-android-release",
             "inherits": [
+                "host-x64-linux",
+                "target-arm64-android",
                 "config-release",
-                "config-arm64-android",
-                "default-build-dir",
-                "default-linux",
+                "config-build-dir",
                 "use-gcc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-android-x64-windows-debug",
+            "inherits": [
+                "host-x64-windows",
+                "target-arm64-android",
+                "config-debug",
+                "config-build-dir",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
+        },
+        {
+            "name": "arm64-android-x64-windows-release",
+            "inherits": [
+                "host-x64-windows",
+                "target-arm64-android",
+                "config-release",
+                "config-build-dir",
+                "use-msvc",
                 "use-ninja",
                 "use-vcpkg"
             ]
@@ -246,6 +268,14 @@
         {
             "name": "arm64-android-release",
             "configurePreset": "arm64-android-release"
+        },
+        {
+            "name": "arm64-android-x64-windows-debug",
+            "configurePreset": "arm64-android-x64-windows-debug"
+        },
+        {
+            "name": "arm64-android-x64-windows-release",
+            "configurePreset": "arm64-android-x64-windows-release"
         }
     ]
 }

@@ -2,7 +2,7 @@
     "version": 6,
     "configurePresets": [
         {
-            "name": "default-build-dir",
+            "name": "config-build-dir",
             "hidden": true,
             "binaryDir": "${sourceDir}/build"
         }
