@@ -47,7 +47,7 @@ lint-clang-tidy:
     # Run Clang Tidy
     - find module/ app/ -type f -name "*.cpp" -print0 | xargs -0 -P $(nproc --all) clang-tidy-18 -p build
 
-.build-base:
+build-gcc-debug:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
   stage: build
   needs: []
@@ -60,8 +60,8 @@ lint-clang-tidy:
     - *get-vcpkg
 
     # Build Aspire
-    - ${CMAKE_COMMAND} --preset ${CMAKE_PRESET}
-    - ${CMAKE_COMMAND} --build --preset ${CMAKE_PRESET}
+    - ${CMAKE_COMMAND} --preset x64-linux-gcc-debug
+    - ${CMAKE_COMMAND} --build --preset x64-linux-gcc-debug --target install
   # artifacts:
   #   when: on_failure
   #   paths:
@@ -70,32 +70,27 @@ lint-clang-tidy:
   artifacts:
     expire_in: 1 day
     paths:
-      - build
-    exclude:
-      - build/vcpkg_installed/**/*
+      - build/installed
 
-build-gcc-debug:
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: x64-linux-gcc-debug
-
-build-gcc-release:
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: x64-linux-gcc-release
-
-build-android-x64-debug:
+build-arm64-android-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: x64-android-debug
+  stage: build
+  needs: []
+  tags:
+    # - saas-linux-medium-amd64
+    - shelley
+    - docker
+    - large
+  script:
+    - *get-vcpkg
 
-
-build-android-armg64-debug:
-  image: $CI_REGISTRY/asxa86/images/android-build:latest
-  extends: .build-base
-  variables:
-    CMAKE_PRESET: arm64-android-debug
+    # Build Aspire
+    - ${CMAKE_COMMAND} --preset arm64-android-debug
+    - ${CMAKE_COMMAND} --build --preset arm64-android-debug
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - build/**/*.apk
 
 build-gcc-debug-sonar:
   image: $CI_REGISTRY/asxa86/images/ubuntu-dev:latest
