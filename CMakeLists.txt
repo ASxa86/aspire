@@ -14,6 +14,7 @@ include(GNUInstallDirs)
 include(CTest)
 include(GoogleTest)
 
+option(BUILD_SHARED_LIBS "Enable building libraries as shared objects." ON)
 option(BUILD_ENABLE_HARDENED "Enable hardened compiler options" OFF)
 option(BUILD_TESTING "Enable building ${PROJECT_NAME} test applications." ON)
 
@@ -34,4 +35,4 @@ qt_standard_project_setup(REQUIRES 6.7)
 set(CMAKE_AUTOMOC ON)
 
 add_subdirectory(app)
-# add_subdirectory(module)
+add_subdirectory(module)

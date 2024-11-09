@@ -9,6 +9,10 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
         Main.qml
+    IMPORTS
+        aspire
+    IMPORT_PATH
+        ${CMAKE_BINARY_DIR}/module
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
