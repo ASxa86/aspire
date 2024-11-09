@@ -198,6 +198,18 @@
                 "use-ninja",
                 "use-vcpkg"
             ]
+        },
+        {
+            "name": "arm64-android-x64-windows-release",
+            "inherits": [
+                "host-x64-windows",
+                "target-arm64-android",
+                "config-release",
+                "config-build-dir",
+                "use-msvc",
+                "use-ninja",
+                "use-vcpkg"
+            ]
         }
     ],
     "buildPresets": [
@@ -260,6 +272,10 @@
         {
             "name": "arm64-android-x64-windows-debug",
             "configurePreset": "arm64-android-x64-windows-debug"
+        },
+        {
+            "name": "arm64-android-x64-windows-release",
+            "configurePreset": "arm64-android-x64-windows-release"
         }
     ]
 }
