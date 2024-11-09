@@ -70,7 +70,9 @@ build-gcc-debug:
   artifacts:
     expire_in: 1 day
     paths:
-      - build/installed
+      - build
+    exclude:
+      - build/vcpkg_installed/**/*
 
 build-arm64-android-debug:
   image: $CI_REGISTRY/asxa86/images/android-build:latest
