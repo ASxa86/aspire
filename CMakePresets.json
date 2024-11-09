@@ -5,7 +5,6 @@
         "cmake/preset/config-debug.json",
         "cmake/preset/config-release.json",
         "cmake/preset/config-relwithdebinfo.json",
-        "cmake/preset/config-x64-windows.json",
         "cmake/preset/host-arm64-osx.json",
         "cmake/preset/host-arm64-windows.json",
         "cmake/preset/host-x64-linux.json",
