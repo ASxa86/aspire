@@ -2,8 +2,13 @@
     "version": 6,
     "configurePresets": [
         {
-            "name": "config-arm64-osx",
+            "name": "host-arm64-osx",
             "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
             "cacheVariables": {
                 "VCPKG_HOST_TRIPLET": "arm64-osx-release",
                 "VCPKG_TARGET_TRIPLET": "arm64-osx-release"

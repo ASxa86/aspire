@@ -2,10 +2,9 @@
     "version": 6,
     "configurePresets": [
         {
-            "name": "config-x64-linux",
+            "name": "target-x64-linux",
             "hidden": true,
             "cacheVariables": {
-                "VCPKG_HOST_TRIPLET": "x64-linux-aspire",
                 "VCPKG_TARGET_TRIPLET": "x64-linux-aspire"
             }
         }
