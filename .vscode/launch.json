@@ -5,23 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Aspire Edit Debug",
+            "name": "(Windows) Pong Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build-debug/installed/bin/aspire-edit.exe",
+            "program": "${workspaceFolder}/build/installed/bin/pong.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build-debug/installed/bin",
-            "console": "externalTerminal"
-        },
-        {
-            "name": "(Windows) Aspire EDH Debug",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build-debug/installed/bin/aspire-edh.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build-debug/installed/bin",
+            "cwd": "${workspaceFolder}/build/installed/bin",
             "console": "externalTerminal"
         }
     ]

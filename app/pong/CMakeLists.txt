@@ -20,6 +20,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Quick
 )
 
+# Link against plugins for static builds.
+if(${CMAKE_SYSTEM_NAME} STREQUAL Darwin OR ${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        aspireplugin
+    )
+endif()
+
+# Android APKs are handle separately within Qt cmake scripts.
 if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL Android)
     install(TARGETS ${PROJECT_NAME}
         BUNDLE DESTINATION .
