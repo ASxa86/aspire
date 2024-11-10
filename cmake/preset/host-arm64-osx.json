@@ -10,8 +10,7 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "VCPKG_HOST_TRIPLET": "arm64-osx-release",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx-release"
+                "VCPKG_HOST_TRIPLET": "arm64-osx-aspire"
             }
         }
     ]

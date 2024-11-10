@@ -10,6 +10,7 @@
         "cmake/preset/host-x64-linux.json",
         "cmake/preset/host-x64-windows.json",
         "cmake/preset/target-arm64-android.json",
+        "cmake/preset/target-arm64-osx.json",
         "cmake/preset/target-arm64-windows.json",
         "cmake/preset/target-x64-android.json",
         "cmake/preset/target-x64-linux.json",
@@ -97,6 +98,7 @@
             "name": "arm64-osx-clang-debug",
             "inherits": [
                 "host-arm64-osx",
+                "target-arm64-osx",
                 "config-debug",
                 "config-build-dir",
                 "use-clang",
@@ -108,6 +110,7 @@
             "name": "arm64-osx-clang-release",
             "inherits": [
                 "host-arm64-osx",
+                "target-arm64-osx",
                 "config-release",
                 "config-build-dir",
                 "use-clang",

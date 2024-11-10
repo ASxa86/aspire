@@ -34,5 +34,5 @@ qt_standard_project_setup(REQUIRES 6.7)
 
 set(CMAKE_AUTOMOC ON)
 
-add_subdirectory(app)
 add_subdirectory(module)
+add_subdirectory(app)
