@@ -21,8 +21,8 @@ Window {
     }
 
     ButtonCircle {
-        property point center: Qt.point(parent.width / 4, parent.height / 2)
-        width: parent.width / 2
+        property point center: Qt.point(parent.width / 8, parent.height / 2)
+        width: parent.width * 0.75
         height: width
         x: center.x - width / 2
         y: center.y - height / 2
@@ -33,8 +33,8 @@ Window {
     }
 
     ButtonCircle {
-        property point center: Qt.point(parent.width - parent.width / 4, parent.height / 2)
-        width: parent.width / 2
+        property point center: Qt.point(parent.width - parent.width / 8, parent.height / 2)
+        width: parent.width * 0.75
         height: width    
         x: center.x - width / 2
         y: center.y - height / 2
