@@ -6,66 +6,63 @@ Item {
 
     signal clicked()
 
-    // Rectangle {
-    //     id: mask
-
-    //     anchors.fill: parent
-    //     radius: root.width / 2
-    //     visible: false
-    //     color: "white"
-    //     layer.enabled: true
-    // }
-
     Rectangle {
-        id: circle
+        id: mask
+
+        anchors.fill: parent
+        radius: root.width / 2
+        visible: false
+        layer.enabled: true
+    }
+
+    Item {
+        id: effect
         visible: false
         anchors.fill: parent
-        color: "white"
-        opacity: 0.25
-        radius: root.width / 2
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            source: circle
+            maskSource: mask
+            maskEnabled: true
+        }
 
         Rectangle {
-            id: subcircle
+            id: circle
+            visible: false
+            anchors.fill: parent
+            color: Qt.rgba(1, 1, 1, 0.25)
+            radius: root.width / 2
 
-            property point center: Qt.point()
-            x: center.x - width / 2
-            y: center.y - height / 2
-            width: circle.width * 0.25
-            height: subcircle.width
-            radius: circle.width / 2
-            color: "white"
-            opacity: 0.25
-            visible: true
+            Rectangle {
+                id: subcircle
 
-            NumberAnimation {
-                id: animation
-                target: subcircle
-                property: "width"
-                from: circle.height * 0.125
-                to: circle.height
-                duration: 350
+                property point center: Qt.point()
+                x: center.x - width / 2
+                y: center.y - height / 2
+                width: circle.width * 0.25
+                height: subcircle.width
+                radius: circle.width / 2
+                color: circle.color
 
-                onStopped: {
-                    circle.visible = false;
-                }
+                NumberAnimation {
+                    id: animation
+                    target: subcircle
+                    property: "width"
+                    from: circle.height * 0.125
+                    to: circle.height
+                    duration: 350
 
-                onStarted: {
-                    circle.visible = true;
+                    onStopped: {
+                        effect.visible = false;
+                    }
+
+                    onStarted: {
+                        effect.visible = true;
+                    }
                 }
             }
         }
     }
-
-    // MultiEffect {
-    //     id: effect
-    //     source: circle
-    //     anchors.fill: parent
-    //     maskSource: mask
-    //     maskEnabled: true
-    //     maskInverted: false
-    //     visible: false
-    //     opacity: 0.15
-    // }
 
     TapHandler {
         onTapped: (point) => {

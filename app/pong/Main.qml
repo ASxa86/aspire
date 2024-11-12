@@ -15,11 +15,12 @@ Window {
         thread: FrameMetrics.Thread.Render
     }
 
-    Text {
-        text: "FPS: " + metric.fpsRolling.toFixed(0)
-        color: "white"
-        font.pixelSize: Math.min(window.width, window.height) / 8
-    }
+    property var colors: [
+        "firebrick",
+        "forestgreen",
+        "darkcyan",
+        "slategray"
+    ]
 
     GridLayout {
         id: layout
@@ -30,15 +31,44 @@ Window {
         Repeater {
             model: 4
 
-            delegate: Counter {
-                clip: true
-                Layout.fillWidth: true
+            delegate: Item {
                 Layout.fillHeight: true
+                Layout.fillWidth: true
 
                 rotation: index < layout.rows == 0 ? 0 : 180
-                color: "coral"
-                radius: width / 16
+                clip: true
+
+                Rectangle {
+                    id: mask
+                    anchors.fill: parent
+                    radius: width / 16
+                    visible: false
+                    layer.enabled: true
+                }
+
+                Item {
+                    anchors.fill: parent
+                    layer.enabled: true
+                    layer.effect: MultiEffect {
+                        source: counter
+                        maskSource: mask
+                        maskEnabled: true
+                    }
+
+                    Counter {
+                        id: counter
+                        anchors.fill: parent
+
+                        color: colors[index]
+                    }
+                }
             }
         }
+    }
+
+    Text {
+        text: "FPS: " + metric.fpsRolling.toFixed(0)
+        color: "white"
+        font.pixelSize: Math.min(window.width, window.height) / 8
     }
 }
