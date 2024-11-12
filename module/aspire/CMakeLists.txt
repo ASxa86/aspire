@@ -11,6 +11,7 @@ qt_add_qml_module(${PROJECT_NAME}
         Meters.cpp
         Meters.h
     QML_FILES
+        ButtonCircle.qml
         Counter.qml
         Square.qml
     IMPORTS
