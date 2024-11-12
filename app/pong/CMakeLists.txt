@@ -9,6 +9,7 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
         Main.qml
+        Counter.qml
     IMPORTS
         aspire
     IMPORT_PATH
