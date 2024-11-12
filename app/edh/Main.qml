@@ -8,7 +8,7 @@ Window {
     height: 720
     visible: true
     color: "black"
-    title: "Pong"
+    title: "EDH"
 
     FrameMetrics {
         id: metric

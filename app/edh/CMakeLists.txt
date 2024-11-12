@@ -1,4 +1,4 @@
-project(pong)
+project(edh)
 
 qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     main.cpp
