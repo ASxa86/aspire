@@ -36,7 +36,7 @@ Item {
             Rectangle {
                 id: subcircle
 
-                property point center: Qt.point()
+                property point center: Qt.point(0, 0)
                 x: center.x - width / 2
                 y: center.y - height / 2
                 width: circle.width * 0.25
