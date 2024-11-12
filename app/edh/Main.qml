@@ -10,11 +10,6 @@ Window {
     color: "black"
     title: "EDH"
 
-    FrameMetrics {
-        id: metric
-        thread: FrameMetrics.Thread.Render
-    }
-
     property var colors: [
         "firebrick",
         "forestgreen",
@@ -27,6 +22,7 @@ Window {
         anchors.fill: parent
         columns: 2
         rows: 2
+        columnSpacing: parent.width / 20
 
         Repeater {
             model: 4
@@ -60,15 +56,41 @@ Window {
                         anchors.fill: parent
 
                         color: colors[index]
+
+                        Connections {
+                            target: refresh
+
+                            function onClicked() {
+                                counter.value = 40;
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
+    ButtonCircle {
+        id: refresh
+        anchors.centerIn: parent
+        width: parent.width / 20
+        height: parent.width / 20
+
+        ImageSVG {
+            anchors.fill: parent
+            source: Icons.refresh
+            color: "white"
+        }
+    }
+
+    FrameMetrics {
+        id: metric
+        thread: FrameMetrics.Thread.Render
+    }
+
     Text {
         text: "FPS: " + metric.fpsRolling.toFixed(0)
         color: "white"
-        font.pixelSize: Math.min(window.width, window.height) / 8
+        font.pixelSize: Math.min(window.width, window.height) / 16
     }
 }
