@@ -24,7 +24,14 @@ qt_add_qml_module(${PROJECT_NAME}
         Square.qml
         ${QML_SINGLETONS}
     RESOURCES
+        icons/envelope.svg
+        icons/facebook.svg
+        icons/home.svg
+        icons/instagram.svg
+        icons/phone-call.svg
         icons/refresh.svg
+        icons/search.svg
+        icons/user.svg
     IMPORTS
         QtQuick
         QtQuick.Effects

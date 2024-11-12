@@ -60,7 +60,7 @@ Window {
                         Connections {
                             target: refresh
 
-                            function onClicked() {
+                            function onTapped() {
                                 counter.value = 40;
                             }
                         }
@@ -70,16 +70,29 @@ Window {
         }
     }
 
-    ButtonCircle {
-        id: refresh
+    ColumnLayout {
         anchors.centerIn: parent
-        width: parent.width / 20
-        height: parent.width / 20
+
+        spacing: window.height / 2
 
         ImageSVG {
-            anchors.fill: parent
             source: Icons.refresh
             color: "white"
+
+            Layout.preferredWidth: window.width / 24
+            Layout.preferredHeight: window.width / 24
+
+            TapHandler {
+                id: refresh
+            }
+        }
+
+        ImageSVG {
+            source: Icons.home
+            color: "white"
+
+            Layout.preferredWidth: window.width / 24
+            Layout.preferredHeight: window.width / 24
         }
     }
 
