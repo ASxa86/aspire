@@ -13,14 +13,18 @@ Item {
         color: "white"
         opacity: 0.25
 
-        Rectangle {
-            id: subcircle
-            anchors.centerIn: parent
-            width: parent.width * 0.25
-            height: subcircle.width
-            radius: parent.width / 2
-            color: "white"
-            opacity: circle.opacity
+    Rectangle {
+        id: subcircle
+
+        property point center: Qt.point()
+        x: center.x - width / 2
+        y: center.y - height / 2
+        width: circle.width * 0.25
+        height: subcircle.width
+        radius: circle.width / 2
+        color: "white"
+        opacity: circle.opacity
+        visible: false
 
             NumberAnimation {
                 id: animation
@@ -31,19 +35,21 @@ Item {
                 duration: 350
 
                 onStopped: {
+                    subcircle.visible = false;
                     circle.visible = false;
                 }
 
                 onStarted: {
                     circle.visible = true;
+                    subcircle.visible = true;
                 }
             }
         }
     }
 
     TapHandler {
-        onTapped: {
-            circle.visible = true;
+        onTapped: (point) => {
+            subcircle.center = root.mapFromGlobal(point.globalPosition);
             animation.restart();
             root.clicked();
         }
