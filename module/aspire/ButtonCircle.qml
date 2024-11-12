@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 
 Item {
     id: root
@@ -6,42 +7,58 @@ Item {
     signal clicked()
 
     Rectangle {
-        id: circle
-        visible: false
+        id: mask
+
         anchors.fill: parent
         radius: root.width / 2
-        color: "white"
-        opacity: 0.25
-
-    Rectangle {
-        id: subcircle
-
-        property point center: Qt.point()
-        x: center.x - width / 2
-        y: center.y - height / 2
-        width: circle.width * 0.25
-        height: subcircle.width
-        radius: circle.width / 2
-        color: "white"
-        opacity: circle.opacity
         visible: false
+        layer.enabled: true
+    }
 
-            NumberAnimation {
-                id: animation
-                target: subcircle
-                property: "width"
-                from: circle.height * 0.125
-                to: circle.height
-                duration: 350
+    Item {
+        id: effect
+        visible: false
+        anchors.fill: parent
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            source: circle
+            maskSource: mask
+            maskEnabled: true
+        }
 
-                onStopped: {
-                    subcircle.visible = false;
-                    circle.visible = false;
-                }
+        Rectangle {
+            id: circle
+            visible: false
+            anchors.fill: parent
+            color: Qt.rgba(1, 1, 1, 0.25)
+            radius: root.width / 2
 
-                onStarted: {
-                    circle.visible = true;
-                    subcircle.visible = true;
+            Rectangle {
+                id: subcircle
+
+                property point center: Qt.point()
+                x: center.x - width / 2
+                y: center.y - height / 2
+                width: circle.width * 0.25
+                height: subcircle.width
+                radius: circle.width / 2
+                color: circle.color
+
+                NumberAnimation {
+                    id: animation
+                    target: subcircle
+                    property: "width"
+                    from: circle.height * 0.125
+                    to: circle.height
+                    duration: 350
+
+                    onStopped: {
+                        effect.visible = false;
+                    }
+
+                    onStarted: {
+                        effect.visible = true;
+                    }
                 }
             }
         }

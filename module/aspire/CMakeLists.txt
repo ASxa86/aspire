@@ -12,10 +12,10 @@ qt_add_qml_module(${PROJECT_NAME}
         Meters.h
     QML_FILES
         ButtonCircle.qml
-        Counter.qml
         Square.qml
     IMPORTS
         QtQuick
+        QtQuick.Effects
 )
 
 generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/export.hxx BASE_NAME ${PROJECT_NAME})
