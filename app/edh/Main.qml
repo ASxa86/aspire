@@ -179,18 +179,22 @@ Window {
                     color: "transparent"
                     visible: shade.visible
 
+                    property double angle: index * (360.0 / rptrReset.count) - 90
+                    property double rad: angle * Math.PI / 180
+                    property double r: refresh.width * 2
+                    x: refresh.center.x + r * Math.cos(rad) - rect.width / 2
+                    y: refresh.center.y + r * Math.sin(rad) - rect.height / 2
+
                     Text {
                         id: text
 
                         color: "white"
                         text: (index + 1) * 10
                         font.pointSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
 
-                        property double angle: index * (360.0 / rptrReset.count) - 90
-                        property double rad: angle * Math.PI / 180
-                        property double r: refresh.width * 2
-                        x: refresh.center.x + r * Math.cos(rad) - rect.width / 2
-                        y: refresh.center.y + r * Math.sin(rad) - rect.height / 2
+                        anchors.fill: parent
 
                         TapHandler {
                             onTapped: {
