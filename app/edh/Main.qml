@@ -86,13 +86,13 @@ Window {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         blurEnabled: true
-                        blur: 0.8
+                        blur: 0.75
                         brightness: 0.5
                     }
 
                     radius: width / 16
                     color: "gold"
-                    scale: 0.98
+                    scale: 0.97
                     opacity: item.selected ? 1 : 0
 
                     TapHandler {
@@ -112,7 +112,7 @@ Window {
                         maskEnabled: true
                     }
 
-                    scale: 0.97
+                    scale: 0.96
 
                     Counter {
                         id: counter
