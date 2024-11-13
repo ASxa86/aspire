@@ -10,12 +10,35 @@ Window {
     color: "black"
     title: "EDH"
 
-    property var colors: [
-        "firebrick",
-        "forestgreen",
-        "darkcyan",
-        "slategray"
-    ]
+    ListModel {
+        id: player
+
+        ListElement {
+            color: "firebrick"
+            selected: false
+        }
+
+        ListElement {
+            color: "forestgreen"
+            selected: false
+        }
+
+        ListElement {
+            color: "darkcyan"
+            selected: false
+        }
+
+        ListElement {
+            color: "slategrey"
+            selected: false
+        }
+
+        function clear() {
+            for(let i = 0; i < player.count; i++) {
+                player.set(i, {"selected": false});
+            }
+        }
+    }
 
     GridLayout {
         id: layout
@@ -25,11 +48,19 @@ Window {
         columnSpacing: parent.width / 20
 
         Repeater {
-            model: 4
+            id: repeater
+
+            model: player
 
             delegate: Item {
+                id: item
+
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+
+                required property int index
+                required property color color
+                required property bool selected
 
                 rotation: index < layout.rows == 0 ? 0 : 180
                 clip: true
@@ -42,6 +73,29 @@ Window {
                     layer.enabled: true
                 }
 
+                Rectangle {
+                    id: glow
+                    anchors.fill: parent
+                    layer.enabled: true
+                    layer.effect: MultiEffect {
+                        blurEnabled: true
+                        blur: 0.75
+                        brightness: 0.5
+                    }
+
+                    radius: width / 16
+                    color: "gold"
+                    scale: 0.97
+                    opacity: item.selected ? 1 : 0
+
+                    TapHandler {
+                        onLongPressed: {
+                            player.clear();
+                            player.set(index, {"selected": true});
+                        }
+                    }
+                }
+
                 Item {
                     anchors.fill: parent
                     layer.enabled: true
@@ -51,11 +105,13 @@ Window {
                         maskEnabled: true
                     }
 
+                    scale: 0.96
+
                     Counter {
                         id: counter
                         anchors.fill: parent
 
-                        color: colors[index]
+                        color: item.color
 
                         Connections {
                             target: refresh
