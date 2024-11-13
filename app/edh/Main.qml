@@ -10,13 +10,6 @@ Window {
     color: "black"
     title: "EDH"
 
-    property var colors: [
-        "firebrick",
-        "forestgreen",
-        "darkcyan",
-        "slategray"
-    ]
-
     ListModel {
         id: player
 
