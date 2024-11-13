@@ -7,48 +7,12 @@ Window {
     width: 1280
     height: 720
     visible: true
-    visibility: Window.AutomaticVisibility
+    visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
     color: "black"
     title: "EDH"
 
-    ListModel {
+    ModelPlayers {
         id: player
-
-        ListElement {
-            color: "darkred"
-            selected: false
-            life: 40
-        }
-
-        ListElement {
-            color: "olivedrab"
-            selected: false
-            life: 40
-        }
-
-        ListElement {
-            color: "darkcyan"
-            selected: false
-            life: 40
-        }
-
-        ListElement {
-            color: "darkslategrey"
-            selected: false
-            life: 40
-        }
-
-        function clear() {
-            for(let i = 0; i < player.count; i++) {
-                player.set(i, {"selected": false});
-            }
-        }
-
-        function reset(health) {
-            for(let i = 0; i < player.count; i++) {
-                player.set(i, {"life": health});
-            }            
-        }
     }
 
     GridLayout {
@@ -69,10 +33,10 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                required property int index
-                required property color color
-                required property bool selected
-                required property int life
+                // required property int index
+                // required property color color
+                // required property bool selected
+                // required property int life
 
                 rotation: index < layout.rows == 0 ? 0 : 180
                 clip: true
@@ -98,12 +62,11 @@ Window {
                     radius: width / 16
                     color: "gold"
                     scale: 0.97
-                    opacity: item.selected ? 1 : 0
+                    opacity: selected ? 1 : 0
 
                     TapHandler {
                         onLongPressed: {
-                            player.clear();
-                            player.set(index, {"selected": true});
+                            Actions.select(index);
                         }
                     }
                 }
@@ -123,8 +86,16 @@ Window {
                         id: counter
                         anchors.fill: parent
 
-                        color: item.color
-                        value: item.life
+                        color: background
+                        text: life.toString()
+
+                        onDecrementClicked: {
+                            Actions.updateLife(index, life - 1);
+                        }
+
+                        onIncrementClicked: {
+                            Actions.updateLife(index, life + 1);
+                        }
                     }
                 }
             }
@@ -154,18 +125,55 @@ Window {
         property int count: children.length
         spacing: window.height / count
 
-        ImageSVG {
-            id: refresh
-            source: Icons.refresh
-            color: "white"
+        Item {
             width: window.width / 24
             height: width
 
-            property point center: Qt.point(width / 2, height / 2)
+            ImageSVG {
+                id: refresh
+                source: Icons.refresh
+                color: "white"
 
-            TapHandler {
-                onTapped: {
-                    shade.visible = true;
+                anchors.fill: parent
+
+                property point center: Qt.point(width / 2, height / 2)
+
+                NumberAnimation {
+                    id: animForward
+                    target: refresh
+                    property: "rotation"
+                    from: 0
+                    to: 360
+                    duration: 350
+                }
+
+                NumberAnimation {
+                    id: animReverse
+                    target: refresh
+                    property: "rotation"
+                    from: 360
+                    to: 0
+                    duration: 350
+                }
+
+                TapHandler {
+                    gesturePolicy: TapHandler.WithinBounds
+                    
+                    onTapped: {
+                        shade.visible = !shade.visible;
+                    }
+                }
+
+                Connections {
+                    target: shade
+                    function onVisibleChanged() {
+                        if(shade.visible == true) {
+                            animForward.start();
+                        }
+                        else{
+                            animReverse.start();
+                        }
+                    }
                 }
             }
 
@@ -177,7 +185,7 @@ Window {
                     width: refresh.width
                     height: width
                     color: "transparent"
-                    visible: shade.visible
+                    visible: false
 
                     property double angle: index * (360.0 / rptrReset.count) - 90
                     property double rad: angle * Math.PI / 180
@@ -185,21 +193,82 @@ Window {
                     x: refresh.center.x + r * Math.cos(rad) - rect.width / 2
                     y: refresh.center.y + r * Math.sin(rad) - rect.height / 2
 
-                    Text {
-                        id: text
+                    NumberAnimation {
+                        id: animForward
+                        target: rect
+                        property: "r"
+                        from: 0
+                        to: refresh.width * 2
+                        duration: 350
+                    }
 
-                        color: "white"
-                        text: (index + 1) * 10
-                        font.pointSize: 20
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
+                    NumberAnimation {
+                        id: animReverse
+                        target: rect
+                        property: "r"
+                        from: refresh.width * 2
+                        to: 0
+                        duration: 350
 
+                        onFinished: {
+                            rect.visible = false;
+                        }
+                    }
+
+                    Connections {
+                        target: shade
+
+                        function onVisibleChanged() {
+                            if(shade.visible == true) {
+                                rect.visible = true;
+                                animForward.start();
+                            }
+                            else
+                            {
+                                animReverse.start();
+                            }
+                        }
+                    }
+
+                    ImageSVG {
                         anchors.fill: parent
+                        source: Icons.heart_filled
+                        color: {
+                            if(index == 0) {
+                                return "goldenrod";
+                            }
 
-                        TapHandler {
-                            onTapped: {
-                                player.reset(parseInt(text.text));
-                                shade.visible = false;
+                            if(index == 1) {
+                                return "blue";
+                            }
+
+                            if(index == 2) {
+                                return "darkslategray";
+                            }
+
+                            if(index == 3) {
+                                return "darkred";
+                            }
+
+                            return "darkgreen";
+                        }
+
+                        Text {
+                            id: text
+
+                            color: "white"
+                            text: (index + 1) * 10
+                            font.pointSize: 20
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+
+                            anchors.fill: parent
+
+                            TapHandler {
+                                onTapped: {
+                                    Actions.reset(parseInt(text.text));
+                                    shade.visible = false;
+                                }
                             }
                         }
                     }
@@ -225,5 +294,6 @@ Window {
         text: "FPS: " + metric.fpsRolling.toFixed(0)
         color: "white"
         font.pixelSize: Math.min(window.width, window.height) / 16
+        visible: Qt.platform.os !== "android"
     }
 }

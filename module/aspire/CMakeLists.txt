@@ -26,6 +26,8 @@ qt_add_qml_module(${PROJECT_NAME}
     RESOURCES
         icons/envelope.svg
         icons/facebook.svg
+        icons/heart.svg
+        icons/heart_filled.svg
         icons/home.svg
         icons/instagram.svg
         icons/phone-call.svg
