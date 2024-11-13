@@ -7,6 +7,7 @@ Window {
     width: 1280
     height: 720
     visible: true
+    visibility: Window.AutomaticVisibility
     color: "black"
     title: "EDH"
 
@@ -14,29 +15,39 @@ Window {
         id: player
 
         ListElement {
-            color: "firebrick"
+            color: "darkred"
             selected: false
+            life: 40
         }
 
         ListElement {
-            color: "forestgreen"
+            color: "olivedrab"
             selected: false
+            life: 40
         }
 
         ListElement {
             color: "darkcyan"
             selected: false
+            life: 40
         }
 
         ListElement {
-            color: "slategrey"
+            color: "darkslategrey"
             selected: false
+            life: 40
         }
 
         function clear() {
             for(let i = 0; i < player.count; i++) {
                 player.set(i, {"selected": false});
             }
+        }
+
+        function reset(health) {
+            for(let i = 0; i < player.count; i++) {
+                player.set(i, {"life": health});
+            }            
         }
     }
 
@@ -61,6 +72,7 @@ Window {
                 required property int index
                 required property color color
                 required property bool selected
+                required property int life
 
                 rotation: index < layout.rows == 0 ? 0 : 180
                 clip: true
@@ -112,34 +124,86 @@ Window {
                         anchors.fill: parent
 
                         color: item.color
-
-                        Connections {
-                            target: refresh
-
-                            function onTapped() {
-                                counter.value = 40;
-                            }
-                        }
+                        value: item.life
                     }
                 }
             }
         }
     }
 
-    ColumnLayout {
+    Rectangle {
+        id: shade
+        anchors.fill: parent
+        color: Qt.rgba(0, 0, 0, 0.5)
+        visible: false
+
+        TapHandler {
+            gesturePolicy: TapHandler.WithinBounds
+
+            onTapped: {
+                shade.visible = false;
+            }
+        }
+    }
+
+    Column {
+        id: menu
         anchors.centerIn: parent
 
-        spacing: window.height / 2
+        property point center: Qt.point(width / 2, height / 2)
+        property int count: children.length
+        spacing: window.height / count
 
         ImageSVG {
+            id: refresh
             source: Icons.refresh
             color: "white"
+            width: window.width / 24
+            height: width
 
-            Layout.preferredWidth: window.width / 24
-            Layout.preferredHeight: window.width / 24
+            property point center: Qt.point(width / 2, height / 2)
 
             TapHandler {
-                id: refresh
+                onTapped: {
+                    shade.visible = true;
+                }
+            }
+
+            Repeater {
+                id: rptrReset
+                model: 5
+                delegate: Rectangle {
+                    id: rect
+                    width: refresh.width
+                    height: width
+                    color: "transparent"
+                    visible: shade.visible
+
+                    property double angle: index * (360.0 / rptrReset.count) - 90
+                    property double rad: angle * Math.PI / 180
+                    property double r: refresh.width * 2
+                    x: refresh.center.x + r * Math.cos(rad) - rect.width / 2
+                    y: refresh.center.y + r * Math.sin(rad) - rect.height / 2
+
+                    Text {
+                        id: text
+
+                        color: "white"
+                        text: (index + 1) * 10
+                        font.pointSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+
+                        anchors.fill: parent
+
+                        TapHandler {
+                            onTapped: {
+                                player.reset(parseInt(text.text));
+                                shade.visible = false;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -147,8 +211,8 @@ Window {
             source: Icons.home
             color: "white"
 
-            Layout.preferredWidth: window.width / 24
-            Layout.preferredHeight: window.width / 24
+            width: window.width / 24
+            height: width
         }
     }
 
