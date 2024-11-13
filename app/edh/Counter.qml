@@ -4,7 +4,10 @@ import aspire
 Rectangle {
     id: root
 
-    property int value: 40
+    property alias text: txtLife.text
+
+    signal decrementClicked()
+    signal incrementClicked()
 
     ButtonCircle {
         property point center: Qt.point(parent.width / 8, parent.height / 2)
@@ -13,9 +16,7 @@ Rectangle {
         x: center.x - width / 2
         y: center.y - height / 2
 
-        onClicked: {
-            root.value -= 1;
-        } 
+        onClicked: root.decrementClicked()
     }
 
     ButtonCircle {
@@ -25,15 +26,12 @@ Rectangle {
         x: center.x - width / 2
         y: center.y - height / 2
 
-        onClicked: {
-            root.value += 1;
-        }    
+        onClicked: root.incrementClicked()  
     }
 
     Text {
-        id: text
+        id: txtLife
         anchors.centerIn: parent
-        text: root.value.toString()
         font.pixelSize: Math.min(parent.width, parent.height) / 2
         color: "white"
     }

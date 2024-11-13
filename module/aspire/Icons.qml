@@ -4,6 +4,7 @@ import QtQuick
 QtObject {
     property string envelop: "qrc:/qt/qml/aspire/icons/envelop.svg"
     property string facebook: "qrc:/qt/qml/aspire/icons/facebook.svg"
+    property string heart: "qrc:/qt/qml/aspire/icons/heart.svg"
     property string home: "qrc:/qt/qml/aspire/icons/home.svg"
     property string instagram: "qrc:/qt/qml/aspire/icons/instagram.svg"
     property string phone: "qrc:/qt/qml/aspire/icons/phone-call.svg"

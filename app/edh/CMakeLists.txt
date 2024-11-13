@@ -4,12 +4,22 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     main.cpp
 )
 
+set(QML_SINGLETONS
+    Actions.qml    
+)
+
+set_source_files_properties(${QML_SINGLETONS}
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
+
 qt_add_qml_module(${PROJECT_NAME}
     URI app.${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
         Main.qml
+        ModelPlayers.qml
         Counter.qml
+        ${QML_SINGLETONS}
     IMPORTS
         aspire
     IMPORT_PATH
