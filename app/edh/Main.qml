@@ -158,8 +158,26 @@ Window {
 
                     ImageSVG {
                         anchors.fill: parent
-                        source: Icons.heart
-                        color: "white"
+                        source: Icons.heart_filled
+                        color: {
+                            if(index == 0) {
+                                return "goldenrod";
+                            }
+
+                            if(index == 1) {
+                                return "blue";
+                            }
+
+                            if(index == 2) {
+                                return "darkslategray";
+                            }
+
+                            if(index == 3) {
+                                return "darkred";
+                            }
+
+                            return "darkgreen";
+                        }
 
                         Text {
                             id: text
