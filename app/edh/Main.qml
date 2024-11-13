@@ -7,7 +7,7 @@ Window {
     width: 1280
     height: 720
     visible: true
-    visibility: Window.AutomaticVisibility
+    visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
     color: "black"
     title: "EDH"
 
@@ -160,7 +160,7 @@ Window {
                         anchors.fill: parent
                         source: Icons.heart
                         color: "white"
-                        
+
                         Text {
                             id: text
 
@@ -202,5 +202,6 @@ Window {
         text: "FPS: " + metric.fpsRolling.toFixed(0)
         color: "white"
         font.pixelSize: Math.min(window.width, window.height) / 16
+        visible: Qt.platform.os !== "android"
     }
 }
