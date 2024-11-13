@@ -88,7 +88,7 @@ Window {
 
                         color: background
                         text: life.toString()
-                        textTime: time.toString()
+                        textTime: Qt.formatTime(new Date(time * 1000), "mm:ss")
                         active: selected
 
                         onDecrementClicked: {
