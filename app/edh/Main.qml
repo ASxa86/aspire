@@ -17,6 +17,36 @@ Window {
         "slategray"
     ]
 
+    ListModel {
+        id: player
+
+        ListElement {
+            color: "firebrick"
+            selected: false
+        }
+
+        ListElement {
+            color: "forestgreen"
+            selected: false
+        }
+
+        ListElement {
+            color: "darkcyan"
+            selected: false
+        }
+
+        ListElement {
+            color: "slategrey"
+            selected: false
+        }
+
+        function clear() {
+            for(let i = 0; i < player.count; i++) {
+                player.set(i, {"selected": false});
+            }
+        }
+    }
+
     GridLayout {
         id: layout
         anchors.fill: parent
@@ -25,11 +55,19 @@ Window {
         columnSpacing: parent.width / 20
 
         Repeater {
-            model: 4
+            id: repeater
+
+            model: player
 
             delegate: Item {
+                id: item
+
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+
+                required property int index
+                required property color color
+                required property bool selected
 
                 rotation: index < layout.rows == 0 ? 0 : 180
                 clip: true
@@ -49,16 +87,18 @@ Window {
                     layer.effect: MultiEffect {
                         blurEnabled: true
                         blur: 0.8
+                        brightness: 0.5
                     }
 
                     radius: width / 16
                     color: "gold"
                     scale: 0.98
-                    opacity: 0
+                    opacity: item.selected ? 1 : 0
 
                     TapHandler {
                         onLongPressed: {
-                            glow.opacity = 1;
+                            player.clear();
+                            player.set(index, {"selected": true});
                         }
                     }
                 }
@@ -78,7 +118,7 @@ Window {
                         id: counter
                         anchors.fill: parent
 
-                        color: colors[index]
+                        color: item.color
 
                         Connections {
                             target: refresh
