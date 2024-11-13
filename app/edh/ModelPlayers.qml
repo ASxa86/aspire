@@ -4,27 +4,31 @@ ListModel {
     id: player
 
     ListElement {
-        background: "darkred"
+        background: "#BB4430"
         selected: false
         life: 40
+        time: 0
     }
 
     ListElement {
-        background: "olivedrab"
+        background: "#B9CEB2"
         selected: false
         life: 40
+        time: 0
     }
 
     ListElement {
-        background: "darkcyan"
+        background: "#7EBDC2"
         selected: false
         life: 40
+        time: 0
     }
 
     ListElement {
-        background: "darkslategrey"
+        background: "#F3E0A5"
         selected: false
         life: 40
+        time: 0
     }
 
     property Connections connection: Connections {
@@ -38,14 +42,18 @@ ListModel {
 
         function onSelect(index) {
             for(let i = 0; i < player.count; i++) {
-                player.set(i, {"selected": false});
+                player.set(i, {selected: false});
             }
 
-            player.set(index, {"selected": true});
+            player.set(index, {selected: true});
         }
 
-        function onUpdateLife(index, life) {
-            player.set(index, {"life": life});
+        function onUpdateLife(index, x) {
+            player.set(index, {life: x});
+        }
+
+        function onUpdateTime(index, x) {
+            player.set(index, {time: x});
         }
     }
 }

@@ -1,6 +1,7 @@
 project(aspire)
 
 set(QML_SINGLETONS
+    Fonts.qml
     Icons.qml
 )
 
@@ -34,6 +35,9 @@ qt_add_qml_module(${PROJECT_NAME}
         icons/refresh.svg
         icons/search.svg
         icons/user.svg
+        fonts/DavidLibre-Regular.ttf
+        fonts/DavidLibre-Bold.ttf
+        fonts/DavidLibre-Medium.ttf
     IMPORTS
         QtQuick
         QtQuick.Effects

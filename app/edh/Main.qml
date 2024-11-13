@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import aspire
+import app.edh
 
 Window {
     id: window
@@ -8,7 +9,7 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: "black"
+    color: "#1F0C0A"
     title: "EDH"
 
     ModelPlayers {
@@ -20,7 +21,7 @@ Window {
         anchors.fill: parent
         columns: 2
         rows: 2
-        columnSpacing: parent.width / 20
+        columnSpacing: parent.width / 24
 
         Repeater {
             id: repeater
@@ -55,13 +56,13 @@ Window {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         blurEnabled: true
-                        blur: 0.75
+                        blur: 0.7
                         brightness: 0.5
                     }
 
                     radius: width / 16
                     color: "gold"
-                    scale: 0.97
+                    scale: 0.94
                     opacity: selected ? 1 : 0
 
                     TapHandler {
@@ -80,14 +81,23 @@ Window {
                         maskEnabled: true
                     }
 
-                    scale: 0.96
+                    scale: 0.93
 
                     Counter {
                         id: counter
                         anchors.fill: parent
 
                         color: background
+
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: background }
+                            GradientStop { position: 1.0; color: Qt.darker(background, 2.0) }
+                        }
+
+
                         text: life.toString()
+                        textTime: Qt.formatTime(new Date(time * 1000), "mm:ss")
+                        active: selected
 
                         onDecrementClicked: {
                             Actions.updateLife(index, life - 1);
@@ -95,6 +105,10 @@ Window {
 
                         onIncrementClicked: {
                             Actions.updateLife(index, life + 1);
+                        }
+
+                        onTimeTriggered: (seconds) => {
+                            Actions.updateTime(index, time + seconds);
                         }
                     }
                 }
@@ -105,7 +119,7 @@ Window {
     Rectangle {
         id: shade
         anchors.fill: parent
-        color: Qt.rgba(0, 0, 0, 0.5)
+        color: Qt.rgba(0.64, 0.64, 0.64, 0.5)
         visible: false
 
         TapHandler {
@@ -235,28 +249,27 @@ Window {
                         source: Icons.heart_filled
                         color: {
                             if(index == 0) {
-                                return "goldenrod";
+                                return Style.color.verydarkyellow;
                             }
 
                             if(index == 1) {
-                                return "blue";
+                                return Style.color.verydarkblue;
                             }
 
                             if(index == 2) {
-                                return "darkslategray";
+                                return Style.color.verydarkblack;
                             }
 
                             if(index == 3) {
-                                return "darkred";
+                                return Style.color.verydarkred;
                             }
 
-                            return "darkgreen";
+                            return Style.color.verydarkgreen;
                         }
 
-                        Text {
+                        TextEDH {
                             id: text
 
-                            color: "white"
                             text: (index + 1) * 10
                             font.pointSize: 20
                             horizontalAlignment: Text.AlignHCenter
