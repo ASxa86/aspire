@@ -42,6 +42,27 @@ Window {
                     layer.enabled: true
                 }
 
+                Rectangle {
+                    id: glow
+                    anchors.fill: parent
+                    layer.enabled: true
+                    layer.effect: MultiEffect {
+                        blurEnabled: true
+                        blur: 0.8
+                    }
+
+                    radius: width / 16
+                    color: "gold"
+                    scale: 0.98
+                    opacity: 0
+
+                    TapHandler {
+                        onLongPressed: {
+                            glow.opacity = 1;
+                        }
+                    }
+                }
+
                 Item {
                     anchors.fill: parent
                     layer.enabled: true
@@ -50,6 +71,8 @@ Window {
                         maskSource: mask
                         maskEnabled: true
                     }
+
+                    scale: 0.97
 
                     Counter {
                         id: counter
