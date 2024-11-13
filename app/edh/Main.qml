@@ -125,18 +125,55 @@ Window {
         property int count: children.length
         spacing: window.height / count
 
-        ImageSVG {
-            id: refresh
-            source: Icons.refresh
-            color: "white"
+        Item {
             width: window.width / 24
             height: width
 
-            property point center: Qt.point(width / 2, height / 2)
+            ImageSVG {
+                id: refresh
+                source: Icons.refresh
+                color: "white"
 
-            TapHandler {
-                onTapped: {
-                    shade.visible = true;
+                anchors.fill: parent
+
+                property point center: Qt.point(width / 2, height / 2)
+
+                NumberAnimation {
+                    id: animForward
+                    target: refresh
+                    property: "rotation"
+                    from: 0
+                    to: 360
+                    duration: 350
+                }
+
+                NumberAnimation {
+                    id: animReverse
+                    target: refresh
+                    property: "rotation"
+                    from: 360
+                    to: 0
+                    duration: 350
+                }
+
+                TapHandler {
+                    gesturePolicy: TapHandler.WithinBounds
+                    
+                    onTapped: {
+                        shade.visible = !shade.visible;
+                    }
+                }
+
+                Connections {
+                    target: shade
+                    function onVisibleChanged() {
+                        if(shade.visible == true) {
+                            animForward.start();
+                        }
+                        else{
+                            animReverse.start();
+                        }
+                    }
                 }
             }
 
@@ -148,13 +185,50 @@ Window {
                     width: refresh.width
                     height: width
                     color: "transparent"
-                    visible: shade.visible
+                    visible: false
 
                     property double angle: index * (360.0 / rptrReset.count) - 90
                     property double rad: angle * Math.PI / 180
                     property double r: refresh.width * 2
                     x: refresh.center.x + r * Math.cos(rad) - rect.width / 2
                     y: refresh.center.y + r * Math.sin(rad) - rect.height / 2
+
+                    NumberAnimation {
+                        id: animForward
+                        target: rect
+                        property: "r"
+                        from: 0
+                        to: refresh.width * 2
+                        duration: 350
+                    }
+
+                    NumberAnimation {
+                        id: animReverse
+                        target: rect
+                        property: "r"
+                        from: refresh.width * 2
+                        to: 0
+                        duration: 350
+
+                        onFinished: {
+                            rect.visible = false;
+                        }
+                    }
+
+                    Connections {
+                        target: shade
+
+                        function onVisibleChanged() {
+                            if(shade.visible == true) {
+                                rect.visible = true;
+                                animForward.start();
+                            }
+                            else
+                            {
+                                animReverse.start();
+                            }
+                        }
+                    }
 
                     ImageSVG {
                         anchors.fill: parent
