@@ -8,5 +8,7 @@ QtObject {
 
     signal updateLife(int index, int life)
 
+    signal updateTime(int index, int seconds)
+
     signal select(int index)
 }

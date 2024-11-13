@@ -7,24 +7,28 @@ ListModel {
         background: "darkred"
         selected: false
         life: 40
+        time: 0
     }
 
     ListElement {
         background: "olivedrab"
         selected: false
         life: 40
+        time: 0
     }
 
     ListElement {
         background: "darkcyan"
         selected: false
         life: 40
+        time: 0
     }
 
     ListElement {
         background: "darkslategrey"
         selected: false
         life: 40
+        time: 0
     }
 
     property Connections connection: Connections {
@@ -38,14 +42,18 @@ ListModel {
 
         function onSelect(index) {
             for(let i = 0; i < player.count; i++) {
-                player.set(i, {"selected": false});
+                player.set(i, {selected: false});
             }
 
-            player.set(index, {"selected": true});
+            player.set(index, {selected: true});
         }
 
-        function onUpdateLife(index, life) {
-            player.set(index, {"life": life});
+        function onUpdateLife(index, x) {
+            player.set(index, {life: x});
+        }
+
+        function onUpdateTime(index, x) {
+            player.set(index, {time: x});
         }
     }
 }

@@ -88,6 +88,8 @@ Window {
 
                         color: background
                         text: life.toString()
+                        textTime: time.toString()
+                        active: selected
 
                         onDecrementClicked: {
                             Actions.updateLife(index, life - 1);
@@ -95,6 +97,10 @@ Window {
 
                         onIncrementClicked: {
                             Actions.updateLife(index, life + 1);
+                        }
+
+                        onTimeTriggered: (seconds) => {
+                            Actions.updateTime(index, time + seconds);
                         }
                     }
                 }
