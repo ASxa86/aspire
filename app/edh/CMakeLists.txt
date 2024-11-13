@@ -5,7 +5,8 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 )
 
 set(QML_SINGLETONS
-    Actions.qml    
+    Actions.qml
+    Style.qml 
 )
 
 set_source_files_properties(${QML_SINGLETONS}
@@ -19,6 +20,7 @@ qt_add_qml_module(${PROJECT_NAME}
         Main.qml
         ModelPlayers.qml
         Counter.qml
+        TextEDH.qml
         ${QML_SINGLETONS}
     IMPORTS
         aspire

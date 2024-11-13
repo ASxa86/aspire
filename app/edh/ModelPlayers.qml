@@ -4,28 +4,28 @@ ListModel {
     id: player
 
     ListElement {
-        background: "darkred"
+        background: "#BB4430"
         selected: false
         life: 40
         time: 0
     }
 
     ListElement {
-        background: "olivedrab"
+        background: "#B9CEB2"
         selected: false
         life: 40
         time: 0
     }
 
     ListElement {
-        background: "darkcyan"
+        background: "#7EBDC2"
         selected: false
         life: 40
         time: 0
     }
 
     ListElement {
-        background: "darkslategrey"
+        background: "#F3E0A5"
         selected: false
         life: 40
         time: 0

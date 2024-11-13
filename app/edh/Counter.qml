@@ -32,11 +32,11 @@ Rectangle {
         onClicked: root.incrementClicked()  
     }
 
-    Text {
+    TextEDH {
         id: txtLife
+
         anchors.centerIn: parent
         font.pixelSize: Math.min(parent.width, parent.height) / 2
-        color: "white"
     }
 
     Rectangle {
@@ -44,14 +44,14 @@ Rectangle {
         height: parent.height * 0.1
         color: Qt.rgba(0, 0, 0, 0.3)
 
-        Text {
+        TextEDH {
             id: time
-            color: "white"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: parent.height
             anchors.left: parent.left
-            anchors.leftMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: 15
         }
     }
 
