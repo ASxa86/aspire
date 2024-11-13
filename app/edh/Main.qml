@@ -9,7 +9,7 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: "#1F0C0A"
+    color: "#1c1304"
     title: "EDH"
 
     ModelPlayers {
@@ -61,7 +61,7 @@ Window {
                     }
 
                     radius: width / 16
-                    color: "gold"
+                    color: Style.color.verydarkyellow
                     scale: 0.94
                     opacity: selected ? 1 : 0
 
