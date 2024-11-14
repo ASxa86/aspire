@@ -28,7 +28,6 @@
             "inherits": [
                 "host-x64-windows",
                 "target-x64-windows",
-                "config-build-dir",
                 "use-visualstudio",
                 "use-vcpkg"
             ]
