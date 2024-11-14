@@ -21,7 +21,7 @@ Window {
         anchors.fill: parent
         columns: 2
         rows: 2
-        columnSpacing: parent.width / 24
+        columnSpacing: parent.width / 20
 
         Repeater {
             id: repeater
@@ -62,8 +62,7 @@ Window {
                     }
 
                     radius: width / 16
-                    color: Style.color.verydarkyellow
-                    // scale: 0.99
+                    color: Style.color.darkplainsBG
                     opacity: selected ? 1 : 0
 
                     TapHandler {
