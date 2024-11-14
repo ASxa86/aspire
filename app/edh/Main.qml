@@ -9,7 +9,7 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: "#1F0C0A"
+    color: Style.color.cardback
     title: "EDH"
 
     ModelPlayers {
@@ -21,7 +21,7 @@ Window {
         anchors.fill: parent
         columns: 2
         rows: 2
-        columnSpacing: parent.width / 24
+        columnSpacing: parent.width / 20
 
         Repeater {
             id: repeater
@@ -34,10 +34,11 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                // required property int index
-                // required property color color
-                // required property bool selected
-                // required property int life
+                required property int index
+                required property color background
+                required property bool selected
+                required property int life
+                required property int time
 
                 rotation: index < layout.rows == 0 ? 0 : 180
                 clip: true
@@ -56,13 +57,12 @@ Window {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         blurEnabled: true
-                        blur: 0.7
+                        blur: 0
                         brightness: 0.5
                     }
 
                     radius: width / 16
-                    color: "gold"
-                    scale: 0.94
+                    color: Style.color.darkplainsBG
                     opacity: selected ? 1 : 0
 
                     TapHandler {
@@ -81,19 +81,16 @@ Window {
                         maskEnabled: true
                     }
 
-                    scale: 0.93
+                    scale: 0.99
 
                     Counter {
                         id: counter
                         anchors.fill: parent
 
-                        color: background
-
                         gradient: Gradient {
                             GradientStop { position: 0.0; color: background }
-                            GradientStop { position: 1.0; color: Qt.darker(background, 2.0) }
+                            GradientStop { position: 1.0; color: Qt.darker(background) }
                         }
-
 
                         text: life.toString()
                         textTime: Qt.formatTime(new Date(time * 1000), "mm:ss")
@@ -249,22 +246,22 @@ Window {
                         source: Icons.heart_filled
                         color: {
                             if(index == 0) {
-                                return Style.color.verydarkyellow;
+                                return Style.color.darkplainsBG;
                             }
 
                             if(index == 1) {
-                                return Style.color.verydarkblue;
+                                return Style.color.darkisland;
                             }
 
                             if(index == 2) {
-                                return Style.color.verydarkblack;
+                                return Style.color.darkswamp;
                             }
 
                             if(index == 3) {
-                                return Style.color.verydarkred;
+                                return Style.color.darkmountain;
                             }
 
-                            return Style.color.verydarkgreen;
+                            return Style.color.darkforest;
                         }
 
                         TextEDH {

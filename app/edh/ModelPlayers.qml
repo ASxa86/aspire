@@ -3,32 +3,34 @@ import QtQuick
 ListModel {
     id: player
 
-    ListElement {
-        background: "#BB4430"
-        selected: false
-        life: 40
-        time: 0
-    }
+    Component.onCompleted: {
+        player.append({
+            background: Style.color.mountain,
+            selected: false,
+            life: 40,
+            time: 0
+        });
 
-    ListElement {
-        background: "#B9CEB2"
-        selected: false
-        life: 40
-        time: 0
-    }
+        player.append({
+            background: Style.color.forest,
+            selected: false,
+            life: 40,
+            time: 0
+        });
 
-    ListElement {
-        background: "#7EBDC2"
-        selected: false
-        life: 40
-        time: 0
-    }
+        player.append({
+            background: Style.color.island,
+            selected: false,
+            life: 40,
+            time: 0
+        });
 
-    ListElement {
-        background: "#F3E0A5"
-        selected: false
-        life: 40
-        time: 0
+        player.append({
+            background: Style.color.plainsBG,
+            selected: false,
+            life: 40,
+            time: 0
+        });
     }
 
     property Connections connection: Connections {

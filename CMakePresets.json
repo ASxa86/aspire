@@ -19,9 +19,20 @@
         "cmake/preset/use-gcc.json",
         "cmake/preset/use-msvc.json",
         "cmake/preset/use-ninja.json",
-        "cmake/preset/use-vcpkg.json"
+        "cmake/preset/use-vcpkg.json",
+        "cmake/preset/use-visualstudio.json"
     ],
     "configurePresets": [
+        {
+            "name": "x64-windows-visualstudio",
+            "inherits": [
+                "host-x64-windows",
+                "target-x64-windows",
+                "config-build-dir",
+                "use-visualstudio",
+                "use-vcpkg"
+            ]
+        },
         {
             "name": "x64-windows-msvc-debug",
             "inherits": [

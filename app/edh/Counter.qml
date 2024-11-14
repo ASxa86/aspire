@@ -42,7 +42,11 @@ Rectangle {
     Rectangle {
         width: parent.width
         height: parent.height * 0.1
-        color: Qt.rgba(0, 0, 0, 0.3)
+
+        Component.onCompleted: {
+            color = Style.color.cardback;
+            color.a = 0.3;
+        }
 
         TextEDH {
             id: time
