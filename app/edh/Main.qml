@@ -116,7 +116,7 @@ Window {
     Rectangle {
         id: shade
         anchors.fill: parent
-        visible: false
+        visible: menuLife.active
 
         Component.onCompleted: {
             shade.color = Style.color.darkcardbackBG;
@@ -127,7 +127,7 @@ Window {
             gesturePolicy: TapHandler.WithinBounds
 
             onTapped: {
-                shade.visible = false;
+                menuLife.active = false;
             }
         }
     }
@@ -141,6 +141,7 @@ Window {
         spacing: window.height / count
 
         MenuLife {
+            id: menuLife
             width: window.width / 24
             height: width
         }

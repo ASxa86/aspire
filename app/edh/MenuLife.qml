@@ -1,6 +1,12 @@
 import QtQuick
 
 Item {
+    id: root
+
+    property bool active: false
+
+    signal clicked()
+
     ListModel {
         id: model
 
@@ -73,14 +79,16 @@ Item {
             gesturePolicy: TapHandler.WithinBounds
             
             onTapped: {
-                shade.visible = !shade.visible;
+                root.active = !root.active
+                root.clicked();
             }
         }
 
         Connections {
-            target: shade
-            function onVisibleChanged() {
-                if(shade.visible == true) {
+            target: root
+            
+            function onActiveChanged() {
+                if(root.active == true) {
                     animForward.start();
                 }
                 else{
@@ -113,6 +121,10 @@ Item {
                 from: 0
                 to: refresh.width * 2
                 duration: 350
+
+                onStarted: {
+                    rect.visible = true;
+                }
             }
 
             NumberAnimation {
@@ -129,11 +141,10 @@ Item {
             }
 
             Connections {
-                target: shade
+                target: root
 
-                function onVisibleChanged() {
-                    if(shade.visible == true) {
-                        rect.visible = true;
+                function onActiveChanged() {
+                    if(root.active == true) {
                         animForward.start();
                     }
                     else
@@ -163,7 +174,7 @@ Item {
                     TapHandler {
                         onTapped: {
                             Actions.reset(life);
-                            shade.visible = false;
+                            root.active = false;
                         }
                     }
                 }
