@@ -34,10 +34,11 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                // required property int index
-                // required property color color
-                // required property bool selected
-                // required property int life
+                required property int index
+                required property color background
+                required property bool selected
+                required property int life
+                required property int time
 
                 rotation: index < layout.rows == 0 ? 0 : 180
                 clip: true
@@ -56,13 +57,13 @@ Window {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         blurEnabled: true
-                        blur: 0.7
+                        blur: 0
                         brightness: 0.5
                     }
 
                     radius: width / 16
                     color: Style.color.verydarkyellow
-                    scale: 0.94
+                    // scale: 0.99
                     opacity: selected ? 1 : 0
 
                     TapHandler {
@@ -81,19 +82,16 @@ Window {
                         maskEnabled: true
                     }
 
-                    scale: 0.93
+                    scale: 0.99
 
                     Counter {
                         id: counter
                         anchors.fill: parent
 
-                        color: background
-
                         gradient: Gradient {
                             GradientStop { position: 0.0; color: background }
-                            GradientStop { position: 1.0; color: Qt.darker(background, 2.0) }
+                            GradientStop { position: 1.0; color: Qt.darker(background) }
                         }
-
 
                         text: life.toString()
                         textTime: Qt.formatTime(new Date(time * 1000), "mm:ss")
