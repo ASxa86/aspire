@@ -9,7 +9,7 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: "#1c1304"
+    color: "#140a05"
     title: "EDH"
 
     ModelPlayers {
@@ -249,22 +249,22 @@ Window {
                         source: Icons.heart_filled
                         color: {
                             if(index == 0) {
-                                return Style.color.verydarkyellow;
+                                return Style.color.darkplainsBG;
                             }
 
                             if(index == 1) {
-                                return Style.color.verydarkblue;
+                                return Style.color.darkisland;
                             }
 
                             if(index == 2) {
-                                return Style.color.verydarkblack;
+                                return Style.color.darkswamp;
                             }
 
                             if(index == 3) {
-                                return Style.color.verydarkred;
+                                return Style.color.darkmountain;
                             }
 
-                            return Style.color.verydarkgreen;
+                            return Style.color.darkforest;
                         }
 
                         TextEDH {
