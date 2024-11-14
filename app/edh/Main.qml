@@ -9,7 +9,7 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: "#140a05"
+    color: Style.color.cardback
     title: "EDH"
 
     ModelPlayers {
