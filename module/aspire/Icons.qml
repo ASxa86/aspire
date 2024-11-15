@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 
 QtObject {
+    property string apps: "qrc:/qt/qml/aspire/icons/apps.svg"
     property string envelop: "qrc:/qt/qml/aspire/icons/envelop.svg"
     property string facebook: "qrc:/qt/qml/aspire/icons/facebook.svg"
     property string heart: "qrc:/qt/qml/aspire/icons/heart.svg"

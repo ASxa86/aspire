@@ -54,6 +54,7 @@ Item {
         scale: 0.98
 
         Rectangle {
+            id: counter
             anchors.fill: parent
 
             gradient: Gradient {

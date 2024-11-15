@@ -73,12 +73,9 @@ Window {
             height: width
         }
 
-        ImageSVG {
-            source: Icons.home
-            color: "white"
-
+        MenuLayout {
             width: window.width / 24
-            height: width
+            height: width            
         }
     }
 
