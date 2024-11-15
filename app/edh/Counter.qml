@@ -27,11 +27,11 @@ Item {
         layer.effect: MultiEffect {
             blurEnabled: true
             blur: 0.1
-            brightness: 0.75
+            brightness: 0.5
         }
 
         radius: width / 16
-        color: Style.color.darkplainsBG
+        color: "darkgoldenrod"
         opacity: selected ? 1 : 0
         scale: 0.99
 
@@ -97,24 +97,23 @@ Item {
                 }
 
                 TextEDH {
-                    id: time
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: parent.height
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: 15
-                    text: Qt.formatTime(new Data(root.time * 1000), "mm:ss")
+                    text: Qt.formatTime(new Date(root.time), "mm:ss")
                 }
             }
 
             Timer {
                 id: timer
-                interval: 1000
+                interval: 100
                 repeat: true
                 running: root.selected
 
-                onTriggered: Actions.updateTime(root.index, root.time + interval / 1000)
+                onTriggered: Actions.updateTime(root.index, root.time + interval)
             }
         }
     }

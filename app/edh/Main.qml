@@ -9,7 +9,6 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    flags: Qt.platform.so == "android" ? Qt.MaximizeUsingFullscreenGeometryHint : Qt.Window
     color: Style.color.cardback
     title: "EDH"
 

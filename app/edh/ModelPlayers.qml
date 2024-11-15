@@ -39,6 +39,8 @@ ListModel {
         function onReset(x) {
             for(let i = 0; i < player.count; i++) {
                 player.set(i, {life: x});
+                player.set(i, {time: 0});
+                player.set(i, {selected: false});
             }
         }
 
