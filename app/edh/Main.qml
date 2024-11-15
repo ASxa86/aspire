@@ -28,87 +28,11 @@ Window {
 
             model: player
 
-            delegate: Item {
-                id: item
-
+            delegate: Counter {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                required property int index
-                required property color background
-                required property bool selected
-                required property int life
-                required property int time
-
                 rotation: index < layout.rows == 0 ? 0 : 180
-                clip: true
-
-                Rectangle {
-                    id: mask
-                    anchors.fill: parent
-                    radius: width / 16
-                    visible: false
-                    layer.enabled: true
-                }
-
-                Rectangle {
-                    id: glow
-                    anchors.fill: parent
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        blurEnabled: true
-                        blur: 0
-                        brightness: 0.5
-                    }
-
-                    radius: width / 16
-                    color: Style.color.darkplainsBG
-                    opacity: selected ? 1 : 0
-
-                    TapHandler {
-                        onLongPressed: {
-                            Actions.select(index);
-                        }
-                    }
-                }
-
-                Item {
-                    anchors.fill: parent
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        source: counter
-                        maskSource: mask
-                        maskEnabled: true
-                    }
-
-                    scale: 0.99
-
-                    Counter {
-                        id: counter
-                        anchors.fill: parent
-
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: background }
-                            GradientStop { position: 1.0; color: Qt.darker(background) }
-                        }
-
-                        text: life.toString()
-                        textTime: Qt.formatTime(new Date(time * 1000), "mm:ss")
-                        active: selected
-
-                        onDecrementClicked: {
-                            Actions.updateLife(index, life - 1);
-                        }
-
-                        onIncrementClicked: {
-                            Actions.updateLife(index, life + 1);
-                        }
-
-                        onTimeTriggered: (seconds) => {
-                            Actions.updateTime(index, time + seconds);
-                        }
-                    }
-                }
             }
         }
     }
