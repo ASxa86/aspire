@@ -9,6 +9,7 @@ Window {
     height: 720
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
+    flags: Qt.platform.so == "android" ? Qt.MaximizeUsingFullscreenGeometryHint : Qt.Window
     color: Style.color.cardback
     title: "EDH"
 
@@ -16,6 +17,7 @@ Window {
         id: player
     }
 
+    // Player Layout
     GridLayout {
         id: layout
         anchors.fill: parent
@@ -37,6 +39,7 @@ Window {
         }
     }
 
+    // Menu shading
     Rectangle {
         id: shade
         anchors.fill: parent
@@ -56,6 +59,7 @@ Window {
         }
     }
 
+    // Menu Options
     Column {
         id: menu
         anchors.centerIn: parent
@@ -79,6 +83,7 @@ Window {
         }
     }
 
+    // Debugging
     FrameMetrics {
         id: metric
         thread: FrameMetrics.Thread.Render
