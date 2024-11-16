@@ -72,11 +72,6 @@ Window {
             width: window.width / 24
             height: width
         }
-
-        MenuLayout {
-            width: window.width / 24
-            height: width            
-        }
     }
 
     // Debugging
