@@ -11,4 +11,6 @@ QtObject {
     signal updateTime(int index, int seconds)
 
     signal select(int index)
+
+    signal setPlayerTotal(int total)
 }

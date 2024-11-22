@@ -12,6 +12,10 @@ Window {
     color: Style.color.cardback
     title: "EDH"
 
+    Component.onCompleted: {
+        Actions.setPlayerTotal(4);
+    }
+
     ModelPlayers {
         id: player
     }
@@ -22,18 +26,34 @@ Window {
         anchors.fill: parent
         columns: 2
         rows: 2
-        columnSpacing: parent.width / 20
 
         Repeater {
             id: repeater
 
             model: player
 
-            delegate: Counter {
+            delegate: Item {
+                id: root
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                rotation: index < layout.rows == 0 ? 0 : 180
+                required property int index
+                required property color background
+                required property bool selected
+                required property int life
+                required property int time
+
+                Counter {
+                    width: parent.height
+                    height: parent.width
+                    anchors.centerIn: parent
+                    rotation: root.index % 2 == 0 ? 90 : 270
+                    index: root.index
+                    background: root.background
+                    selected: root.selected
+                    life: root.life
+                    time: root.time
+                }
             }
         }
     }
@@ -65,7 +85,6 @@ Window {
 
         property point center: Qt.point(width / 2, height / 2)
         property int count: children.length
-        spacing: window.height / count
 
         MenuLife {
             id: menuLife

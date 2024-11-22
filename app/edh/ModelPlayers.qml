@@ -1,63 +1,51 @@
 import QtQuick
 
 ListModel {
-    id: player
+    id: model
 
-    Component.onCompleted: {
-        player.append({
-            background: Style.color.mountain,
-            selected: false,
-            life: 40,
-            time: 0
-        });
-
-        player.append({
-            background: Style.color.forest,
-            selected: false,
-            life: 40,
-            time: 0
-        });
-
-        player.append({
-            background: Style.color.island,
-            selected: false,
-            life: 40,
-            time: 0
-        });
-
-        player.append({
-            background: Style.color.plainsBG,
-            selected: false,
-            life: 40,
-            time: 0
-        });
-    }
+    property var backgrounds: [
+        Style.color.mountain,
+        Style.color.forest,
+        Style.color.island,
+        Style.color.plainsBG
+    ];
 
     property Connections connection: Connections {
         target: Actions
 
         function onReset(x) {
-            for(let i = 0; i < player.count; i++) {
-                player.set(i, {life: x});
-                player.set(i, {time: 0});
-                player.set(i, {selected: false});
+            for(let i = 0; i < model.count; i++) {
+                model.set(i, {life: x});
+                model.set(i, {time: 0});
+                model.set(i, {selected: false});
             }
         }
 
         function onSelect(index) {
-            for(let i = 0; i < player.count; i++) {
-                player.set(i, {selected: false});
+            for(let i = 0; i < model.count; i++) {
+                model.set(i, {selected: false});
             }
 
-            player.set(index, {selected: true});
+            model.set(index, {selected: true});
         }
 
         function onUpdateLife(index, x) {
-            player.set(index, {life: x});
+            model.set(index, {life: x});
         }
 
         function onUpdateTime(index, x) {
-            player.set(index, {time: x});
+            model.set(index, {time: x});
+        }
+
+        function onSetPlayerTotal(total) {
+            for(let i = 0; i < total; i++) {
+                model.append({
+                    background: model.backgrounds[i % model.backgrounds.length],
+                    selected: false,
+                    life: 40,
+                    time: 0
+                });
+            }
         }
     }
 }
