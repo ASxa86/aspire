@@ -7,7 +7,9 @@ ListModel {
         Style.color.mountain,
         Style.color.forest,
         Style.color.island,
-        Style.color.plainsBG
+        Style.color.plainsBG,
+        Style.color.swampBG,
+        Style.color.lightcardbackBG
     ];
 
     property Connections connection: Connections {

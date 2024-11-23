@@ -13,7 +13,7 @@ Window {
     title: "EDH"
 
     Component.onCompleted: {
-        Actions.setPlayerTotal(4);
+        Actions.setPlayerTotal(6);
     }
 
     ModelPlayers {
