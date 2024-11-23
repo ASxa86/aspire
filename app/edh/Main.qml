@@ -5,8 +5,8 @@ import app.edh
 
 Window {
     id: window
-    width: 360
-    height: 640
+    width: 560
+    height: width * 16 / 9
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
     color: Style.color.darkcardback
@@ -26,6 +26,8 @@ Window {
         anchors.fill: parent
         columns: 2
         rows: 2
+        rowSpacing: 0
+        columnSpacing: 0
 
         Repeater {
             id: repeater
@@ -83,24 +85,8 @@ Window {
         anchors.centerIn: parent
 
         menuItemForest: MenuLife {
-
         }
     }
-
-    // Menu Options
-    // Column {
-    //     id: menu
-    //     anchors.centerIn: parent
-
-    //     property point center: Qt.point(width / 2, height / 2)
-    //     property int count: children.length
-
-    //     MenuLife {
-    //         id: menuLife
-    //         width: Style.iconSize
-    //         height: width
-    //     }
-    // }
 
     // Debugging
     FrameMetrics {
