@@ -6,7 +6,7 @@ import app.edh
 Window {
     id: window
     width: 560
-    height: width * 16 / 9
+    height: 996
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
     color: Style.color.darkcardback

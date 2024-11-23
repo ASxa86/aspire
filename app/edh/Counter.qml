@@ -26,14 +26,14 @@ Item {
         layer.enabled: true
         layer.effect: MultiEffect {
             blurEnabled: true
-            blur: 0.35
+            blur: 0.45
             brightness: 0.5
         }
 
         radius: width / 16
         color: "darkgoldenrod"
         opacity: selected ? 1 : 0
-        scale: 0.97
+        scale: 0.96
 
         TapHandler {
             onLongPressed: {
@@ -51,7 +51,7 @@ Item {
             maskEnabled: true
         }
 
-        scale: 0.95
+        scale: 0.945
 
         Rectangle {
             id: counter
