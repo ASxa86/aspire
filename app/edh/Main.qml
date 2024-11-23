@@ -88,7 +88,7 @@ Window {
 
         MenuLife {
             id: menuLife
-            width: window.width / 24
+            width: Style.iconSize
             height: width
         }
     }
