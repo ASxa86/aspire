@@ -5,11 +5,11 @@ import app.edh
 
 Window {
     id: window
-    width: 1280
-    height: 720
+    width: 360
+    height: 640
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: Style.color.cardback
+    color: Style.color.darkcardback
     title: "EDH"
 
     Component.onCompleted: {
@@ -62,7 +62,7 @@ Window {
     Rectangle {
         id: shade
         anchors.fill: parent
-        visible: menuLife.active
+        visible: menu.state == "pressed"
 
         Component.onCompleted: {
             shade.color = Style.color.darkcardbackBG;
@@ -73,25 +73,34 @@ Window {
             gesturePolicy: TapHandler.WithinBounds
 
             onTapped: {
-                menuLife.active = false;
+                menu.state = "released"
             }
         }
     }
 
-    // Menu Options
-    Column {
+    MenuEDH {
         id: menu
         anchors.centerIn: parent
 
-        property point center: Qt.point(width / 2, height / 2)
-        property int count: children.length
+        menuItemForest: MenuLife {
 
-        MenuLife {
-            id: menuLife
-            width: Style.iconSize
-            height: width
         }
     }
+
+    // Menu Options
+    // Column {
+    //     id: menu
+    //     anchors.centerIn: parent
+
+    //     property point center: Qt.point(width / 2, height / 2)
+    //     property int count: children.length
+
+    //     MenuLife {
+    //         id: menuLife
+    //         width: Style.iconSize
+    //         height: width
+    //     }
+    // }
 
     // Debugging
     FrameMetrics {

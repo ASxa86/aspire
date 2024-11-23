@@ -46,7 +46,7 @@ QtObject {
         readonly property color lightplains: Qt.lighter(plains)
         readonly property color lightisland: Qt.lighter(island)
         readonly property color lightswamp: Qt.lighter(swamp)
-        readonly property color lightback: Qt.lighter(cardback)
+        readonly property color lightcardback: Qt.lighter(cardback)
 
         readonly property color darkmountain: Qt.darker(mountain)
         readonly property color darkforest: Qt.darker(forest)

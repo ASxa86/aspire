@@ -151,7 +151,7 @@ Item {
             target: path
             property: "radius"
             from: 0
-            to: 100
+            to: 80
             duration: 350
         }
 
@@ -159,7 +159,7 @@ Item {
             id: animRadialReverse
             target: path
             property: "radius"
-            from: 100
+            from: 80
             to: 0
             duration: 350
         }
