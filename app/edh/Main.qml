@@ -13,7 +13,7 @@ Window {
     title: "EDH"
 
     Component.onCompleted: {
-        Actions.setPlayerTotal(6);
+        Actions.setPlayerTotal(4);
     }
 
     ModelPlayers {
@@ -25,7 +25,6 @@ Window {
         id: layout
         anchors.fill: parent
         columns: 2
-        rows: 2
         rowSpacing: 0
         columnSpacing: 0
 
@@ -38,6 +37,7 @@ Window {
                 id: root
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                Layout.columnSpan: (counter.rotation == 0 || counter.rotation == 180) ? 2 : 1
 
                 required property int index
                 required property color background
@@ -45,11 +45,30 @@ Window {
                 required property int life
                 required property int time
 
+                function calcRotation() {
+                    if(player.count == 1) {
+                        return 0;
+                    }
+                    else if(player.count == 2 && root.index == 0) {
+                        return 180;
+                    }
+                    else if(player.count == 2 || (player.count % 2 != 0 && root.index == player.count - 1)) {
+                        return 0;
+                    }
+                    else if(root.index % 2 == 0) {
+                        return 90;
+                    }
+                    else {
+                        return 270;
+                    }
+                }
+
                 Counter {
-                    width: parent.height
-                    height: parent.width
+                    id: counter
+                    width: (counter.rotation == 0 || counter.rotation == 180) ? parent.width : parent.height
+                    height: (counter.rotation == 0 || counter.rotation == 180)? parent.height : parent.width
                     anchors.centerIn: parent
-                    rotation: root.index % 2 == 0 ? 90 : 270
+                    rotation: calcRotation()
                     index: root.index
                     background: root.background
                     selected: root.selected
