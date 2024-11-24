@@ -5,12 +5,16 @@ import app.edh
 
 Window {
     id: window
-    width: 1280
-    height: 720
+    width: 560
+    height: 996
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: Style.color.cardback
+    color: Style.color.darkcardback
     title: "EDH"
+
+    Component.onCompleted: {
+        Actions.setPlayerTotal(4);
+    }
 
     ModelPlayers {
         id: player
@@ -21,19 +25,56 @@ Window {
         id: layout
         anchors.fill: parent
         columns: 2
-        rows: 2
-        columnSpacing: parent.width / 20
+        rowSpacing: 0
+        columnSpacing: 0
 
         Repeater {
             id: repeater
 
             model: player
 
-            delegate: Counter {
+            delegate: Item {
+                id: root
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                Layout.columnSpan: (counter.rotation == 0 || counter.rotation == 180) ? 2 : 1
 
-                rotation: index < layout.rows == 0 ? 0 : 180
+                required property int index
+                required property color background
+                required property bool selected
+                required property int life
+                required property int time
+
+                function calcRotation() {
+                    if(player.count == 1) {
+                        return 0;
+                    }
+                    else if(player.count == 2 && root.index == 0) {
+                        return 180;
+                    }
+                    else if(player.count == 2 || (player.count % 2 != 0 && root.index == player.count - 1)) {
+                        return 0;
+                    }
+                    else if(root.index % 2 == 0) {
+                        return 90;
+                    }
+                    else {
+                        return 270;
+                    }
+                }
+
+                Counter {
+                    id: counter
+                    width: (counter.rotation == 0 || counter.rotation == 180) ? parent.width : parent.height
+                    height: (counter.rotation == 0 || counter.rotation == 180)? parent.height : parent.width
+                    anchors.centerIn: parent
+                    rotation: calcRotation()
+                    index: root.index
+                    background: root.background
+                    selected: root.selected
+                    life: root.life
+                    time: root.time
+                }
             }
         }
     }
@@ -42,7 +83,7 @@ Window {
     Rectangle {
         id: shade
         anchors.fill: parent
-        visible: menuLife.active
+        visible: menu.state == "pressed"
 
         Component.onCompleted: {
             shade.color = Style.color.darkcardbackBG;
@@ -53,32 +94,16 @@ Window {
             gesturePolicy: TapHandler.WithinBounds
 
             onTapped: {
-                menuLife.active = false;
+                menu.state = "released"
             }
         }
     }
 
-    // Menu Options
-    Column {
+    MenuEDH {
         id: menu
         anchors.centerIn: parent
 
-        property point center: Qt.point(width / 2, height / 2)
-        property int count: children.length
-        spacing: window.height / count
-
-        MenuLife {
-            id: menuLife
-            width: window.width / 24
-            height: width
-        }
-
-        ImageSVG {
-            source: Icons.home
-            color: "white"
-
-            width: window.width / 24
-            height: width
+        menuItemForest: MenuLife {
         }
     }
 

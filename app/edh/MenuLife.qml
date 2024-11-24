@@ -7,44 +7,15 @@ Item {
 
     signal clicked()
 
-    ListModel {
-        id: model
-
-        Component.onCompleted: {
-            model.append({
-                life: 10,
-                background: Style.color.plainsBG,
-                foreground: Style.color.plains,
-                outline: true
-            });
-
-            model.append({
-                life: 20,
-                background: Style.color.islandBG,
-                foreground: Style.color.island,
-                outline: false
-            });
-
-            model.append({
-                life: 30,
-                background: Style.color.swampBG,
-                foreground: Style.color.swamp,
-                outline: false
-            });
-
-            model.append({
-                life: 40,
-                background: Style.color.mountainBG,
-                foreground: Style.color.mountain,
-                outline: false
-            });
-
-            model.append({
-                life: 50,
-                background: Style.color.forestBG,
-                foreground: Style.color.forest,
-                outline: false
-            });
+    // Animate the menu icon and hearts when menu pops up.
+    onActiveChanged: {
+        if(root.active == true) {
+            animRotateForward.start();
+            animRadialForward.start();
+        }
+        else {
+            animRotateReverse.start();
+            animRadialReverse.start();
         }
     }
 
@@ -55,10 +26,8 @@ Item {
 
         anchors.fill: parent
 
-        property point center: Qt.point(width / 2, height / 2)
-
         NumberAnimation {
-            id: animForward
+            id: animRotateForward
             target: refresh
             property: "rotation"
             from: 0
@@ -67,7 +36,7 @@ Item {
         }
 
         NumberAnimation {
-            id: animReverse
+            id: animRotateReverse
             target: refresh
             property: "rotation"
             from: 360
@@ -80,79 +49,64 @@ Item {
             
             onTapped: {
                 root.active = !root.active
-                root.clicked();
-            }
-        }
-
-        Connections {
-            target: root
-            
-            function onActiveChanged() {
-                if(root.active == true) {
-                    animForward.start();
-                }
-                else{
-                    animReverse.start();
-                }
             }
         }
     }
 
-    Repeater {
-        id: rptrReset
-        model: model
+    PathView {
+        id: path
+
+        anchors.centerIn: parent
+
+        property real radius: 0
+
+        model: ListModel {
+            id: model
+
+            Component.onCompleted: {
+                model.append({
+                    life: 10,
+                    background: Style.color.plainsBG,
+                    foreground: Style.color.plains,
+                    outline: true
+                });
+
+                model.append({
+                    life: 20,
+                    background: Style.color.islandBG,
+                    foreground: Style.color.island,
+                    outline: false
+                });
+
+                model.append({
+                    life: 30,
+                    background: Style.color.swampBG,
+                    foreground: Style.color.swamp,
+                    outline: false
+                });
+
+                model.append({
+                    life: 40,
+                    background: Style.color.mountainBG,
+                    foreground: Style.color.mountain,
+                    outline: false
+                });
+
+                model.append({
+                    life: 50,
+                    background: Style.color.forestBG,
+                    foreground: Style.color.forest,
+                    outline: false
+                });
+            }
+        }
+
         delegate: Rectangle {
             id: rect
             width: refresh.width
             height: width
             color: "transparent"
-            visible: false
-
-            property double angle: index * (360.0 / rptrReset.count) - 90
-            property double rad: angle * Math.PI / 180
-            property double r: refresh.width * 2
-            x: refresh.center.x + r * Math.cos(rad) - rect.width / 2
-            y: refresh.center.y + r * Math.sin(rad) - rect.height / 2
-
-            NumberAnimation {
-                id: animForward
-                target: rect
-                property: "r"
-                from: 0
-                to: refresh.width * 2
-                duration: 350
-
-                onStarted: {
-                    rect.visible = true;
-                }
-            }
-
-            NumberAnimation {
-                id: animReverse
-                target: rect
-                property: "r"
-                from: refresh.width * 2
-                to: 0
-                duration: 350
-
-                onFinished: {
-                    rect.visible = false;
-                }
-            }
-
-            Connections {
-                target: root
-
-                function onActiveChanged() {
-                    if(root.active == true) {
-                        animForward.start();
-                    }
-                    else
-                    {
-                        animReverse.start();
-                    }
-                }
-            }
+            visible: path.radius > 0
 
             ImageSVG {
                 anchors.fill: parent
@@ -179,6 +133,35 @@ Item {
                     }
                 }
             }
+        }
+
+        path: Path {
+            PathAngleArc {
+                id: radial
+
+                radiusX: path.radius
+                radiusY: path.radius
+                startAngle: -90
+                sweepAngle: 360
+            }
+        }
+
+        NumberAnimation {
+            id: animRadialForward
+            target: path
+            property: "radius"
+            from: 0
+            to: 80
+            duration: 350
+        }
+
+        NumberAnimation {
+            id: animRadialReverse
+            target: path
+            property: "radius"
+            from: 80
+            to: 0
+            duration: 350
         }
     }
 }

@@ -25,6 +25,7 @@ qt_add_qml_module(${PROJECT_NAME}
         Square.qml
         ${QML_SINGLETONS}
     RESOURCES
+        icons/apps.svg
         icons/envelope.svg
         icons/facebook.svg
         icons/heart.svg
