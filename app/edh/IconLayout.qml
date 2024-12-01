@@ -5,8 +5,8 @@ import QtQuick.Layouts
 GridLayout {
     id: root
     columns: 2
-    rowSpacing: 2
-    columnSpacing: 2
+    rowSpacing: 3
+    columnSpacing: 3
 
     property int count: 3
 
@@ -18,6 +18,7 @@ GridLayout {
         delegate: Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.columnSpan: {
                 if(root.count == 1) {
                     return 2;
@@ -25,11 +26,14 @@ GridLayout {
                 else if(root.count == 2 || (root.count % 2 != 0 && index == root.count - 1)) {
                     return 2;
                 }
+                else {
+                    return 1;
+                }
             }
 
             color: "transparent"
             border.color: "black"
-            border.width: 2
+            border.width: 3
             radius: 4
         }
     }
