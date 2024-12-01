@@ -140,7 +140,10 @@ Rectangle {
             }
 
             Loader {
-                anchors.fill: parent
+                // anchors.fill: parent
+                width: parent.width * 0.75
+                height: parent.height * 0.75
+                anchors.centerIn: parent
                 sourceComponent: component
             }
 

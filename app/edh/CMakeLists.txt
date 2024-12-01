@@ -17,11 +17,12 @@ qt_add_qml_module(${PROJECT_NAME}
     URI app.${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
+        Counter.qml
+        IconLayout.qml
         Main.qml
         MenuEDH.qml
         MenuLife.qml
         ModelPlayers.qml
-        Counter.qml
         TextEDH.qml
         ${QML_SINGLETONS}
     IMPORTS

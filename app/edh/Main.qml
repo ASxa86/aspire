@@ -105,6 +105,9 @@ Window {
 
         menuItemForest: MenuLife {
         }
+
+        menuItemPlains: IconLayout {
+        }
     }
 
     // Debugging
