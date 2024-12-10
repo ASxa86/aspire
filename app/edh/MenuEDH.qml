@@ -23,7 +23,7 @@ Rectangle {
 
     states: [
         State {
-            name: root.released
+            name: root.stateReleased
 
             PropertyChanges {
                 target: path
@@ -134,9 +134,7 @@ Rectangle {
 
             Loader {
                 active: root.state === root.statePressed
-                width: parent.width * 0.7
-                height: parent.height * 0.7
-                anchors.centerIn: parent
+                anchors.fill: parent
                 sourceComponent: component
             }
 

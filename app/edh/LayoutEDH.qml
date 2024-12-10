@@ -28,7 +28,7 @@ Item {
         }
 
         for(let i = 0; i < root.count; i++) {
-            root.delegate.createObject(root, {x: 0, y: 0, width: 0, height: 0});
+            root.delegate.createObject(root);
         }
     }
 
@@ -63,7 +63,7 @@ Item {
 
             // Only change the width from the maximum width if we aren't the last item of an uneven count.
             // Otherwise, the last item will remain the maximum width of the grid.
-            if(root.count % 2 === 0 || index !== root.count - 1) {
+            if(root.count > 2 && (root.count % 2 === 0 || index !== root.count - 1)) {
                 cellWidth = (cellWidth - (root.spacing * maxColumns - 1)) / maxColumns;
                 cellX = column * (cellWidth + (root.spacing * maxColumns - 1));
             }

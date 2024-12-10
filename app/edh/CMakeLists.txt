@@ -21,6 +21,7 @@ qt_add_qml_module(${PROJECT_NAME}
         LayoutEDH.qml
         Main.qml
         MenuEDH.qml
+        MenuLayout.qml
         MenuLife.qml
         ModelPlayers.qml
         TextEDH.qml

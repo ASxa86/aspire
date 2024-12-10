@@ -106,13 +106,10 @@ Window {
         menuItemForest: MenuLife {
         }
 
-        menuItemPlains: LayoutEDH {
-            delegate: Rectangle {
-                color: "transparent"
-                radius: 3
-                border.color: Style.swamp
-                border.width: 2
-            }
+        menuItemPlains: MenuLayout {
+            model: player
+            background: Style.color.plains
+            foreground: Style.color.swamp
         }
     }
 
