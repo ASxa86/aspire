@@ -16,12 +16,14 @@ Rectangle {
     property Component menuItemIsland: Item {}
     property Component menuItemSwamp: Item {}
 
-    state: stateReleased.name
+    readonly property string statePressed: "pressed"
+    readonly property string stateReleased: "released"
+
+    state: root.stateReleased
 
     states: [
         State {
-            id: stateReleased
-            name: "released"
+            name: root.stateReleased
 
             PropertyChanges {
                 target: path
@@ -29,8 +31,7 @@ Rectangle {
             }
         },
         State {
-            id: statePressed
-            name: "pressed"
+            name: root.statePressed
 
             PropertyChanges {
                 target: path
@@ -58,7 +59,7 @@ Rectangle {
         state: root.state
         states: [
             State {
-                name: statePressed.name
+                name: root.statePressed
 
                 PropertyChanges {
                     target: path
@@ -115,19 +116,11 @@ Rectangle {
             state: root.state
             states: [
                 State {
-                    name: statePressed.name
+                    name: root.statePressed
 
                     PropertyChanges {
                         target: rect
-                        width: Style.iconSize
-                    }
-                },
-                State {
-                    name: stateReleased.name
-
-                    PropertyChanges {
-                        target: rect
-                        width: root.width / 5
+                        width: Style.iconSize * 1.25
                     }
                 }
             ]
@@ -140,11 +133,13 @@ Rectangle {
             }
 
             Loader {
+                active: root.state === root.statePressed
                 anchors.fill: parent
                 sourceComponent: component
             }
 
             TapHandler {
+                enabled: root.state === root.statePressed
                 gesturePolicy: TapHandler.WithinBounds
             }
         }
@@ -166,7 +161,7 @@ Rectangle {
         gesturePolicy: TapHandler.WithinBounds
 
         onTapped: {
-            root.state = root.state == statePressed.name ? stateReleased.name : statePressed.name;
+            root.state = root.state == root.statePressed ? root.stateReleased : root.statePressed;
         }
     }
 }

@@ -124,12 +124,14 @@ Item {
                     verticalAlignment: Text.AlignVCenter
 
                     anchors.fill: parent
+                }
 
-                    TapHandler {
-                        onTapped: {
-                            Actions.reset(life);
-                            root.active = false;
-                        }
+                TapHandler {
+                    gesturePolicy: TapHandler.WithinBounds
+                    
+                    onTapped: {
+                        Actions.reset(life);
+                        root.active = false;
                     }
                 }
             }

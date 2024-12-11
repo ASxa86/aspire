@@ -83,7 +83,7 @@ Window {
     Rectangle {
         id: shade
         anchors.fill: parent
-        visible: menu.state == "pressed"
+        visible: menu.state == menu.statePressed
 
         Component.onCompleted: {
             shade.color = Style.color.darkcardbackBG;
@@ -94,7 +94,7 @@ Window {
             gesturePolicy: TapHandler.WithinBounds
 
             onTapped: {
-                menu.state = "released"
+                menu.state = menu.stateReleased;
             }
         }
     }
@@ -104,6 +104,12 @@ Window {
         anchors.centerIn: parent
 
         menuItemForest: MenuLife {
+        }
+
+        menuItemPlains: MenuLayout {
+            model: player
+            background: Style.color.plains
+            foreground: Style.color.swamp
         }
     }
 

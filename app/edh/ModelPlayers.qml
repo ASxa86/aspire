@@ -40,6 +40,8 @@ ListModel {
         }
 
         function onSetPlayerTotal(total) {
+            model.clear();
+            
             for(let i = 0; i < total; i++) {
                 model.append({
                     background: model.backgrounds[i % model.backgrounds.length],
