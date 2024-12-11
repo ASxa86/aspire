@@ -1,10 +1,13 @@
 import QtQuick
+import QtQuick.Window
 
 Item {
     id: root
 
     readonly property string statePressed: "pressed"
     readonly property string stateReleased: "released"
+    readonly property real layoutFactor: 0.8
+    readonly property real aspectRatio: Screen.height / Screen.width
     property color background: "white"
     property color foreground: "black"
     required property ListModel model
@@ -31,8 +34,8 @@ Item {
         id: layout
 
         anchors.centerIn: parent
-        width: root.width * 0.7
-        height: root.height * 0.7
+        width: root.width * root.layoutFactor * root.aspectRatio
+        height: root.height * root.layoutFactor
         spacing: 1
         delegate: componentRect
     }
@@ -109,8 +112,8 @@ Item {
 
             LayoutEDH {
                 anchors.centerIn: parent
-                width: root.width * 0.7
-                height: root.height * 0.7
+                width: layout.width
+                height: layout.height
                 count: modelData
                 spacing: 1
                 delegate: componentRect
