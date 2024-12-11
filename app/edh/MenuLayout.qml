@@ -7,7 +7,7 @@ Item {
     readonly property string statePressed: "pressed"
     readonly property string stateReleased: "released"
     readonly property real layoutFactor: 0.8
-    readonly property real aspectRatio: Screen.height / Screen.width
+    readonly property real aspectRatio: Qt.platform.os == "android" ? Screen.width / Screen.height : Screen.height / Screen.width
     property color background: "white"
     property color foreground: "black"
     required property ListModel model
