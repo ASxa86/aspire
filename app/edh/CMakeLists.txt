@@ -20,10 +20,12 @@ qt_add_qml_module(${PROJECT_NAME}
         Counter.qml
         LayoutEDH.qml
         Main.qml
+        MenuItem.qml
         MenuEDH.qml
         MenuLayout.qml
         MenuLife.qml
         ModelPlayers.qml
+        RadialMenu.qml
         TextEDH.qml
         ${QML_SINGLETONS}
     IMPORTS

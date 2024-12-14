@@ -99,17 +99,80 @@ Window {
         }
     }
 
-    MenuEDH {
-        id: menu
-        anchors.centerIn: parent
+    // MenuEDH {
+    //     id: menu
+    //     anchors.centerIn: parent
 
-        menuItemForest: MenuLife {
+    //     menuItemForest: MenuLife {
+    //     }
+
+    //     menuItemPlains: MenuLayout {
+    //         model: player
+    //         background: Style.color.plains
+    //         foreground: Style.color.swamp
+    //     }
+    // }
+
+    Rectangle {
+        anchors.centerIn: parent
+        width: 32
+        height: 32
+        radius: width / 2
+        color: Style.color.cardback
+
+        TapHandler {
+            gesturePolicy: TapHandler.WithinBounds
+            onTapped: menu.toggle()
         }
 
-        menuItemPlains: MenuLayout {
-            model: player
-            background: Style.color.plains
-            foreground: Style.color.swamp
+        RadialMenu {
+            id: menu
+
+            anchors.fill: parent
+
+            // animationStyle: RadialMenu.Rotate | RadialMenu.Expand | RadialMenu.Scale
+
+            Rectangle {
+                width: menu.itemSize
+                height: menu.itemSize
+                radius: width / 2
+                color: Style.color.plains
+            }
+
+            Rectangle {
+                width: menu.itemSize
+                height: menu.itemSize
+                radius: width / 2
+                color: Style.color.island
+            }
+
+            Rectangle {
+                width: menu.itemSize
+                height: menu.itemSize
+                radius: width / 2
+                color: Style.color.swamp
+            }
+
+            Rectangle {
+                width: menu.itemSize
+                height: menu.itemSize
+                radius: width / 2
+                color: Style.color.mountain
+            }
+
+            Rectangle {
+                width: menu.itemSize
+                height: menu.itemSize
+                radius: width / 2
+                color: Style.color.forest
+            }
+
+            Rectangle {
+                width: menu.itemSize
+                height: menu.itemSize
+                radius: width / 2
+                color: "pink"
+            }
         }
     }
 
