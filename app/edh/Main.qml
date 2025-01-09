@@ -1,16 +1,41 @@
-import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls.Material
 import aspire
 import app.edh
 
-Window {
+ApplicationWindow {
     id: window
     width: 560
     height: 996
     visible: true
     visibility: Qt.platform.os == "android" ? Window.FullScreen : Window.AutomaticVisibility
-    color: Style.color.darkcardback
+    // color: Style.color.darkcardback
     title: "EDH"
+
+    Material.theme: Material.Dark
+
+    footer: TabBar {
+        TabButton {
+            text: "home"
+        }
+
+        TabButton {
+            text: "charts"
+        }
+
+        TabButton {
+            text: "layouts"
+        }
+
+        TabButton {
+            text: "reset"
+        }
+
+        TabButton {
+            text: "Utilities"
+        }
+    }
 
     Component.onCompleted: {
         Actions.setPlayerTotal(4);
@@ -80,38 +105,38 @@ Window {
     }
 
     // Menu shading
-    Rectangle {
-        id: shade
-        anchors.fill: parent
-        visible: menu.state == menu.statePressed
+    // Rectangle {
+    //     id: shade
+    //     anchors.fill: parent
+    //     visible: menu.state == menu.statePressed
 
-        Component.onCompleted: {
-            shade.color = Style.color.darkcardbackBG;
-            shade.color.a = 0.75;
-        }
+    //     Component.onCompleted: {
+    //         shade.color = Style.color.darkcardbackBG;
+    //         shade.color.a = 0.75;
+    //     }
 
-        TapHandler {
-            gesturePolicy: TapHandler.WithinBounds
+    //     TapHandler {
+    //         gesturePolicy: TapHandler.WithinBounds
 
-            onTapped: {
-                menu.state = menu.stateReleased;
-            }
-        }
-    }
+    //         onTapped: {
+    //             menu.state = menu.stateReleased;
+    //         }
+    //     }
+    // }
 
-    MenuEDH {
-        id: menu
-        anchors.centerIn: parent
+    // MenuEDH {
+    //     id: menu
+    //     anchors.centerIn: parent
 
-        menuItemForest: MenuLife {
-        }
+    //     menuItemForest: MenuLife {
+    //     }
 
-        menuItemPlains: MenuLayout {
-            model: player
-            background: Style.color.plains
-            foreground: Style.color.swamp
-        }
-    }
+    //     menuItemPlains: MenuLayout {
+    //         model: player
+    //         background: Style.color.plains
+    //         foreground: Style.color.swamp
+    //     }
+    // }
 
     // Debugging
     FrameMetrics {

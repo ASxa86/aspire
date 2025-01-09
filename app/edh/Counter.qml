@@ -33,7 +33,7 @@ Item {
         radius: width / 16
         color: "darkgoldenrod"
         opacity: selected ? 1 : 0
-        scale: 0.96
+        scale: 0.99
 
         TapHandler {
             onLongPressed: {
@@ -51,7 +51,7 @@ Item {
             maskEnabled: true
         }
 
-        scale: 0.945
+        scale: 0.975
 
         Rectangle {
             id: counter

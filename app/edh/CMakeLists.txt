@@ -28,6 +28,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ${QML_SINGLETONS}
     IMPORTS
         aspire
+        QtQuick
     IMPORT_PATH
         ${CMAKE_BINARY_DIR}/module
 )
