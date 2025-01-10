@@ -14,26 +14,44 @@ ApplicationWindow {
     title: "EDH"
 
     Material.theme: Material.Dark
+    Material.accent: Style.color.plainsBG
+    Material.background: Style.color.darkcardback
 
     footer: TabBar {
+        id: tabBar
         TabButton {
+            display: AbstractButton.TextUnderIcon
             text: "home"
+            icon.source: Icons.home
         }
 
         TabButton {
+            display: AbstractButton.TextUnderIcon
             text: "charts"
+            icon.source: Icons.home
         }
 
         TabButton {
+            display: AbstractButton.TextUnderIcon
             text: "layouts"
+            icon.source: Icons.apps
+            checkable: false
+
+            onClicked: {
+                popup.open()
+            }
         }
 
         TabButton {
+            display: AbstractButton.TextUnderIcon
             text: "reset"
+            icon.source: Icons.refresh
         }
 
         TabButton {
-            text: "Utilities"
+            display: AbstractButton.TextUnderIcon
+            text: "options"
+            icon.source: Icons.home
         }
     }
 
@@ -149,5 +167,13 @@ ApplicationWindow {
         color: "white"
         font.pixelSize: Math.min(window.width, window.height) / 16
         visible: Qt.platform.os !== "android"
+    }
+
+    PopupLayout {
+        id: popup
+
+        width: parent.width
+        height: parent.height / 2
+        edge: Qt.BottomEdge
     }
 }

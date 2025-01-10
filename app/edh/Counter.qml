@@ -15,7 +15,7 @@ Item {
     Rectangle {
         id: mask
         anchors.fill: parent
-        radius: width / 16
+        radius: width / 32
         visible: false
         layer.enabled: true
     }
@@ -26,11 +26,11 @@ Item {
         layer.enabled: true
         layer.effect: MultiEffect {
             blurEnabled: true
-            blur: 0.45
-            brightness: 0.5
+            blur: 0.25
+            brightness: 0.4
         }
 
-        radius: width / 16
+        radius: mask.radius
         color: "darkgoldenrod"
         opacity: selected ? 1 : 0
         scale: 0.99

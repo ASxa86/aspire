@@ -24,6 +24,8 @@ qt_add_qml_module(${PROJECT_NAME}
         MenuLayout.qml
         MenuLife.qml
         ModelPlayers.qml
+        PopupLayout.qml
+        TabGrid.qml
         TextEDH.qml
         ${QML_SINGLETONS}
     IMPORTS
