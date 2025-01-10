@@ -29,8 +29,10 @@ Drawer {
                 Layout.fillHeight: true
 
                 Material.roundedScale: Material.MediumScale
+                Material.background: "transparent"
 
                 contentItem: LayoutEDH {
+                    anchors.centerIn: parent
                     count: index + 1
                     delegate:  Rectangle {
                         color: "transparent"
@@ -44,6 +46,7 @@ Drawer {
 
                 onClicked: {
                     Actions.setPlayerTotal(index + 1);
+                    popup.close();
                 }
             }
         }
