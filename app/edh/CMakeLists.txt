@@ -25,6 +25,7 @@ qt_add_qml_module(${PROJECT_NAME}
         MenuLife.qml
         ModelPlayers.qml
         PopupLayout.qml
+        PopupReset.qml
         TabGrid.qml
         TextEDH.qml
         ${QML_SINGLETONS}

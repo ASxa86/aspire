@@ -37,15 +37,16 @@ ApplicationWindow {
             icon.source: Icons.apps
             checkable: false
 
-            onClicked: {
-                popup.open()
-            }
+            onClicked: popup.open()
         }
 
         TabButton {
             display: AbstractButton.TextUnderIcon
             text: "reset"
             icon.source: Icons.refresh
+            checkable: false
+
+            onClicked: popupReset.open()
         }
 
         TabButton {
@@ -175,5 +176,15 @@ ApplicationWindow {
         width: parent.width
         height: parent.height / 2
         edge: Qt.BottomEdge
+        dragMargin: 0
+    }
+
+    PopupReset {
+        id: popupReset
+
+        width: parent.width
+        height: parent.height / 2
+        edge: Qt.BottomEdge
+        dragMargin: 0
     }
 }
