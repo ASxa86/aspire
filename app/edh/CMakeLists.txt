@@ -6,7 +6,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 
 set(QML_SINGLETONS
     Actions.qml
-    Style.qml 
+    Style.qml
 )
 
 set_source_files_properties(${QML_SINGLETONS}
