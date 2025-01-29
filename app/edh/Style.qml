@@ -6,9 +6,8 @@ QtObject {
         source: Fonts.davidlibre_regular
     }
 
-    readonly property real inchesPerMeter: 39.3701
-    readonly property real pixelsPerInch: Screen.pixelDensity * inchesPerMeter
-    readonly property real iconSize: 0.25 * pixelsPerInch
+    readonly property real mmPerInch: 25.4
+    readonly property real pixelsPerInch: Screen.pixelDensity * mmPerInch
 
     property QtObject color: QtObject {
         // Colors used for the background of the mana symbol.

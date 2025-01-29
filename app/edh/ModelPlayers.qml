@@ -39,6 +39,24 @@ ListModel {
             model.set(index, {time: x});
         }
 
+        function calcRotation(index, total) {
+            if(total == 1) {
+                return 0;
+            }
+            else if(total == 2 && index == 0) {
+                return 180;
+            }
+            else if(total == 2 || (total % 2 != 0 && index == total - 1)) {
+                return 0;
+            }
+            else if(index % 2 == 0) {
+                return 90;
+            }
+            else {
+                return 270;
+            }
+        }
+
         function onSetPlayerTotal(total) {
             model.clear();
             
@@ -47,7 +65,8 @@ ListModel {
                     background: model.backgrounds[i % model.backgrounds.length],
                     selected: false,
                     life: 40,
-                    time: 0
+                    time: 0,
+                    angle: calcRotation(i, total)
                 });
             }
         }

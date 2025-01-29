@@ -6,7 +6,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 
 set(QML_SINGLETONS
     Actions.qml
-    Style.qml 
+    Style.qml
 )
 
 set_source_files_properties(${QML_SINGLETONS}
@@ -24,10 +24,14 @@ qt_add_qml_module(${PROJECT_NAME}
         MenuLayout.qml
         MenuLife.qml
         ModelPlayers.qml
+        PopupLayout.qml
+        PopupReset.qml
+        TabGrid.qml
         TextEDH.qml
         ${QML_SINGLETONS}
     IMPORTS
         aspire
+        QtQuick
     IMPORT_PATH
         ${CMAKE_BINARY_DIR}/module
 )
