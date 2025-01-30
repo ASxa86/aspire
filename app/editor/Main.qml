@@ -21,7 +21,17 @@ Window {
 		}
 
 		ItemView {
+			id: view
+
 			SplitView.preferredWidth: window.width * 0.5
+
+			Text {
+				anchors.left: parent.left
+				anchors.right: parent.right
+				text: (view.zoom * 100.0).toFixed(1) + "%"
+				color: "white"
+				font.pointSize: 12
+			}
 
 			contentItem: Rectangle {
 				id: rect
