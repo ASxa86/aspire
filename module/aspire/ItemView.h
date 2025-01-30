@@ -26,6 +26,7 @@ namespace aspire
 		void zoomChanged(double);
 
 	private:
+		QSGNode* updatePaintNode(QSGNode*, UpdatePaintNodeData*) override;
 		void mouseMoveEvent(QMouseEvent*) override;
 		void mousePressEvent(QMouseEvent*) override;
 		void mouseReleaseEvent(QMouseEvent*) override;

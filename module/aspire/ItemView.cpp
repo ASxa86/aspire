@@ -66,6 +66,11 @@ double ItemView::getZoom() const noexcept
 	return this->zoom;
 }
 
+QSGNode* ItemView::updatePaintNode(QSGNode*, UpdatePaintNodeData*)
+{
+	return nullptr;
+}
+
 void ItemView::mouseMoveEvent(QMouseEvent* event)
 {
 	if(this->selectedItem == nullptr || this->grabPos.has_value() == false)
@@ -73,12 +78,12 @@ void ItemView::mouseMoveEvent(QMouseEvent* event)
 		return;
 	}
 
-	// Item position is defined as the top left corner.
-	// Since we want to move the item at the location we grabbed
-	// we need to apply an offset at the point of grabbing.
-	const auto globalPos = event->globalPos();
-	const auto localPos = this->selectedItem->parentItem()->mapFromGlobal(globalPos);
-	this->selectedItem->setPosition(localPos - this->grabPos.value());
+	auto* parent = this->selectedItem->parentItem();
+	const auto start = parent->mapFromGlobal(this->grabPos.value());
+	const auto end = parent->mapFromGlobal(event->globalPosition());
+	const auto delta = end - start;
+	this->selectedItem->setPosition(this->selectedItem->position() + delta);
+	this->grabPos = event->globalPosition();
 }
 
 void ItemView::mousePressEvent(QMouseEvent* event)
@@ -88,18 +93,20 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 		return;
 	}
 
-	const auto globalPos = event->globalPos();
+	const auto globalPos = event->globalPosition();
 
 	if(event->button() == Qt::MouseButton::LeftButton)
 	{
-		for(auto* child : this->contentItem->childItems())
+		const auto& children = this->contentItem->findChildren<QQuickItem*>(Qt::FindChildrenRecursively);
+
+		for(auto* child : children)
 		{
 			const auto itemPos = child->mapFromGlobal(globalPos);
 
 			if(child->contains(itemPos) == true)
 			{
 				this->selectedItem = child;
-				this->grabPos = itemPos;
+				this->grabPos = globalPos;
 			}
 		}
 	}
@@ -110,7 +117,7 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 		if(this->contentItem->contains(itemPos) == true)
 		{
 			this->selectedItem = this->contentItem;
-			this->grabPos = itemPos;
+			this->grabPos = globalPos;
 		}
 	}
 }
