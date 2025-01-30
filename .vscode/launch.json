@@ -8,7 +8,7 @@
             "name": "(Windows) Pong Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/installed/bin/edh.exe",
+            "program": "${workspaceFolder}/build/installed/bin/aspire-editor.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/installed/bin",

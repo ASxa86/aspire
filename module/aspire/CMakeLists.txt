@@ -17,6 +17,8 @@ qt_add_qml_module(${PROJECT_NAME}
         Aspire.h
         FrameMetrics.cpp
         FrameMetrics.h
+        ItemView.cpp
+        ItemView.h
         Meters.cpp
         Meters.h
     QML_FILES

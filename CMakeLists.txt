@@ -36,3 +36,5 @@ set(CMAKE_AUTOMOC ON)
 
 add_subdirectory(module)
 add_subdirectory(app)
+
+message(STATUS "What's going on? ${arg_OUTPUT_DIRECTORY}")

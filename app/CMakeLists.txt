@@ -1,1 +1,1 @@
-add_subdirectory(edh)
+add_subdirectory(editor)

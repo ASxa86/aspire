@@ -1,12 +1,10 @@
-project(edh)
+project(editor)
 
-qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+qt_add_executable(${PROJECT_NAME} MACOSX_BUNDLE
     main.cpp
 )
 
 set(QML_SINGLETONS
-    Actions.qml
-    Style.qml
 )
 
 set_source_files_properties(${QML_SINGLETONS}
@@ -17,17 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}
     URI app.${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
-        Counter.qml
-        LayoutEDH.qml
         Main.qml
-        MenuEDH.qml
-        MenuLayout.qml
-        MenuLife.qml
-        ModelPlayers.qml
-        PopupLayout.qml
-        PopupReset.qml
-        TabGrid.qml
-        TextEDH.qml
         ${QML_SINGLETONS}
     IMPORTS
         aspire
@@ -35,6 +23,8 @@ qt_add_qml_module(${PROJECT_NAME}
     IMPORT_PATH
         ${CMAKE_BINARY_DIR}/module
 )
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE -DQT_QML_DEBUG)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Core
