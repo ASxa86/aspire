@@ -29,7 +29,7 @@ include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR})
 # Qt fails to find this path for android when it invokes Qt6AndroidMacros.cmake.
 set(QT_ANDROID_PATH_CMAKE_DIR_${ANDROID_ABI} ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/share)
 
-find_package(Qt6 6.7 CONFIG REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.7 CONFIG REQUIRED COMPONENTS Quick QmlCompiler)
 
 qt_standard_project_setup(REQUIRES 6.7)
 

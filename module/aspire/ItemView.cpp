@@ -1,5 +1,6 @@
 #include <aspire/ItemView.h>
 
+#include <QCursor>
 #include <algorithm>
 
 using aspire::ItemView;
@@ -106,7 +107,6 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 			if(child->contains(itemPos) == true)
 			{
 				this->selectedItem = child;
-				this->grabPos = globalPos;
 			}
 		}
 	}
@@ -117,7 +117,15 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 		if(this->contentItem->contains(itemPos) == true)
 		{
 			this->selectedItem = this->contentItem;
-			this->grabPos = globalPos;
+		}
+	}
+
+	if(this->selectedItem != nullptr)
+	{
+		this->grabPos = globalPos;
+		auto cursor = this->cursor();
+		cursor.setShape(Qt::CursorShape::SizeAllCursor);
+		this->setCursor(cursor);
 		}
 	}
 }
@@ -126,6 +134,9 @@ void ItemView::mouseReleaseEvent(QMouseEvent* event)
 {
 	this->grabPos.reset();
 	this->selectedItem = nullptr;
+	auto cursor = this->cursor();
+	cursor.setShape(Qt::CursorShape::ArrowCursor);
+	this->setCursor(cursor);
 }
 
 void ItemView::wheelEvent(QWheelEvent* event)

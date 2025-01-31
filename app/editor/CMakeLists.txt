@@ -29,6 +29,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE -DQT_QML_DEBUG)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Core
     Qt::Quick
+    aspire
 )
 
 # Link against plugins for static builds.
