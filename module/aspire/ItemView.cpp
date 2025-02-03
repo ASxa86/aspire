@@ -126,7 +126,6 @@ void ItemView::mousePressEvent(QMouseEvent* event)
 		auto cursor = this->cursor();
 		cursor.setShape(Qt::CursorShape::SizeAllCursor);
 		this->setCursor(cursor);
-		}
 	}
 }
 

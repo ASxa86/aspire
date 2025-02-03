@@ -11,12 +11,10 @@ qt_add_qml_module(${PROJECT_NAME}
     URI ${PROJECT_NAME}
     VERSION 1.0
     SOURCES
-        FactoryQQmlComponent.cpp
-        FactoryQQmlComponent.h
+        FactoryComponent.cpp
+        FactoryComponent.h
         ItemView.cpp
         ItemView.h
-        ParseQmlTypes.cpp
-        ParseQmlTypes.h
     QML_FILES
         ${QML_SINGLETONS}
     RESOURCES

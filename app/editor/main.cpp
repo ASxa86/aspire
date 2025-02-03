@@ -1,8 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include <aspire/FactoryQQmlComponent.h>
-#include <aspire/ParseQmlTypes.h>
+#include <aspire/FactoryComponent.h>
 
 int main(int argc, char** argv)
 {
@@ -13,12 +12,7 @@ int main(int argc, char** argv)
 	engine.loadFromModule("app.editor", "Main");
 
 	// Populate the component factory with all Qml types.
-	aspire::FactoryQQmlComponent factory{&engine};
-
-	for(const auto& path : engine.importPathList())
-	{
-		aspire::ParseQmlTypes(path.toStdString(), factory);
-	}
+	aspire::FactoryComponent factory{&engine};
 
 	return QGuiApplication::exec();
 }
