@@ -18,13 +18,17 @@ FactoryComponent::FactoryComponent(QQmlEngine* engine) : engine{engine}
 {
 	Singleton = this;
 
-	std::map<std::string, QQmlType> filteredTypes;
+	// qmlAllTypes() provides the same types for different versions. To deduplicate these
+	// use a map to filter down to just the latest version which qmlAllTypes lists in descending order.
+	std::map<QString, QQmlType> filteredTypes;
 
 	for(auto type : QQmlMetaType::qmlAllTypes())
 	{
-		filteredTypes.try_emplace(type.elementName().toStdString(), type);
+		filteredTypes.try_emplace(type.elementName(), type);
 	}
 
+	// Once filtered, store the QQmlType as its element and type name to enable
+	// querying via element or type name.
 	for(const auto& [name, type] : filteredTypes)
 	{
 		auto component = std::make_unique<QQmlComponent>(this->engine, type.module(), type.elementName());
@@ -35,7 +39,20 @@ FactoryComponent::FactoryComponent(QQmlEngine* engine) : engine{engine}
 		}
 
 		qInfo() << "Loaded " << type.elementName() << " (" << type.typeName() << ")";
-		this->components[type.module().toStdString()].emplace_back(std::move(component));
+		Key key{.elementName = type.elementName().toStdString(), .typeName = type.typeName().toStdString()};
+		this->components[std::move(key)] = std::move(component);
+	}
+
+	auto foundIt = this->components.find(std::string("Rectangle"));
+
+	if(foundIt != std::end(this->components))
+	{
+		auto& c = foundIt->second;
+		auto* object = c->create();
+		auto type = QQmlMetaType::qmlType(object->metaObject());
+		qDebug() << "Found " << type.elementName() << ", " << type.typeName();
+
+		delete object;
 	}
 }
 

@@ -22,7 +22,33 @@ namespace aspire
 		static auto Instance() -> FactoryComponent*;
 
 	private:
-		std::map<std::string, std::vector<std::unique_ptr<QQmlComponent>>> components;
+		struct Key
+		{
+			std::string elementName;
+			std::string typeName;
+		};
+
+		struct KeyCompare
+		{
+			using is_transparent = void;
+
+			bool operator()(const Key& lhs, const Key& rhs) const
+			{
+				return lhs.elementName < rhs.elementName && lhs.typeName < rhs.elementName;
+			}
+
+			bool operator()(const Key& lhs, const std::string& rhs) const
+			{
+				return lhs.elementName < rhs && lhs.typeName < rhs;
+			}
+
+			bool operator()(const std::string& lhs, const Key& rhs) const
+			{
+				return lhs < rhs.elementName && lhs < rhs.typeName;
+			}
+		};
+
+		std::map<Key, std::unique_ptr<QQmlComponent>, KeyCompare> components;
 		QQmlEngine* engine{};
 	};
 }

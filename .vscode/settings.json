@@ -114,7 +114,11 @@
         "typeindex": "cpp",
         "valarray": "cpp",
         "qquickview": "cpp",
-        "qquickitem": "cpp"
+        "qquickitem": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "__bit_reference": "cpp",
+        "__split_buffer": "cpp"
     },
     "editor.formatOnSave": true,
     "git.ignoreLimitWarning": true
