@@ -15,6 +15,8 @@ qt_add_qml_module(${PROJECT_NAME}
         FactoryComponent.h
         ItemView.cpp
         ItemView.h
+        ModelTreeItem.cpp
+        ModelTreeItem.h
     QML_FILES
         ${QML_SINGLETONS}
     RESOURCES
