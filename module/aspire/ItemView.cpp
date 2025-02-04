@@ -145,14 +145,8 @@ void ItemView::wheelEvent(QWheelEvent* event)
 		return;
 	}
 
-	const auto itemPos = this->contentItem->mapFromGlobal(event->globalPosition());
-	const auto localPos = this->mapFromGlobal(event->globalPosition());
-
-	const auto center = QPointF{this->contentItem->width() / 2, this->contentItem->height() / 2};
-	const auto pos = this->contentItem->position();
-
-	QPointF moveVector{};
-
+	// There is probably a logarithmic solution to this but for now this provides what is needed
+	// and ensures zooming in/out will always be deterministic. i.e. Will always land at 100%, 200%, etc... instead of 100.01% 200.45%.
 	static constexpr std::array zoomTable{
 		0.005, 0.0075, 0.009, 0.01,	  0.011, 0.012,	 0.013, 0.014,	0.015, 0.016,  0.017, 0.018,  0.019, 0.02,	0.022, 0.024, 0.026, 0.028,
 		0.03,  0.0325, 0.035, 0.0375, 0.04,	 0.0425, 0.045, 0.0475, 0.05,  0.0525, 0.055, 0.0575, 0.06,	 0.065, 0.07,  0.075, 0.08,	 0.085,
@@ -167,19 +161,14 @@ void ItemView::wheelEvent(QWheelEvent* event)
 	static auto currentZoomIndex = std::distance(std::begin(zoomTable), std::ranges::find(zoomTable, 1.0));
 	const auto delta = event->angleDelta().y() / 120.0;
 	currentZoomIndex = qBound(0, currentZoomIndex + qRound(delta), lastIndex);
+
+	const auto contentMouse = this->contentItem->mapFromGlobal(event->globalPosition());
+
 	this->setZoom(zoomTable[currentZoomIndex]);
 
-	if(event->angleDelta().y() < 0)
-	{
-		// I need to calculate a position that moves the center toward
-		// the mouse position.
-		moveVector = localPos - pos - center;
-	}
+	const auto contentMouseZoomed = this->contentItem->mapFromGlobal(event->globalPosition());
+	const auto contentMouseDelta = (contentMouseZoomed - contentMouse) * this->zoom;
 
-	if(event->angleDelta().y() > 0)
-	{
-		moveVector = pos + center - localPos;
-	}
-
-	this->contentItem->setPosition(pos + moveVector * 0.1);
+	// Offset the position of the content area to keep the location of the mouse pointer within view during zoom in/out.
+	this->contentItem->setPosition(this->contentItem->position() + contentMouseDelta);
 }
