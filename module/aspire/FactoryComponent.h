@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QQmlComponent>
-#include <QQmlEngine>
+#include <QQmlApplicationEngine>
 #include <aspire/export.hxx>
 #include <string_view>
 
@@ -10,7 +10,7 @@ namespace aspire
 	class ASPIRE_EXPORT FactoryComponent
 	{
 	public:
-		FactoryComponent(QQmlEngine* engine);
+		FactoryComponent(QQmlApplicationEngine& x);
 		~FactoryComponent();
 
 		FactoryComponent(const FactoryComponent&) = delete;
@@ -42,6 +42,6 @@ namespace aspire
 
 		// Contains a map between the qml name and component.
 		std::map<std::string, std::unique_ptr<QQmlComponent>> components;
-		QQmlEngine* engine{};
+		QQmlApplicationEngine* engine{};
 	};
 }

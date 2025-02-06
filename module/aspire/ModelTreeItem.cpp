@@ -1,6 +1,6 @@
 #include <aspire/ModelTreeItem.h>
 
-#include <private/qqmlmetatype_p.h>
+#include <FactoryComponent.h>
 #include <QQuickItem>
 
 using aspire::ModelTreeItem;
@@ -41,7 +41,7 @@ QStandardItem* ModelTreeItem::load(QObject* x)
 		return nullptr;
 	}
 
-	auto* node = new QStandardItem(qitem->metaObject()->className());
+	auto* node = new QStandardItem(FactoryComponent::Instance()->findQmlName(qitem).data());
 
 	for(auto* child : qitem->childItems())
 	{
