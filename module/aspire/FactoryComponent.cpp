@@ -38,25 +38,55 @@ FactoryComponent::FactoryComponent(QQmlEngine* engine) : engine{engine}
 			continue;
 		}
 
-		qInfo() << "Loaded " << type.elementName() << " (" << type.typeName() << ")";
-		Key key{.elementName = type.elementName().toStdString(), .typeName = type.typeName().toStdString()};
-		this->components[std::move(key)] = std::move(component);
-	}
+		const auto elementName = type.elementName().toStdString();
+		const auto typeName = type.typeName().toStdString();
 
-	auto foundIt = this->components.find(std::string("Rectangle"));
-
-	if(foundIt != std::end(this->components))
-	{
-		auto& c = foundIt->second;
-		auto* object = c->create();
-		auto type = QQmlMetaType::qmlType(object->metaObject());
-		qDebug() << "Found " << type.elementName() << ", " << type.typeName();
-
-		delete object;
+		this->qmlTypeMap[typeName] = elementName;
+		qInfo() << "Loaded " << type.elementName() << " to " << type.typeName();
+		this->components[elementName] = std::move(component);
 	}
 }
 
 FactoryComponent::~FactoryComponent()
 {
 	Singleton = nullptr;
+}
+
+auto FactoryComponent::findComponent(QObject* x) const -> QQmlComponent*
+{
+	return this->findComponent(std::string{this->findQmlName(x)});
+}
+
+auto FactoryComponent::findComponent(const std::string& x) const -> QQmlComponent*
+{
+	if(std::empty(x) == true)
+	{
+		return nullptr;
+	}
+
+	const auto foundIt = this->components.find(x);
+
+	if(foundIt == std::end(this->components))
+	{
+		return nullptr;
+	}
+
+	return foundIt->second.get();
+}
+
+auto FactoryComponent::findQmlName(QObject* x) const -> std::string_view
+{
+	if(x == nullptr)
+	{
+		return {};
+	}
+
+	const auto foundIt = this->qmlTypeMap.find(x->metaObject()->className());
+
+	if(foundIt == std::end(this->qmlTypeMap))
+	{
+		return {};
+	}
+
+	return foundIt->second;
 }

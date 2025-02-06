@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
-// import QtQuick.Controls.Style
+import QtQuick.Layouts
+import QtQuick.Models
 import aspire
 
 Window {

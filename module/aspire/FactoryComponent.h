@@ -21,34 +21,27 @@ namespace aspire
 
 		static auto Instance() -> FactoryComponent*;
 
+		/// @brief Find the QQmlComponent registered for the given object.
+		/// @param x The object to perform the search with.
+		/// @return A pointer the the associated QQmlComponent. Nullptr if the component could not be found.
+		auto findComponent(QObject* x) const -> QQmlComponent*;
+
+		/// @brief Find the QQmlComponent registered for the given qml type name.
+		/// @param x The type name to perform the search with.
+		/// @return A pointer the the associated QQmlComponent. Nullptr if the component could not be found.
+		auto findComponent(const std::string& x) const -> QQmlComponent*;
+
+		/// @brief Find the QML name registered for the given QObject.
+		/// @param x The runtime QObject to perform the search with.
+		/// @return The QML name of the given object. Empty string if it doesn't exist.
+		auto findQmlName(QObject* x) const -> std::string_view;
+
 	private:
-		struct Key
-		{
-			std::string elementName;
-			std::string typeName;
-		};
+		// Contains a map between QObject type names and their qml names. (i.e. "QQuickRectangle" vs "Rectangle")
+		std::map<std::string, std::string> qmlTypeMap;
 
-		struct KeyCompare
-		{
-			using is_transparent = void;
-
-			bool operator()(const Key& lhs, const Key& rhs) const
-			{
-				return lhs.elementName < rhs.elementName && lhs.typeName < rhs.elementName;
-			}
-
-			bool operator()(const Key& lhs, const std::string& rhs) const
-			{
-				return lhs.elementName < rhs && lhs.typeName < rhs;
-			}
-
-			bool operator()(const std::string& lhs, const Key& rhs) const
-			{
-				return lhs < rhs.elementName && lhs < rhs.typeName;
-			}
-		};
-
-		std::map<Key, std::unique_ptr<QQmlComponent>, KeyCompare> components;
+		// Contains a map between the qml name and component.
+		std::map<std::string, std::unique_ptr<QQmlComponent>> components;
 		QQmlEngine* engine{};
 	};
 }

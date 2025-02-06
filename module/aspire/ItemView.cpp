@@ -1,5 +1,6 @@
 #include <aspire/ItemView.h>
 
+#include <aspire/FactoryComponent.h>
 #include <QCursor>
 #include <algorithm>
 
@@ -22,6 +23,8 @@ ItemView::ItemView(QQuickItem* parent) : QQuickItem(parent)
 
 						 this->contentItem->setScale(this->zoom);
 					 });
+
+	// qDebug() << "Element: " << FactoryComponent::Instance()->findQmlName(this);
 }
 
 void ItemView::setContentItem(QQuickItem* x) noexcept
