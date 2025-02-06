@@ -42,3 +42,6 @@ build*
 
 # Android
 avd/
+
+# clangd
+.cache
