@@ -41,7 +41,7 @@ QStandardItem* ModelTreeItem::load(QObject* x)
 		return nullptr;
 	}
 
-	auto* node = new QStandardItem(FactoryComponent::Instance()->findQmlName(qitem).data());
+	auto* node = new QStandardItem(FactoryComponent::Instance()->findQmlName(qitem->metaObject()).data());
 
 	for(auto* child : qitem->childItems())
 	{

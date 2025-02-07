@@ -34,7 +34,7 @@ namespace aspire
 		/// @brief Find the QML name registered for the given QObject.
 		/// @param x The runtime QObject to perform the search with.
 		/// @return The QML name of the given object. Empty string if it doesn't exist.
-		auto findQmlName(QObject* x) const -> std::string_view;
+		auto findQmlName(const QMetaObject* x) const -> std::string_view;
 
 	private:
 		// Contains a map between QObject type names and their qml names. (i.e. "QQuickRectangle" vs "Rectangle")

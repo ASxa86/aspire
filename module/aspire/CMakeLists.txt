@@ -17,6 +17,8 @@ qt_add_qml_module(${PROJECT_NAME}
         ItemView.h
         ModelTreeItem.cpp
         ModelTreeItem.h
+        WriteFileQML.cpp
+        WriteFileQML.h
     QML_FILES
         ${QML_SINGLETONS}
     RESOURCES

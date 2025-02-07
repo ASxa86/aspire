@@ -155,7 +155,7 @@ FactoryComponent::~FactoryComponent()
 
 auto FactoryComponent::findComponent(QObject* x) const -> QQmlComponent*
 {
-	return this->findComponent(std::string{this->findQmlName(x)});
+	return this->findComponent(std::string{this->findQmlName(x->metaObject())});
 }
 
 auto FactoryComponent::findComponent(const std::string& x) const -> QQmlComponent*
@@ -175,14 +175,14 @@ auto FactoryComponent::findComponent(const std::string& x) const -> QQmlComponen
 	return foundIt->second.get();
 }
 
-auto FactoryComponent::findQmlName(QObject* x) const -> std::string_view
+auto FactoryComponent::findQmlName(const QMetaObject* x) const -> std::string_view
 {
 	if(x == nullptr)
 	{
 		return {};
 	}
 
-	const auto foundIt = this->qmlTypeMap.find(x->metaObject()->className());
+	const auto foundIt = this->qmlTypeMap.find(x->className());
 
 	if(foundIt == std::end(this->qmlTypeMap))
 	{
