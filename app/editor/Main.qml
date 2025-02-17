@@ -65,7 +65,7 @@ Window {
 			}
 
 			model: ModelTreeItem {
-				item: loader.item
+				item: view.item
 			}
 
 			delegate: TreeViewDelegate {
@@ -77,49 +77,7 @@ Window {
 
 			SplitView.preferredWidth: window.width * 0.5
 
-			contentItem: Rectangle {
-				id: rect
-				color: "steelblue"
-				x: -center.x
-				y: -center.y
-				width: (parent.width / 0.005) * 3
-				height: (parent.height / 0.005) * 3
-
-				property point center: Qt.point(width / 2, height / 2)
-
-				Rectangle {
-					id: vertical
-					color: "darkturquoise"
-					width: 2 / parent.scale
-					height: parent.height
-					anchors.centerIn: parent
-				}
-
-				Rectangle {
-					id: horizontal
-					color: "darkturquoise"
-					width: parent.width
-					height: 2 / parent.scale
-					anchors.centerIn: parent
-				}
-
-				Rectangle {
-					color: "transparent"
-					border.color: "darkslategray"
-					border.width: 2 / parent.scale
-					anchors.left: parent.left
-					anchors.leftMargin: parent.center.x
-					anchors.top: parent.top
-					anchors.topMargin: parent.center.y
-					width: 1280
-					height: 720
-
-					Loader {
-						id: loader
-						sourceComponent: source
-					}
-				}
-			}
+			sourceComponent: source
 
 			Text {
 				anchors.left: parent.left
@@ -127,6 +85,12 @@ Window {
 				text: (view.zoom * 100.0).toFixed(1) + "%"
 				color: "white"
 				font.pointSize: 12
+
+				TapHandler {
+					onTapped: {
+						view.zoom = 1.0
+					}
+				}
 			}
 		}
 

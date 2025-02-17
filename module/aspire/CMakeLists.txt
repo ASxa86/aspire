@@ -13,14 +13,15 @@ qt_add_qml_module(${PROJECT_NAME}
     SOURCES
         FactoryComponent.cpp
         FactoryComponent.h
-        ItemView.cpp
-        ItemView.h
+        # ItemView.cpp
+        # ItemView.h
         ModelTreeItem.cpp
         ModelTreeItem.h
         WriteFileQML.cpp
         WriteFileQML.h
     QML_FILES
         ${QML_SINGLETONS}
+        ItemView.qml
     RESOURCES
     IMPORTS
         QtQuick
