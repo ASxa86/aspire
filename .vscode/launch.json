@@ -5,14 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Pong Debug",
+            "name": "Debug (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/installed/bin/aspire-editor.exe",
+            "program": "${workspaceFolder}/build/installed/bin/editor.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/installed/bin",
-            "console": "externalTerminal"
+            "console": "externalTerminal",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${env:PATH};${workspaceFolder}/build/vcpkg_installed/x64-windows-aspire/debug/bin"
+                },
+                {
+                    "name": "QML_IMPORT_PATH",
+                    "value": "${workspaceFolder}/build/module;${workspaceFolder}/build/vcpkg_installed/x64-windows-aspire/debug/Qt6/qml"
+                },
+                {
+                    "name": "QT_PLUGIN_PATH",
+                    "value": "${workspaceFolder}/build/vcpkg_installed/x64-windows-aspire/debug/Qt6/plugins"
+                }
+            ]
         }
     ]
 }
