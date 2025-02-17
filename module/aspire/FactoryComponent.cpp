@@ -5,6 +5,8 @@
 #include <fstream>
 #include <set>
 
+#include <QQuickItem>
+
 using aspire::FactoryComponent;
 
 namespace
@@ -50,74 +52,80 @@ FactoryComponent::FactoryComponent(QQmlApplicationEngine& x) : engine{&x}
 	// Therefore, a separate optional list is parsed to to clean up any modules we don't want to load
 	// oursleves.
 
-	std::set<std::string> importList;
-	std::set<std::string> optionalList;
+	this->engine->loadFromModule("QtQuick.Controls", "");
+	this->engine->loadFromModule("QtQuick.Layouts", "");
+	this->engine->loadFromModule("QtQuick", "");
+	this->engine->loadFromModule("QtQml.Models", "");
+	this->engine->loadFromModule("aspire", "");
 
-	for(const auto& plugin : this->engine->importPathList())
-	{
-		std::filesystem::path dir{plugin.toStdString()};
+	// std::set<std::string> importList;
+	// std::set<std::string> optionalList;
 
-		if(std::filesystem::is_directory(dir) == false)
-		{
-			continue;
-		}
+	// for(const auto& plugin : this->engine->importPathList())
+	//{
+	//	std::filesystem::path dir{plugin.toStdString()};
 
-		for(const auto& entry : std::filesystem::recursive_directory_iterator{dir})
-		{
-			const auto& path = entry.path();
+	//	if(std::filesystem::is_directory(dir) == false)
+	//	{
+	//		continue;
+	//	}
 
-			if(std::filesystem::is_regular_file(path) == false)
-			{
-				continue;
-			}
+	//	for(const auto& entry : std::filesystem::recursive_directory_iterator{dir})
+	//	{
+	//		const auto& path = entry.path();
 
-			if(path.filename() != "qmldir")
-			{
-				continue;
-			}
+	//		if(std::filesystem::is_regular_file(path) == false)
+	//		{
+	//			continue;
+	//		}
 
-			// Parse the qmldir file.
-			std::ifstream qmldir{path};
+	//		if(path.filename() != "qmldir")
+	//		{
+	//			continue;
+	//		}
 
-			if(qmldir.is_open() == false)
-			{
-				continue;
-			}
+	//		// Parse the qmldir file.
+	//		std::ifstream qmldir{path};
 
-			std::string line;
-			while(std::getline(qmldir, line))
-			{
-				if(std::empty(line) == true)
-				{
-					continue;
-				}
+	//		if(qmldir.is_open() == false)
+	//		{
+	//			continue;
+	//		}
 
-				const auto tokens = split(line);
+	//		std::string line;
+	//		while(std::getline(qmldir, line))
+	//		{
+	//			if(std::empty(line) == true)
+	//			{
+	//				continue;
+	//			}
 
-				if(std::size(tokens) == 2 && tokens[0] == "module" && tokens[1].ends_with("impl") == false)
-				{
-					importList.insert(std::string{tokens[1]});
-				}
+	//			const auto tokens = split(line);
 
-				if(std::size(tokens) >= 3 && (tokens[0] == "optional" || tokens[0] == "default"))
-				{
-					optionalList.insert(std::string{tokens[2]});
-				}
-			}
-		}
-	}
+	//			if(std::size(tokens) == 2 && tokens[0] == "module" && tokens[1].ends_with("impl") == false)
+	//			{
+	//				importList.insert(std::string{tokens[1]});
+	//			}
 
-	// Clean up modules we don't want to import.
-	for(const auto& optional : optionalList)
-	{
-		importList.erase(optional);
-	}
+	//			if(std::size(tokens) >= 3 && (tokens[0] == "optional" || tokens[0] == "default"))
+	//			{
+	//				optionalList.insert(std::string{tokens[2]});
+	//			}
+	//		}
+	//	}
+	//}
 
-	for(const auto& module : importList)
-	{
-		qDebug() << "Loading module: " << module;
-		this->engine->loadFromModule(module, "");
-	}
+	//// Clean up modules we don't want to import.
+	// for(const auto& optional : optionalList)
+	//{
+	//	importList.erase(optional);
+	// }
+
+	// for(const auto& module : importList)
+	//{
+	//	qDebug() << "Loading module: " << module;
+	//	this->engine->loadFromModule(module, "");
+	// }
 
 	// qmlAllTypes() provides the same types for different versions. To deduplicate these
 	// use a map to filter down to just the latest version which qmlAllTypes lists in descending order.
@@ -132,12 +140,13 @@ FactoryComponent::FactoryComponent(QQmlApplicationEngine& x) : engine{&x}
 	// querying via element or type name.
 	for(const auto& [name, type] : filteredTypes)
 	{
+		qDebug() << "Loading " << type.elementName();
 		auto component = std::make_unique<QQmlComponent>(this->engine, type.module(), type.elementName());
 
-		if(component->isReady() == false)
-		{
-			continue;
-		}
+		// if(component->isReady() == false)
+		//{
+		//	continue;
+		// }
 
 		const auto elementName = type.elementName().toStdString();
 		const auto typeName = type.typeName().toStdString();
