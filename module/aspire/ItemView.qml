@@ -1,5 +1,6 @@
 import QtQuick
 import Qt.labs.animation
+import aspire
 
 Item {
     id: view
@@ -10,6 +11,10 @@ Item {
     property alias source: loader.source
     property alias item: loader.item
     property alias zoom: container.scale
+
+    function save(file) {
+        Aspire.writeFile(view.item, file);
+    }
 
     Rectangle {
         id: container
@@ -90,6 +95,10 @@ Item {
 
             Loader {
                 id: loader
+
+                onLoaded: {
+                    console.log("Loaded: ", loader.source);
+                }
             }
         }
 
@@ -119,6 +128,10 @@ Item {
         property point point: Qt.point(0, 0)
 
         onPressed: (event) => {
+            if (event.button != Qt.LeftButton) {
+                return;
+            }
+
             if (root === null) {
                 return;
             }
@@ -135,6 +148,9 @@ Item {
                 return;
             }
 
+            // To enable smooth movement at any scale,
+            // we map the event position to the item's parent
+            // and calculate a delta to apply.
             let p = current.parent;
             const start = p.mapFromItem(mouseArea, point);
             const end = p.mapFromItem(mouseArea, Qt.point(event.x, event.y));
@@ -153,8 +169,11 @@ Item {
             for (let i = 0; i < parent.children.length; i++) {
                 let child = parent.children[i];
 
+                // Perform a depth first search to intersect with children 
+                // that are rendered in front of their parents first.
                 intersect(child, point);
 
+                // If an intersection as occurred, let's exit.
                 if (current !== null) {
                     return;
                 }
@@ -165,7 +184,6 @@ Item {
                     current = child;
                     return;
                 }
-
             }
         }
     }

@@ -191,7 +191,15 @@ auto FactoryComponent::findQmlName(const QMetaObject* x) const -> std::string_vi
 		return {};
 	}
 
-	const auto foundIt = this->qmlTypeMap.find(x->className());
+	auto foundIt = this->qmlTypeMap.find(x->className());
+
+	// Attempt to use the object's superclass if it can't be found in the qml map.
+	// This is to handle the situation where a QML object may be the root node of a qml file
+	// which qt will treat as a type. This won't show up in the registration.
+	if(foundIt == std::end(this->qmlTypeMap))
+	{
+		foundIt = this->qmlTypeMap.find(x->superClass()->className());
+	}
 
 	if(foundIt == std::end(this->qmlTypeMap))
 	{

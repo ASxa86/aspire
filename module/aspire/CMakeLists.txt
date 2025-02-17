@@ -11,6 +11,8 @@ qt_add_qml_module(${PROJECT_NAME}
     URI ${PROJECT_NAME}
     VERSION 1.0
     SOURCES
+        Aspire.cpp
+        Aspire.h
         FactoryComponent.cpp
         FactoryComponent.h
         # ItemView.cpp

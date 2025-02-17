@@ -11,8 +11,6 @@ namespace
 {
 	auto WriteProperties(QObject& x, std::string& tabs, std::ofstream& ofs) -> void
 	{
-		QQmlMetaType type;
-
 		const auto* metaObject = x.metaObject();
 
 		if(metaObject == nullptr)
