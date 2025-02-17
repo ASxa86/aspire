@@ -97,6 +97,11 @@ Item {
             property: "scale"
         }
 
+        DragHandler {
+            id: dragHandler
+            acceptedButtons: Qt.MiddleButton
+        }
+
         BoundaryRule on scale {
             minimum: 0.5 / 100.0
             maximum: 7000 / 100.0
@@ -104,8 +109,64 @@ Item {
     }
 
     MouseArea {
-        anchors.fill: parent
+        id: mouseArea
 
-        drag.target: container
+        anchors.fill: parent
+        cursorShape: dragHandler.active || current !== null ? Qt.SizeAllCursor : Qt.ArrowCursor
+
+        property Item root: loader.item
+        property Item current: null
+        property point point: Qt.point(0, 0)
+
+        onPressed: (event) => {
+            if (root === null) {
+                return;
+            }
+
+            intersect(root, Qt.point(event.x, event.y));
+
+            if (current !== null) {
+                point = Qt.point(event.x, event.y);
+            }
+        }
+
+        onPositionChanged: (event) => {
+            if (current === null) {
+                return;
+            }
+
+            let p = current.parent;
+            const start = p.mapFromItem(mouseArea, point);
+            const end = p.mapFromItem(mouseArea, Qt.point(event.x, event.y));
+            const delta = Qt.point(end.x - start.x, end.y - start.y);
+            current.x += delta.x;
+            current.y += delta.y;
+            point = Qt.point(event.x, event.y);
+        }
+
+        onReleased: {
+            current = null;
+            point = Qt.point(0, 0);
+        }
+
+        function intersect(parent, point) {
+            for (let i = 0; i < parent.children.length; i++) {
+                let child = parent.children[i];
+
+                intersect(child, point);
+
+                if (current !== null) {
+                    return;
+                }
+
+                let pos = child.mapFromItem(mouseArea, point);
+
+                if (child.contains(pos)) {
+                    current = child;
+                    return;
+                }
+
+            }
+        }
     }
 }
