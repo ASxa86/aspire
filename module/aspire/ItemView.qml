@@ -2,10 +2,18 @@ import QtQuick
 import Qt.labs.animation
 import aspire
 
-Item {
+// This becomes a Pane at some point?
+Rectangle {
     id: view
 
+    color: "darkcyan"
     clip: true
+
+    property int axisWidth: 2
+    property color axisColor: "darkkhaki"
+
+    property int windowWidth: 2
+    property color windowColor: "darkolivegreen"
 
     property alias sourceComponent: loader.sourceComponent
     property alias source: loader.source
@@ -16,105 +24,99 @@ Item {
         Aspire.writeFile(view.item, file);
     }
 
-    Rectangle {
+    onWidthChanged: horizontal.update()
+    onHeightChanged: vertical.update()
+
+    Item {
         id: container
+        width: 1280
+        height: 720
 
-        color: "steelblue"
-        x: -center.x
-        y: -center.y
-        width: (parent.width / 0.005) * 3
-        height: (parent.height / 0.005) * 3
-
-        property point center: Qt.point(width / 2, height / 2)
+        onXChanged: horizontal.update()
+        onYChanged: vertical.update()
 
         // Draw axis lines
         Rectangle {
             id: vertical
-            color: "darkturquoise"
-            width: 2 / parent.scale
-            height: parent.height
-            anchors.centerIn: parent
+            color: view.axisColor
+            width: view.axisWidth / parent.scale
+            anchors.left: parent.left
+
+            function update() {
+                vertical.y = container.mapFromItem(view, 0, 0).y;
+                vertical.height = container.mapFromItem(view, view.width, view.height).y - vertical.y;
+            }
         }
 
         Rectangle {
             id: horizontal
-            color: "darkturquoise"
-            width: parent.width
-            height: 2 / parent.scale
-            anchors.centerIn: parent
-        }
-
-
-        // Define a root item representing the window so that child items loaded by the loader
-        // will have positions defined relative to a window if/when they are loaded into a separate
-        // application.
-        Item {
-            id: window
-            width: 1280
-            height: 720
-
-            // Anchor the window representation's top left corner
-            // to the center of the container.
-            anchors.left: parent.left
-            anchors.leftMargin: parent.center.x
+            color: view.axisColor
+            height: view.axisWidth / parent.scale
             anchors.top: parent.top
-            anchors.topMargin: parent.center.y
 
-            // Draw the bounding box of the window.
-            Rectangle {
-                id: top
-                color: "darkslategray"
-                anchors.top: parent.top
-                width: parent.width
-                height: 2 / container.scale
-            }
-
-            Rectangle {
-                id: left
-                color: "darkslategray"
-                anchors.left: parent.left
-                width: 2 / container.scale
-                height: parent.height
-            }
-
-            Rectangle {
-                id: bottom
-                color: "darkslategray"
-                anchors.bottom: parent.bottom
-                width: parent.width
-                height: 2 / container.scale
-            }
-
-            Rectangle {
-                id: right
-                color: "darkslategray"
-                anchors.right: parent.right
-                width: 2 / container.scale
-                height: parent.height
-            }
-
-            Loader {
-                id: loader
-
-                onLoaded: {
-                    console.log("Loaded: ", loader.source);
-                }
+            function update() {
+                horizontal.x = container.mapFromItem(view, 0, 0).x;
+                horizontal.width = container.mapFromItem(view, view.width, view.height).x - horizontal.x;
             }
         }
 
-        WheelHandler {
-            property: "scale"
+        // Draw the bounding box of the window.
+        Rectangle {
+            id: top
+            color: view.windowColor
+            anchors.top: parent.top
+            width: parent.width
+            height: view.windowWidth / container.scale
         }
 
-        DragHandler {
-            id: dragHandler
-            acceptedButtons: Qt.MiddleButton
+        Rectangle {
+            id: left
+            color: view.windowColor
+            anchors.left: parent.left
+            width: view.windowWidth / container.scale
+            height: parent.height
+        }
+
+        Rectangle {
+            id: bottom
+            color: view.windowColor
+            anchors.bottom: parent.bottom
+            width: parent.width
+            height: view.windowWidth / container.scale
+        }
+
+        Rectangle {
+            id: right
+            color: view.windowColor
+            anchors.right: parent.right
+            width: view.windowWidth / container.scale
+            height: parent.height
+        }
+
+        Loader {
+            id: loader
+
+            onLoaded: {
+                console.log("Loaded: ", loader.source);
+            }
         }
 
         BoundaryRule on scale {
             minimum: 0.5 / 100.0
             maximum: 7000 / 100.0
         }
+    }
+
+    WheelHandler {
+        property: "scale"
+        target: container
+    }
+
+    DragHandler {
+        id: dragHandler
+        acceptedButtons: Qt.MiddleButton
+        target: container
+        snapMode: DragHandler.NoSnap
     }
 
     MouseArea {
